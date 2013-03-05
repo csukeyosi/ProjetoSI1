@@ -2,13 +2,14 @@ package mainClasses;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
+
 
 public class Usuario {
 
 	private String id, login, senha, nome, email;
-	private List<String> fontesDeSom, listaSeguidores;
-	private Stack<String> visaoDosSons, perfilMusical;
+	private List<String> fontesDeSom, listaSeguidores, perfilMusical,
+			sonsFavoritos, feedExtra, visaoDosSons;
+
 	/**
 	 * Construtor da Classe Usuario.
 	 * 
@@ -29,8 +30,10 @@ public class Usuario {
 		setId(login);
 		this.fontesDeSom = new ArrayList<String>();
 		this.listaSeguidores = new ArrayList<String>();
-		this.visaoDosSons = new Stack<String>();
-		this.perfilMusical = new Stack<String>();
+		this.visaoDosSons = new ArrayList<String>();
+		this.perfilMusical = new ArrayList<String>();
+		this.sonsFavoritos = new ArrayList<String>();
+		this.feedExtra = new ArrayList<String>();
 	}
 
 	/**
@@ -125,11 +128,13 @@ public class Usuario {
 	 *            String login do Usuario.
 	 */
 	private void setId(String login) {
-		this.id = "ID" + login;
+		this.id = "ID" + login.substring(0, 1).toUpperCase()
+				+ login.substring(1);
 	}
 
 	/**
-	 * Metodo que retorna a lista de fontes de Som do Usuario
+	 * Metodo que retorna a lista de fontes de Som do Usuario que trata-se dos
+	 * id's do usuario que o usuario segue.
 	 * 
 	 * @return List<String> fontesDeSom.
 	 */
@@ -152,7 +157,7 @@ public class Usuario {
 	 * 
 	 * @return List<String> visaoDosSons.
 	 */
-	public Stack<String> getVisaoDosSons() {
+	public List<String> getVisaoDosSons() {
 		return this.visaoDosSons;
 	}
 
@@ -160,7 +165,7 @@ public class Usuario {
 	 * Metodo que adciona um som na visao de sons do Usuario
 	 * 
 	 */
-	public void addEmVisaoDosSons(String idSom) {	
+	public void addEmVisaoDosSons(String idSom) {
 		this.visaoDosSons.add(idSom);
 	}
 
@@ -190,16 +195,17 @@ public class Usuario {
 	 *            String Id do Usuario.
 	 */
 	public void addListaDeSeguidores(String IdUser) throws Exception {
-		if(!this.listaSeguidores.contains(IdUser)){
+		if (!this.listaSeguidores.contains(IdUser)) {
 			this.listaSeguidores.add(IdUser);
 			ordenaListaSeguidores();
-		}else{
+		} else {
 			throw new Exception("Sessão inexistente");
 		}
 	}
 
 	/**
-	 * Metodo que ordena a lista de seguidores em ordem alfabetica assim que um seguidor é adcionado ou removido.
+	 * Metodo que ordena a lista de seguidores em ordem alfabetica assim que um
+	 * seguidor é adcionado ou removido.
 	 */
 	public void ordenaListaSeguidores() {
 		boolean houveTroca = true;
@@ -223,8 +229,24 @@ public class Usuario {
 	public void postarSom(String idSom) {
 		this.perfilMusical.add(idSom);
 	}
-	
-	public Stack<String> getPerfilMusical(){
+
+	public List<String> getPerfilMusical() {
 		return this.perfilMusical;
+	}
+
+	public List<String> getSonsFavoritos() {
+		return sonsFavoritos;
+	}
+
+	public void addSonsFavoritos(String somFavorito) {
+		this.sonsFavoritos.add(somFavorito);
+	}
+
+	public List<String> getFeedExtra() {
+		return this.feedExtra;
+	}
+
+	public void addFeedExtra(String somID) {
+		this.feedExtra.add(somID);
 	}
 }

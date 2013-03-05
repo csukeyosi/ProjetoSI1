@@ -30,7 +30,7 @@
 					<h:panelGrid columns="3" id="form">
 						<h6 id="textLogin" >Login:</h6>
 						<p:inputText id="inputLogin" value="#{user.login}"/>
-						<p:commandButton id="botaoLogin" action="homepage" style="margin-left: 20px" value="Login" />
+						<p:commandButton id="botaoLogin" action="#{user.test}" style="margin-left: 20px" value="Login" />
 
 						<h5 id="textSenha">Senha:</h5>
 						<p:password value="#{user.password}"></p:password>

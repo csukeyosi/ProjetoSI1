@@ -1,10 +1,9 @@
 package mainClasses;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+
+import util.Utilitario;
 
 public class GerenciaSons {
 
@@ -26,10 +25,18 @@ public class GerenciaSons {
 		return id;
 	}
 
-	public Stack<String> getPerfilMusical(Usuario user) {
+	public List<String> getPerfilMusical(Usuario user) {
 		return user.getPerfilMusical();
 	}
+	
+	public List<String> getSonsFavoritos(Usuario user){
+		return user.getSonsFavoritos();
+	}
 
+	public List<String> getFeedExtra(Usuario user){
+		return user.getFeedExtra();
+	}
+	
 	public String getAtributoSom(String idSom, String atributo) {
 		int sizeList = this.listaDeSons.size();
 		for(int i=0;i<sizeList;i++){
@@ -50,7 +57,7 @@ public class GerenciaSons {
 
 	private void addVisaoDosSons(Usuario seguidor, Usuario seguido){
 		List<String> perfilMusicalUserSeguido = getPerfilMusical(seguido);
-
+		//System.out.println(seguido.getPerfilMusical().size());
 		if(perfilMusicalUserSeguido != null){
 			auxiliaAddSonsVisao(seguidor,perfilMusicalUserSeguido);
 		}
@@ -69,7 +76,25 @@ public class GerenciaSons {
 	 * @param user
 	 * @return List<String>
 	 */
-	public Stack<String> getVisaoDosSons(Usuario user) {
+	public List<String> getVisaoDosSons(Usuario user) {
 		return user.getVisaoDosSons();
+	}
+
+
+	public void verificaIdSom(String idsom) throws Exception{
+		 if(this.listaDeSons.contains(idsom)){
+				throw new Exception("Som inexistente");
+			}
+		if(!Utilitario.elementIsValid(idsom)){
+			throw new Exception("Som inválido");
+		}
+	}
+
+	public void addInFeedExtra(List<Usuario> usuariosSeguidores, String idsom) {
+		int sizeList = usuariosSeguidores.size();
+		for(int i=0; i<sizeList; i++){
+			usuariosSeguidores.get(i).addFeedExtra(idsom);
+		}
+		
 	}
 }

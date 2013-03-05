@@ -28,9 +28,17 @@
 zerarSistema
 
 # rules
-rule1="PRIMEIRO OS SONS POSTADOS MAIS RECENTEMENTE PELAS FONTES DE SONS"
-rule2="PRIMEIRO OS SONS COM MAIS FAVORITOS"
-rule3="PRIMEIRO SONS DE FONTES DAS QUAIS FAVORITEI SONS NO PASSADO"
+#rule1="PRIMEIRO OS SONS POSTADOS MAIS RECENTEMENTE PELAS FONTES DE SONS"
+rule1=getFirstCompositionRule
+expect "PRIMEIRO OS SONS POSTADOS MAIS RECENTEMENTE PELAS FONTES DE SONS" getFirstCompositionRule
+
+#rule2="PRIMEIRO OS SONS COM MAIS FAVORITOS"
+rule2=getSecondCompositionRule
+expect "PRIMEIRO OS SONS COM MAIS FAVORITOS" getSecondCompositionRule
+
+#rule3="PRIMEIRO SONS DE FONTES DAS QUAIS FAVORITEI SONS NO PASSADO"
+rule3=getThirdCompositionRule
+expect "PRIMEIRO SONS DE FONTES DAS QUAIS FAVORITEI SONS NO PASSADO" getThirdCompositionRule
 
 # entradas válidas
 
@@ -105,8 +113,8 @@ som7ID=postarSom idSessao=${sessaoSergey} link="http://www.youtube.com/watch?v=P
 som8ID=postarSom idSessao=${sessaoSteve} link="http://www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="28/12/2013"
 
 # perfis musicais
-expect {${som1ID},${som2ID}} getPerfilMusical idSessao=${sessaoMark}
-expect {${som3ID},${som4ID},${som5ID}} getPerfilMusical idSessao=${sessaoSteve} 
+expect {${som2ID},${som1ID}} getPerfilMusical idSessao=${sessaoMark}
+expect {${som8ID},${som5ID},${som4ID},${som3ID}} getPerfilMusical idSessao=${sessaoSteve} 
 expect {${som6ID}} getPerfilMusical idSessao=${sessaoLarry}
 expect {${som7ID}} getPerfilMusical idSessao=${sessaoSergey}
 
@@ -116,7 +124,7 @@ expect {${som7ID}} getPerfilMusical idSessao=${sessaoSergey}
 #    postados pelas suas fontes de sons mais recentemente.
 
 # feeds principais
-expect {${som8ID},${som5ID},${som4ID},${som3ID},${som2ID},${som1ID}} getMainFeed idSessao=${sessaoBill}
+expect {${som2ID},${som1ID},${som8ID},${som5ID},${som4ID},${som3ID}} getMainFeed idSessao=${sessaoBill}
 expect {${som6ID}} getMainFeed idSessao=${sessaoMark}
 expect {${som2ID},${som1ID}} getMainFeed idSessao=${sessaoSteve}
 expect {${som7ID}} getMainFeed idSessao=${sessaoLarry}
@@ -138,13 +146,13 @@ favoritarSom idSessao=${sessaoLarry} idSom=${som1ID}
 favoritarSom idSessao=${sessaoSergey} idSom=${som1ID}
 
 # trocando a regra de composicao
-setMainFeedRule idSessao=${idBill} rule=${rule2}
+setMainFeedRule idSessao=${sessaoBill} rule=${rule2}
 expect {${som1ID},${som5ID},${som4ID},${som2ID},${som8ID},${som3ID}} getMainFeed idSessao=${sessaoBill}
 
-setMainFeedRule idSessao=${idSteve} rule=${rule2}
+setMainFeedRule idSessao=${sessaoSteve} rule=${rule2}
 expect {${som1ID},${som2ID}} getMainFeed idSessao=${sessaoSteve}
 
-setMainFeedRule idSessao=${idMark} rule=${rule2}
+setMainFeedRule idSessao=${sessaoMark} rule=${rule2}
 expect {${som6ID}} getMainFeed idSessao=${sessaoMark}
 
 # demais feeds principais
@@ -169,14 +177,14 @@ favoritarSom idSessao=${sessaoBill} idSom=${som1ID}
 favoritarSom idSessao=${sessaoSergey} idSom=${som1ID}
 
 # trocando a regra de composicao
-setMainFeedRule idSessao=${idBill} rule=${rule3}
+setMainFeedRule idSessao=${sessaoBill} rule=${rule3}
 
 expect {${som2ID},${som1ID},${som8ID},${som5ID},${som4ID},${som3ID}} getMainFeed idSessao=${sessaoBill}
 
-setMainFeedRule idSessao=${idSteve} rule=${rule3}
+setMainFeedRule idSessao=${sessaoSteve} rule=${rule3}
 expect {${som1ID},${som2ID}} getMainFeed idSessao=${sessaoSteve}
 
-setMainFeedRule idSessao=${idMark} rule=${rule3}
+setMainFeedRule idSessao=${sessaoMark} rule=${rule3}
 expect {${som6ID}} getMainFeed idSessao=${sessaoMark}
 
 # demais feeds principais
@@ -189,13 +197,13 @@ expect {} getMainFeed idSessao=${sessaoSergey}
 #    postados pelas suas fontes de sons mais recentemente.
 
 # trocando a regra de composicao
-setMainFeedRule idSessao=${idBill} rule=${rule1}
-expect {${som8ID},${som5ID},${som4ID},${som3ID},${som2ID},${som1ID}} getMainFeed idSessao=${sessaoBill}
+setMainFeedRule idSessao=${sessaoBill} rule=${rule1}
+expect {${som2ID},${som1ID},${som8ID},${som5ID},${som4ID},${som3ID}} getMainFeed idSessao=${sessaoBill}
 
-setMainFeedRule idSessao=${idSteve} rule=${rule1}
+setMainFeedRule idSessao=${sessaoSteve} rule=${rule1}
 expect {${som2ID},${som1ID}} getMainFeed idSessao=${sessaoSteve}
 
-setMainFeedRule idSessao=${idMark} rule=${rule1}
+setMainFeedRule idSessao=${sessaoMark} rule=${rule1}
 expect {${som6ID}} getMainFeed idSessao=${sessaoMark}
 
 # demais feeds principais

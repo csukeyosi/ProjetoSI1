@@ -1,10 +1,8 @@
-# User Story 02 - Seguindo alguem, visualizando fonte de sons e lista de seguidores
+# User Story 03 - Seguindo alguem e visualizando os sons
 
-#    Usuario pode seguir outro usuário cadastrado, 
-# e este ultimo entra na fonte de sons do primeiro. 
-#    A ordem em que os usuarios aparecem na fonte de sons deve obedecer a
-# ordem de chegada como em uma fila comum.
-#    A ordem da lista de seguidores deve ser alfabetica.
+#    Usuario pode visualizar o conjunto dos sons postados 
+# pelos usuários que ele segue no sistema.
+#    A ordem da visao dos sons deve obedecer a estrutura de uma pilha comum.
 
 # limpar os dados do sistema
 zerarSistema
@@ -42,12 +40,7 @@ som5ID=postarSom idSessao=${sessaoSteve} link="http://www.youtube.com/watch?v=PV
 expect {${som2ID},${som1ID}} getPerfilMusical idSessao=${sessaoMark}
 expect {${som5ID},${som4ID},${som3ID}} getPerfilMusical idSessao=${sessaoSteve} 
 
-# numero de seguidores
-expect 0 getNumeroDeSeguidores idSessao=${sessaoBill}
-expect 0 getNumeroDeSeguidores idSessao=${sessaoSteve}
-expect 0 getNumeroDeSeguidores idSessao=${sessaoMark}
-
-# -----------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------
 
 # Bill resolve seguir Steve
 seguirUsuario idSessao=${sessaoBill} login="steve" 
@@ -60,17 +53,13 @@ expect {${som5ID},${som4ID},${som3ID}} getPerfilMusical idSessao=${sessaoSteve}
 expect {${IDSteve}} getFontesDeSons idSessao=${sessaoBill}
 expect {} getFontesDeSons idSessao=${sessaoSteve}
 
-# listas de seguidores
-expect {} getListaDeSeguidores idSessao=${sessaoBill}
-expect {${IDBill}} getListaDeSeguidores idSessao=${sessaoSteve}
-expect {} getListaDeSeguidores idSessao=${sessaoMark}
+# a visao dos sons de Bill agora inclui os sons publicados por Steve
+expect {${som5ID},${som4ID},${som3ID}} getVisaoDosSons idSessao=${sessaoBill}
 
-# numero de seguidores
-expect 0 getNumeroDeSeguidores idSessao=${sessaoBill}
-expect 1 getNumeroDeSeguidores idSessao=${sessaoSteve}
-expect 0 getNumeroDeSeguidores idSessao=${sessaoMark}
+# a visao dos sons de Steve nao inclui os sons publicados por Bill
+expect {} getVisaoDosSons idSessao=${sessaoSteve}
 
-# -----------------------------------------------------------------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------------------------------------------------------------------
 
 # Steve resolve seguir Mark
 seguirUsuario idSessao=${sessaoSteve} login="mark" 
@@ -83,46 +72,37 @@ expect {${som5ID},${som4ID},${som3ID}} getPerfilMusical idSessao=${sessaoSteve}
 expect {} getFontesDeSons idSessao=${sessaoMark} 
 expect {${IDMark}} getFontesDeSons idSessao=${sessaoSteve} 
 
-# listas de seguidores
-expect {} getListaDeSeguidores idSessao=${sessaoBill}
-expect {${IDBill}} getListaDeSeguidores idSessao=${sessaoSteve}
-expect {${IDSteve}} getListaDeSeguidores idSessao=${sessaoMark}
+# a visao dos sons de Steve agora inclui os sons postados por Mark
+expect {${som2ID},${som1ID}} getVisaoDosSons idSessao=${sessaoSteve}
 
-# numero de seguidores
-expect 0 getNumeroDeSeguidores idSessao=${sessaoBill}
-expect 1 getNumeroDeSeguidores idSessao=${sessaoSteve}
-expect 1 getNumeroDeSeguidores idSessao=${sessaoMark}
+# a visao dos sons de Mark nao inclui os sons postados por Steve
+expect {} getVisaoDosSons idSessao=${sessaoMark}
 
-# -----------------------------------------------------------------------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------------------------------------------------------------------
 
 # Bill resolve seguir Mark
 seguirUsuario idSessao=${sessaoBill} login="mark" 
 
-# os perfis musicais de mark e steve ficam inalterados
+# os perfis musicais de Mark e Steve ficam inalterados
 expect {} getPerfilMusical idSessao=${sessaoBill} 
-expect {${som2ID},${som1ID}} getPerfilMusical idSessao=${sessaoMark}
+expect {${som2ID},${som1ID}} getPerfilMusical idSessao=${sessaoMark} 
 
 # Mark esta na fonte de sons de Bill
 expect {} getFontesDeSons idSessao=${sessaoMark} 
 expect {${IDSteve},${IDMark}} getFontesDeSons idSessao=${sessaoBill} 
 
-# listas de seguidores
-expect {} getListaDeSeguidores idSessao=${sessaoBill}
-expect {${IDBill}} getListaDeSeguidores idSessao=${sessaoSteve}
-expect {${IDBill},${IDSteve}} getListaDeSeguidores idSessao=${sessaoMark}
+# a visao dos sons de Bill agora inclui os sons postados por Mark
+expect {${som2ID},${som1ID},${som5ID},${som4ID},${som3ID}} getVisaoDosSons idSessao=${sessaoBill}
 
-# numero de seguidores
-expect 0 getNumeroDeSeguidores idSessao=${sessaoBill}
-expect 1 getNumeroDeSeguidores idSessao=${sessaoSteve}
-expect 2 getNumeroDeSeguidores idSessao=${sessaoMark}
+# a visao dos sons de Mark nao inclui os sons postados por Steve
+expect {} getVisaoDosSons idSessao=${sessaoMark}
 
-# ------------------------------------------------------------------------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------------------------------------------------------------------------
 
 #Encerrar a sessao de Bill
 encerrarSessao login="bill"
 
-# -----------------------------------------------------------------------------------------------------------------------------------------------
-
+# -------------------------------------------------------------------------------------------------------------------------------------------
 # entradas inválidas
 
 expectError "Sessão inválida" seguirUsuario idSessao= login="steve"
@@ -135,20 +115,17 @@ expectError "Login inexistente" seguirUsuario idSessao=${sessaoSteve} login="xpt
 
 expectError "Som inválido" postarSom idSessao=${sessaoSteve} link= dataCriacao="99/99/9999"
 expectError "Som inválido" postarSom idSessao=${sessaoSteve} link="" dataCriacao="00/00/0000"
-expectError "Data de Criação inválida" postarSom idSessao=${sessaoSteve} link="www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
-expectError "Data de Criação inválida" postarSom idSessao=${sessaoSteve} link="ftp://www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
-
-expectError "Sessão inválida" getListaDeSeguidores idSessao=
-expectError "Sessão inválida" getListaDeSeguidores idSessao=""
-expectError "Sessão inexistente" getListaDeSeguidores idSessao="xpto"
-
-expectError "Sessão inválida" getNumeroDeSeguidores idSessao=
-expectError "Sessão inválida" getNumeroDeSeguidores idSessao=""
-expectError "Sessão inexistente" getNumeroDeSeguidores idSessao="xpto"
+expectError "Som inválido" postarSom idSessao=${sessaoSteve} link="www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
+expectError "Som inválido" postarSom idSessao=${sessaoSteve} link="ftp://www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
 
 expectError "Sessão inválida" getFontesDeSons idSessao=
 expectError "Sessão inválida" getFontesDeSons idSessao=""
 expectError "Sessão inexistente" getFontesDeSons idSessao=${sessaoBill}
+
+expectError "Sessão inválida" getVisaoDosSons idSessao=
+expectError "Sessão inválida" getVisaoDosSons idSessao=""
+expectError "Sessão inválida" getVisaoDosSons idSessao="xpto"
+expectError "Sessão inexistente" getVisaoDosSons idSessao=${sessaoBill}
 
 #Encerrar a sessao de Mark
 encerrarSessao login="mark"

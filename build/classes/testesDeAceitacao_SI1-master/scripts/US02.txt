@@ -39,8 +39,8 @@ som3ID=postarSom idSessao=${sessaoSteve} link="http://www.youtube.com/watch?v=3K
 som4ID=postarSom idSessao=${sessaoSteve} link="https://www.youtube.com/watch?v=JRfuAukYTKg" dataCriacao="31/12/2015"
 som5ID=postarSom idSessao=${sessaoSteve} link="http://www.youtube.com/watch?v=PVzljDmoPVs" dataCriacao="04/02/2016"
 
-expect {${som1ID},${som2ID}} getPerfilMusical idSessao=${sessaoMark}
-expect {${som3ID},${som4ID},${som5ID}} getPerfilMusical idSessao=${sessaoSteve} 
+expect {${som2ID},${som1ID}} getPerfilMusical idSessao=${sessaoMark}
+expect {${som5ID},${som4ID},${som3ID}} getPerfilMusical idSessao=${sessaoSteve} 
 
 # numero de seguidores
 expect 0 getNumeroDeSeguidores idSessao=${sessaoBill}
@@ -54,7 +54,7 @@ seguirUsuario idSessao=${sessaoBill} login="steve"
 
 # Os perfis de ambos estao inalterados
 expect {} getPerfilMusical idSessao=${sessaoBill} 
-expect {${som3ID},${som4ID},${som5ID}} getPerfilMusical idSessao=${sessaoSteve}
+expect {${som5ID},${som4ID},${som3ID}} getPerfilMusical idSessao=${sessaoSteve} 
 
 # Steve agora esta na fonte de sons de Bill
 expect {${IDSteve}} getFontesDeSons idSessao=${sessaoBill}
@@ -76,8 +76,8 @@ expect 0 getNumeroDeSeguidores idSessao=${sessaoMark}
 seguirUsuario idSessao=${sessaoSteve} login="mark" 
 
 # os perfis musicais de mark e steve ficam inalterados
-expect {${som1ID},${som2ID}} getPerfilMusical idSessao=${sessaoMark}
-expect {${som3ID},${som4ID},${som5ID}} getPerfilMusical idSessao=${sessaoSteve} 
+expect {${som2ID},${som1ID}} getPerfilMusical idSessao=${sessaoMark}
+expect {${som5ID},${som4ID},${som3ID}} getPerfilMusical idSessao=${sessaoSteve} 
 
 # Mark esta na fonte de sons de Steve
 expect {} getFontesDeSons idSessao=${sessaoMark} 
@@ -100,7 +100,7 @@ seguirUsuario idSessao=${sessaoBill} login="mark"
 
 # os perfis musicais de mark e steve ficam inalterados
 expect {} getPerfilMusical idSessao=${sessaoBill} 
-expect {${som1ID},${som2ID}} getPerfilMusical idSessao=${sessaoMark} 
+expect {${som2ID},${som1ID}} getPerfilMusical idSessao=${sessaoMark}
 
 # Mark esta na fonte de sons de Bill
 expect {} getFontesDeSons idSessao=${sessaoMark} 

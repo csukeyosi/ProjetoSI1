@@ -3,32 +3,43 @@ package mainClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.Utilitario;
+
 public class GerenciaUsuarios {
 
 	private List<Usuario> usuarios;
 
+	/**
+	 * Contrutor da Classe. 
+	 */
 	public GerenciaUsuarios() {
-		usuarios = new ArrayList<Usuario>();
+		this.usuarios = new ArrayList<Usuario>();
 	}
 
-	public void criarUsuario(String login, String senha, String nome,String email) throws Exception {
-		if (!Sistema.elementIsValid(login)) {
+	/**
+	 * Metodo que executa a criação de um novo usuario no sistema. São geradas
+	 * excessões caso algum dos parametros seja inválido ou o Usuario já exista
+	 * no sistema.
+	 * 
+	 * @param login
+	 * @param senha
+	 * @param nome
+	 * @param email
+	 * @throws Exception
+	 */
+	public void criarUsuario(String login, String senha, String nome,
+			String email) throws Exception {
+		if (!Utilitario.elementIsValid(login)) {
 			throw new Exception("Login inválido");
-		}
-
-		else if (!Sistema.elementIsValid(nome)) {
+		} else if (!Utilitario.elementIsValid(nome)) {
 			throw new Exception("Nome inválido");
-		}
-
-		else if (!Sistema.elementIsValid(email)) {
+		} else if (!Utilitario.elementIsValid(email)) {
 			throw new Exception("Email inválido");
-		}
-
-		else {
-			if (loginJaExiste(login)) {
+		} else {
+			if (VerificaAtributoExiste(login,"login")) {
 				throw new Exception("Já existe um usuário com este login");
 			}
-			if (emailJaExiste(email)) {
+			if (VerificaAtributoExiste(email,"email")) {
 				throw new Exception("Já existe um usuário com este email");
 			}
 			Usuario user = new Usuario(login, senha, nome, email);
@@ -36,31 +47,36 @@ public class GerenciaUsuarios {
 		}
 	}
 
-	public boolean emailJaExiste(String email) {
-		for (int i = 0; i < this.usuarios.size(); i++) {
-			if (this.usuarios.get(i).getEmail().equals(email)) {
-				return true;
+	public boolean VerificaAtributoExiste(String param,String tipo) {
+		int sizeList = this.usuarios.size();
+		for (int i = 0; i <sizeList ; i++) {
+			if(tipo.equals("email")){
+				if (this.usuarios.get(i).getEmail().equals(param)) {
+					return true;
+				}
+			} else if(tipo.equals("login")){
+				if (this.usuarios.get(i).getLogin().equals(param)) {
+					return true;
+				}
 			}
+			
 		}
 		return false;
 	}
 
-	public boolean loginJaExiste(String login) {
+	/** Metodo que verifica se o login e senha passados correspodem ao login e senha de algum 
+	 * Usuario do sistema.
+	 * 
+	 * @param login
+	 * @param senha
+	 * @return true caso login e senha correspodente estejam corretos, false caso contrário.
+	 */
+	public boolean verificaLoginESenha(String login, String senha) {
 		for (int i = 0; i < this.usuarios.size(); i++) {
 			if (this.usuarios.get(i).getLogin().equals(login)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-
-	public boolean verificaSenha(String login, String senha){
-		for (int i = 0; i < this.usuarios.size(); i++) {
-			if(this.usuarios.get(i).getLogin().equals(login)){
-				if(this.usuarios.get(i).getSenha().equals(senha)){
+				if (this.usuarios.get(i).getSenha().equals(senha)) {
 					return true;
-				}else{
+				} else {
 					return false;
 				}
 			}
@@ -68,33 +84,49 @@ public class GerenciaUsuarios {
 		return false;
 	}
 
-	
-	public String getAtributoUsuario(String login, String atributo){
+	/** Metodo que recebe o login de um determinado Usuario e retorna um tipo de atributo especificado
+	 * no segundo parametro.
+	 * 
+	 * @param login
+	 * @param atributo
+	 * @return
+	 * @throws Exception
+	 */
+	public String getAtributoUsuario(String login, String atributo) throws Exception{
+		
+		
+		
 		for (int i = 0; i < this.usuarios.size(); i++) {
-			if (this.usuarios.get(i).getLogin().equals(login)) {					
+			if (this.usuarios.get(i).getLogin().equals(login)) {
 				if (atributo.equals("nome")) {
 					return this.usuarios.get(i).getNome();
-					}
-				else if (atributo.equals("email")) {
+				} else if (atributo.equals("email")) {
 					return this.usuarios.get(i).getEmail();
-					}
-				else if (atributo.equals("id")) {
-						return this.usuarios.get(i).getId();
-						}
-			}		
-		} return "";
+				} else if (atributo.equals("id")) {
+					return this.usuarios.get(i).getId();
+				}
+			}
+		}
+		return "";
 	}
-	
-	/**Metodo que retorna um objeto do tipo Usuario a partir de seu login
+
+	/** Metodo que retorna um objeto do tipo Usuario a partir de seu login ou id
 	 * 
-	 * @param login String login
+	 * @param atributo
+	 * @param tipoDeAtributo String login ou id
 	 * @return Usuario
 	 */
-	public Usuario getUser(String login){
+	public Usuario getUser(String atributo, String tipoDeAtributo) {
 		int sizeListUsers = this.usuarios.size();
-		for(int i=0;i< sizeListUsers;i++){
-			if(usuarios.get(i).getLogin().equals(login)){
-				return usuarios.get(i);
+		for (int i = 0; i < sizeListUsers; i++) {
+			if (tipoDeAtributo.equals("login")) {
+				if (usuarios.get(i).getLogin().equals(atributo)) {
+					return usuarios.get(i);
+				}
+			} else if (tipoDeAtributo.equals("id")) {
+				if (usuarios.get(i).getId().equals(atributo)) {
+					return usuarios.get(i);
+				}
 			}
 		}
 		return null;
