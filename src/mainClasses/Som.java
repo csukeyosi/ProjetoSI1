@@ -33,4 +33,10 @@ public class Som {
 	private void setData(String data) {
 		this.data = data;
 	}
+	
+	@Override
+	public String toString() {
+		
+		return this.getLink();
+	}
 }

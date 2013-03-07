@@ -5,89 +5,35 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-	<meta name="description"
-		content="Trabalho para projeto da disciplina Sistemas de Informação
-	1 do curso Ciência da Computação da UFCG." />
-	<title>NetMusicLive</title>
-	<link rel="stylesheet" href="css/reset.css" type="text/css" />
-	<link rel="stylesheet" href="css/default.css" type="text/css" />
+<ui:composition template="template.xhtml">
+	<ui:define name="conteudoCentral">
+		<div id="formResgister">
+			<h:form>
+				<h2 class="textForm">Crie uma nova conta.</h2>
+				<h4>Informe os seguintes dados:</h4>
+				<h:panelGrid columns="2">
 
-</h:head>
+					<h6 id="textRegisterLogin">Login:</h6>
+					<p:inputText value="#{registerBean.login}" />
 
-<h:body>
+					<h6 id="textRegisterNome">Nome:</h6>
+					<p:inputText value="#{registerBean.nome}" />
 
-	<div id="container">
+					<h6 id="textRegisterEmail">E-mail:</h6>
+					<p:inputText value="#{registerBean.email}" />
 
-		<div id="header">
+					<h6 id="textRegisterSenha">Senha:</h6>
+					<p:password value="#{registerBean.senha}"></p:password>
 
-			<div id="formLogin">
-				<h:form>
-					<h:panelGrid columns="3" id="form">
-						<h6 id="textLogin">Login:</h6>
-						<p:inputText id="inputLogin" value="#{user.login}"/>
-
-						<p:commandButton id="botaoLogin" action="homepage" style="margin-left: 20px"
-							value="Login" />
-						<h5 id="textSenha">Senha:</h5>
-						<p:password value="#{user.password}"></p:password>
-
-					</h:panelGrid>
-				</h:form>
-			</div>
-
-			<div id="slogan">
-				<h1>
-					<a href="index.jsf">NetMusicLive</a>
-				</h1>
-				<img src="images/logo.png" alt="NetMusicLive" />
-				<p>Projeto da disciplina Sistemas de Informação do curso Ciência
-					da Computação da UFCG.</p>
-			</div>
-
+					<br></br>
+					<p:commandButton value="Cadastre-se" ajax="false"
+						action="#{registerBean.criaUsuario}" />
+				</h:panelGrid>
+			</h:form>
 		</div>
-
-		<div id="main">
-
-			<div id="formResgister">
-				<h:form>
-					<h2 class="textForm">Crie uma nova conta.</h2>
-					<h4>Informe os seguintes dados:</h4>
-					<h:panelGrid columns="2">
-					
-						<h6 id="textRegisterLogin">Login:</h6>
-						<p:inputText value="#{register.login}"/>
-					
-						<h6 id="textRegisterNome">Nome:</h6>
-						<p:inputText value="#{register.nome}"/>
-					
-						<h6 id="textRegisterEmail">E-mail:</h6>
-						<p:inputText value="#{register.email}"/>
-					
-						<h6 id="textRegisterSenha">Senha:</h6>
-						<p:password value="#{register.senha}"></p:password>
-					
-						<br></br>
-						<p:button value="Cadastre-se" action= "homepage" style="margin-left: 70px"></p:button>
-					</h:panelGrid>
-				</h:form>
-
-
-			</div>
-		</div>
-
-	</div>
-
-	<div id="footerWrap">
-
-		<div id="footer">
-
-			<div id="footerLogo"></div>
-		</div>
-	</div>
-</h:body>
+	</ui:define>
+</ui:composition>
 </html>

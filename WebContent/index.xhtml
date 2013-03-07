@@ -5,95 +5,45 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-<h:head>
-	<meta name="description"
-		content="Trabalho para projeto da disciplina Sistemas de Informação
-	1 do curso Ciência da Computação da UFCG." />
-	<title>NetMusicLive</title>
-	<link rel="stylesheet" href="css/reset.css" type="text/css" />
-	<link rel="stylesheet" href="css/default.css" type="text/css" />
+<ui:composition template="template.xhtml">
+	<ui:define name="conteudoCentral">
+		<div id="primaryContent">
+			<ul>
+				<li id="first">
+					<h3>Escute</h3>
+					<p>Todos os ritmos, diferentes bandas e muitos sons em sintonia
+						com você.</p>
+				</li>
 
-</h:head>
+				<li id="second">
+					<h3>Siga</h3>
+					<p>Conheça pessoas com diversos gostos musicais, adcione e
+						conheça seus sons.</p>
+				</li>
 
-<h:body>
+				<li id="third">
+					<h3>Compartilhe</h3>
+					<p>Envie e receba sons de seus amigos.</p>
+				</li>
+			</ul>
+		</div>
 
-	<div id="container">
+		<div id="secondaryContent">
 
-		<div id="header">
+			<blockquote>
+				<p>É novo aqui? não fique de fora.</p>
+			</blockquote>
 
-			<div id="formLogin">
-				<h:form>
-					<h:panelGrid columns="3" id="form">
-						<h6 id="textLogin" >Login:</h6>
-						<p:inputText id="inputLogin" value="#{user.login}"/>
-						<p:commandButton id="botaoLogin" action="#{user.test}" style="margin-left: 20px" value="Login" />
-
-						<h5 id="textSenha">Senha:</h5>
-						<p:password value="#{user.password}"></p:password>
-						
-					</h:panelGrid>					
+			<cite> <h:form>
+					<p:commandButton value="Cadastre-se"
+						action="register?faces-redirect=true" ajax="false" />
 				</h:form>
-			</div>
-
-			<div id="slogan">
-				<h1>
-					<a href="index.jsf">NetMusicLive</a>
-				</h1>
-				<p:graphicImage url="images/logo.png"></p:graphicImage>
-				<p>Projeto da disciplina Sistemas de Informação do curso Ciência da Computação
-				da UFCG.</p>
-			</div>
-
+			</cite>
+			<div class="arrow"></div>
 		</div>
-
-		<div id="main">
-
-			<div id="primaryContent">
-				<ul>
-					<li id="first">
-						<h3>Escute</h3>
-						<p>Todos os ritmos, diferentes bandas e muitos sons em
-							sintonia com você</p>
-					</li>
-
-					<li id="second">
-						<h3>Adcione</h3>
-						<p>Conheça pessoas com diversos gostos musicais, adcione e conheça seus sons.</p>
-					</li>
-
-					<li id="third">
-						<h3>Compartilhe</h3>
-						<p>Envie e receba sons de seus amigos.</p>
-					</li>
-				</ul>
-
-
-			</div>
-
-			<div id="secondaryContent">
-
-				<blockquote>
-					<p>É novo aqui? não fique de fora.</p>
-				</blockquote>
-
-				<cite><p:commandButton value="Cadastre-se" action="register"></p:commandButton></cite>
-				<div class="arrow"></div>
-
-			</div>
-		</div>
-
-	</div>
-
-	<div id="footerWrap">
-
-		<div id="footer">
-
-			<div id="footerLogo"></div>
-		</div>
-	</div>
-</h:body>
+	</ui:define>
+</ui:composition>
 </html>

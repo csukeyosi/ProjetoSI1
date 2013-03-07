@@ -1,15 +1,33 @@
 package mainClasses;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import util.Utilitario;
 
-public class Sistema {
+public class Sistema implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private GerenciaSons gerenciaSons;
 	private GerenciaSessao gerenciaSessao;
 	private GerenciaUsuarios gerenciaUsuarios;
+	private static Sistema sistema;
+
+	/**
+	 * Construtor.
+	 */
+	private Sistema() {
+		zerarSistema();
+	}
+
+	// Padrao Singleton.
+	public static Sistema getInstance() {
+		if (sistema == null) {
+			sistema = new Sistema();
+		}
+		return sistema;
+	}
 
 	/**
 	 * Metodo que inicializa e limpa o sistema.
@@ -144,7 +162,7 @@ public class Sistema {
 		verificaSessao(idsessao);
 		if (!Utilitario.elementIsValid(login)) {
 			throw new Exception("Login inválido");
-		}else if(this.gerenciaSessao.getLogin(idsessao).equals(login)){
+		} else if (this.gerenciaSessao.getLogin(idsessao).equals(login)) {
 			throw new Exception("Login inválido");
 		}
 
@@ -220,14 +238,8 @@ public class Sistema {
 	}
 
 	private void addInFeedExtra(Usuario user, String idsom) {
-		List<Usuario> usuariosSeguidores = new ArrayList<Usuario>();
 		List<String> listIdSeguidores = user.getListaDeSeguidores();
-		int sizeList = listIdSeguidores.size();
-		for (int i = 0; i < sizeList; i++) {
-			Usuario userTemp = this.gerenciaUsuarios.getUser(
-					listIdSeguidores.get(i), "id");
-			usuariosSeguidores.add(userTemp);
-		}
+		List<Usuario> usuariosSeguidores = retornaUsersPelosIDs(listIdSeguidores);
 		this.gerenciaSons.addInFeedExtra(usuariosSeguidores, idsom);
 	}
 
@@ -236,30 +248,22 @@ public class Sistema {
 		verificaSessao(idsessao);
 		Usuario user = retornaUserPeloIdsessao(idsessao);
 		List<String> fontesDeSom = user.getFontesDeSom();
-
-		List<Usuario> usuarios = new ArrayList<Usuario>();
-		
-		for(int i=0;i<fontesDeSom.size();i++){
-			
-			String idUsuarioQueSigo =fontesDeSom.get(i);
-			Usuario userQueSigo = this.gerenciaUsuarios.getUser(idUsuarioQueSigo, "id");
-			usuarios.add(userQueSigo);
-		}
+		List<Usuario> usuarios = retornaUsersPelosIDs(fontesDeSom);
 		
 		List<String> feedPrincipal = new ArrayList<String>();
-		for(int i=0;i<usuarios.size();i++){
+		for (int i = 0; i < usuarios.size(); i++) {
 			List<String> perfilMusical = usuarios.get(i).getPerfilMusical();
-			for(int j=0;j<perfilMusical.size();j++){
+			for (int j = 0; j < perfilMusical.size(); j++) {
 				feedPrincipal.add(perfilMusical.get(j));
 			}
 		}
-		
+
 		return feedPrincipal;
 	}
 
-	public void setMainFeedRule(String idsessao,String rule) throws Exception{
+	public void setMainFeedRule(String idsessao, String rule) throws Exception {
 		verificaSessao(idsessao);
-		if(!Utilitario.elementIsValid(rule)){
+		if (!Utilitario.elementIsValid(rule)) {
 			throw new Exception("Regra de composição inválida");
 		}
 	}
@@ -275,18 +279,26 @@ public class Sistema {
 
 	}
 
-
 	private void verificaSessao(String idsessao) throws Exception {
 		if (!Utilitario.elementIsValid(idsessao)) {
 			throw new Exception("Sessão inválida");
 		} else if (!this.gerenciaSessao.existeSessao(idsessao)) {
-			throw new Exception("Sessão inexistente");			
+			throw new Exception("Sessão inexistente");
 		}
 	}
 
+	public List<Usuario> retornaUsersPelosIDs(List<String> idUsuarios) {
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		int sizeList = idUsuarios.size();
+		for(int i=0;i<sizeList;i++){
+			Usuario userAuxiliar = this.gerenciaUsuarios.getUser(idUsuarios.get(i), "id");
+			usuarios.add(userAuxiliar);
+		}
+		return usuarios;
+	}
+	
 	private Usuario retornaUserPeloIdsessao(String idsessao) {
 		String loginUser = this.gerenciaSessao.getLogin(idsessao);
 		return this.gerenciaUsuarios.getUser(loginUser, "login");
 	}
-
 }

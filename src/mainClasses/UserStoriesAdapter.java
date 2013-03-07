@@ -5,9 +5,9 @@ import java.util.List;
 public class UserStoriesAdapter {
 
 	private Sistema sistema;
-
-	public UserStoriesAdapter() {
-		this.sistema = new Sistema();
+	
+	 public UserStoriesAdapter() {
+		this.sistema = Sistema.getInstance();
 	}
 
 	public void zerarSistema() {
@@ -64,7 +64,7 @@ public class UserStoriesAdapter {
 	}
 
 	public String getFontesDeSons(String idsessao) throws Exception {
-		return retornaComChaves(this.sistema.getFontesDeSons(idsessao), "list");
+		return retornaComChaves(this.sistema.getFontesDeSons(idsessao),"list");
 	}
 
 	public String getVisaoDosSons(String idsessao) throws Exception {

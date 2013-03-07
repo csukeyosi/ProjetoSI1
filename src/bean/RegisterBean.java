@@ -2,15 +2,33 @@ package bean;
 
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import mainClasses.InterfaceWebAdapter;
 
-@ManagedBean(name = "register")
-@SessionScoped
+@ManagedBean
 public class RegisterBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
 	private String login, nome, email, senha;
+	private InterfaceWebAdapter interfaceWebAdapter;
+	
+	public RegisterBean(){
+		interfaceWebAdapter = InterfaceWebAdapter.getInstance();
+	}
 
+	public String criaUsuario(){
+		try {
+			interfaceWebAdapter.criaUsuario(getLogin(), getSenha(), getNome(), getEmail());
+			// falta colocar o idsessao no mapa de sessao do jsf.
+			//FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("yourKey", yourObject);
+			return "homepage?faces-redirect=true";
+		} catch (Exception e) {
+			System.out.println("erro ao criar usuario");
+			// gera um erro na interface.
+		}
+		return "register?faces-redirect=true";
+	}
+	
 	public String getLogin() {
 		return login;
 	}
@@ -41,9 +59,5 @@ public class RegisterBean implements Serializable {
 
 	public void setSenha(String senha) {
 		this.senha = senha;
-	}
-	
-	public void criaUsuario(){
-		
 	}
 }

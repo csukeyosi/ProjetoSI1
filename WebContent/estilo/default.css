@@ -1,0 +1,299 @@
+body {
+	background: #eeebe9 url(images/bg.jpg) repeat-x;
+	text-align: center;
+	font-family: helvetica, arial, sans-serif;
+	line-height: 25px;
+}
+
+body#subpage {
+	background: #eeebe9 url(images/bg_alt.jpg) repeat-x;
+}
+
+h1,h2,h3,h4,h5 {
+	margin: 25px 0;
+}
+
+h6 {
+	margin: 10px 0;
+}
+
+h2 {
+	font-size: 30px;
+	color: #2f231e;
+	padding-bottom: 25px;
+	margin-top: 45px;
+	border-bottom: 1px solid #cec5c0;
+}
+
+h3 {
+	color: #745459;
+	font-size: 30px;
+	line-height: 33px;
+}
+
+h4 {
+	color: #2f231e;
+	line-height: 20px;
+	font-size: 16px;
+	text-transform: uppercase;
+}
+
+hr {
+	background: none;
+	border: 1px solid #cec5c0;
+	margin: 34px 0;
+}
+
+p {
+	color: #645a56;
+	font-size: 13px;
+	font-family: arial;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* LIST ITEMS */
+#container #main li {
+	color: #645a56;
+	font-size: 13px;
+}
+
+#subpage #container ul {
+	margin: 1em 0 0 30px;
+}
+
+#subpage li {
+	color: #645a56;
+	list-style-type: square;
+	line-height: 20px;
+	margin: 0;
+	padding: 0;
+}
+
+#subpage li strong {
+	color: #3b3431;
+	font-weight: bold;
+	display: block;
+}
+
+/* END LIST ITEMS */
+blockquote {
+	background: #ebe7e4;
+	color: #7f6357;
+	padding: 23px;
+	font: italic 20px/27px georgia;
+}
+
+blockquote p {
+	font-size: 20px;
+	color: #7f6357;
+	margin-bottom: 1em;
+	font-family: georgia;
+}
+
+/* ARROW */
+.arrow {
+	width: 0;
+	height: 0;
+	line-height: 0;
+	border-top: 30px solid #e3e3e3;
+	border-left: 60px solid #f7f5f4;
+	border-right: 10px solid #f7f5f4;
+	position: absolute;
+	right: 30px;
+}
+
+#container {
+	width: 1000px;
+	margin: auto;
+	text-align: left;
+	position: relative;
+	padding-top: 0px;
+	background: #f7f5f4 url(images/containerBG.jpg) repeat-x;
+}
+
+body#subpage #container {
+	background: #f7f5f4 url(images/containerBG_alt.jpg) repeat-x;
+}
+
+#subHeader{
+	text-align: left;
+	left: 10px;
+	position: absolute;
+}
+
+#userPhoto{
+	padding-top: 13px;
+	padding-left: 20px;
+}
+
+/* THE LOGO */ 
+#slogan {
+	height: 145px;
+	clear: both;
+}
+
+#formLogin {
+	padding-top: 70px;
+	padding-left: 600px;
+	font-size: 12px;
+}
+#formSearch{
+	padding-top: 20px;
+	padding-left: 600px;
+}
+
+#formLogin #textLogin,#textSenha {
+	color: #a68a7d;
+	padding-right: 10px;
+	margin-top: 0px;
+}
+
+#subpage #slogan {
+	height: 15px;
+}
+
+#slogan h1 {
+	margin: 0 0 0 50px;
+	background: url(images/logoName.png) no-repeat;
+	width: 231px;
+	height: 70px;
+	position: relative;
+	z-index: 10;
+	text-indent: -9999px;
+	top: 10px;
+}
+
+#subpage #slogan h1 {
+	top: -85px;
+}
+
+#slogan h1 a {
+	display: block;
+	width: 124px;
+	height: 67px;
+}
+/* estilo para a logo <p:graphicImage> da pagina.*/
+#slogan img { 
+	position: absolute;
+	top: 70px;
+	left: -40px;
+}
+
+#subpage #slogan img {
+	top: -220px;
+}
+
+#slogan p {
+	margin: -45px 200px 0 319px;
+	padding-left: 27px;
+	padding-top: 0px;
+	font-size: 18px;
+	color: #a68a7d;
+	border-left: 1px solid #4f3b33;
+}
+
+
+/* MAIN CONTENT */
+#main {
+	padding: 0 36px 100px 350px;
+	overflow: hidden;
+	border-left: 1px solid white;
+	border-right: 1px solid white;
+}
+
+#container #main h2 {
+	padding-left: 0;
+}
+
+#main #primaryContent {
+	float: left;
+	width: 334px;
+}
+
+body.single #main #primaryContent {
+	width: 100%;
+}
+
+#primaryContent ul h3 {
+	text-indent: -9999px;
+	height: 34px;
+	margin-bottom: 13px;
+}
+
+#primaryContent li#first h3 {
+	background: url(images/imageText.png) no-repeat 0 0;
+}
+
+#primaryContent li#second h3 {
+	background: url(images/imageText.png) no-repeat 0 -34px;
+}
+
+#primaryContent li#third h3 {
+	background: url(images/imageText.png) no-repeat 0 -68px;
+}
+
+#first p,#second p,#third p {
+	padding-left: 50px;
+}
+
+#main div#secondaryContent {
+	float: right;
+	width: 249px;
+	padding-top: 45px;
+	position: relative;
+}
+
+#secondaryContent cite {
+	font-size: 12px;
+	color: #2f231e;
+	float: right;
+	padding-right: 10px;
+	padding-top: 35px;
+	line-height: 10px;
+	display: block;
+}
+
+#formResgister #textRegisterLogin, #textRegisterNome, #textRegisterEmail, #textRegisterSenha {
+	padding-right: 20px;
+	color: #2f231e;
+}
+
+/* FOOTER */
+#footerWrap {
+	border-top: 1px solid white;
+	background: #32251f;
+}
+
+#footer {
+	color: #a68a7d;
+	width: 1002px;
+	margin: auto;
+	text-align: left;
+	font-size: 11px;
+	line-height: 17px;
+	padding-top: 35px;
+	text-transform: uppercase;
+	border-right: #574138; /* CHECK THIS */
+	border-left: #574138;
+	overflow: hidden;
+}
+
+#footer #footerLogo {
+	float: left;
+	background: #291e18;
+	width: 348px;
+	text-align: center;
+	padding-top: 2.5em;
+	padding-bottom: 3em;
+	margin-right: 32px;
+	margin-top: -35px;
+	border-right: 1px solid #48362d;
+}

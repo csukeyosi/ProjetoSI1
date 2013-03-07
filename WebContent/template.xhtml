@@ -1,35 +1,70 @@
-<!DOCTYPE html PUBLIC
-	 "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	 "http://www.w3.org/TR/xhtml1/DTD/
-	 xhtml1-transitional.dtd">
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-	<meta name="description" content="Trabalho para projeto da disciplina Sistemas de Informação
+	<meta name="description"
+		content="Trabalho para projeto da disciplina Sistemas de Informação
 	1 do curso Ciência da Computação da UFCG." />
 	<title>NetMusicLive</title>
-	<link rel="stylesheet" href="css/reset.css" type="text/css" />
-	<link rel="stylesheet" href="css/default.css" type="text/css" />
+	<link rel="stylesheet" href="estilo/reset.css" type="text/css" />
+	<link rel="stylesheet" href="estilo/default.css" type="text/css" />
 
 </h:head>
 
 <h:body>
-	<ui:insert name="container">
-		
-		<ui:insert name="header"></ui:insert>
-		
-		<ui:insert name="main">
-			<ui:insert name="primaryContent"></ui:insert>
-			<ui:insert name="secondaryContent"></ui:insert>
-		</ui:insert>
-	</ui:insert>
 
-	<ui:insert name="footer"></ui:insert>
+	<div id="container">
 
+		<div id="header">
+
+			<div id="formLogin">
+				<h:form>
+					<h:panelGrid columns="3" id="form">
+						<h6 id="textLogin">Login:</h6>
+						<p:inputText id="inputLogin" value="#{loginBean.login}"
+							required="true" />
+						<p:commandButton id="botaoLogin" action="#{loginBean.logar}"
+							ajax="false" style="margin-left: 20px" value="Login" />
+
+						<h5 id="textSenha">Senha:</h5>
+						<p:password value="#{loginBean.password}" rendered="true"></p:password>
+
+					</h:panelGrid>
+				</h:form>
+			</div>
+
+			<div id="slogan">
+				<h1>
+					<a href="index.jsf">NetMusicLive</a>
+				</h1>
+				<p:graphicImage url="estilo/images/logo.png"></p:graphicImage>
+				<p>Projeto da disciplina Sistemas de Informação do curso Ciência
+					da Computação da UFCG.</p>
+			</div>
+
+		</div>
+
+		<div id="main">
+			<ui:insert name="conteudoCentral"></ui:insert>
+
+		</div>
+
+	</div>
+
+	<div id="footerWrap">
+
+		<div id="footer">
+
+			<div id="footerLogo"></div>
+		</div>
+	</div>
 </h:body>
 </html>

@@ -14,62 +14,63 @@
 		content="Trabalho para projeto da disciplina Sistemas de Informação
 	1 do curso Ciência da Computação da UFCG." />
 	<title>NetMusicLive</title>
-	<link rel="stylesheet" href="css/reset.css" type="text/css" />
-	<link rel="stylesheet" href="css/default.css" type="text/css" />
+	<link rel="stylesheet" href="estilo/reset.css" type="text/css" />
+	<link rel="stylesheet" href="estilo/default.css" type="text/css" />
 
 </h:head>
 
 <h:body>
 
 	<div id="subHeader">
-		<p:graphicImage url="images/smallLogo.png"></p:graphicImage>
-
+		<p:graphicImage url="estilo/images/smallLogo.png"></p:graphicImage>
 	</div>
 
 	<div id="container">
-		<p:graphicImage url="images/smallLogoName.png"></p:graphicImage>
+		<p:graphicImage url="estilo/images/smallLogoName.png"></p:graphicImage>
 
 		<div id="formSearch">
 			<h:form>
 				<h:panelGrid columns="2">
-					<p:inputText></p:inputText>
-					<p:commandButton value="Search"
-						style="margin-left:10px;font-size:14px">
-					</p:commandButton>
+					<p:inputText id="searchText" />
+					<p:commandButton value="Search" ajax="false"
+						style="margin-left:10px;font-size:14px" />
 				</h:panelGrid>
 			</h:form>
 		</div>
 
 		<div id="userPhoto">
-			<p:graphicImage url="images/users/default.png"></p:graphicImage>
+			<p:graphicImage url="#{homeBean.fotoUser}" />
 		</div>
 
-		<div>
-			<p:inputTextarea value="Postagem de Mensagem" cols="50" style="margin-left: 50px;margin-top: 30px;magin-bottom:5px;;"></p:inputTextarea>
-		</div>
-		<div id="main">
+		<h:form>
+			<p:inputTextarea value="#{homeBean.mensagemDePostagem}" cols="50"
+				rows="2" style="margin-top: 20px;margin-left:20px;" />
 
-			<div>
-				<p:commandButton value="Enviar"></p:commandButton>
-				<p:commandButton value="Apagar" style="margin-left:20px;"></p:commandButton>
+			<div id="main">
+				<p:commandButton value="Enviar" ajax="false" />
+				<p:commandButton value="Apagar" ajax="false"
+					action="#{homeBean.apagarMensagemDePostagem}"
+					style="margin-left:20px;" />
 			</div>
-		</div>
-
-		<h:panelGrid columns="10" cellpadding="5"
-			columnClasses="label, column">
-			<h:outputText value="Friend List" />
-			<p:selectOneListbox id="scroll" value="#{UserBean.friend}"
-				var="friend" style="height:200px">
-				<f:selectItems value="#{UserBean.friends}" />
+		</h:form>
+		
+		
+		<div>
+			<h2>Main Feed</h2>
+			<p:dataTable id="MainFeed" var="som" value="#{homeBean.sonsPostados}">
 				<p:column>
-					<p:graphicImage value="/images/users/#{friend.getNome()}"
-						width="40" />
-				</p:column>
-			</p:selectOneListbox>
-		</h:panelGrid>
+			#{som.link}
+			</p:column>
+				<p:column width="100">
+			#{som.data}
+			</p:column>
 
-
+			</p:dataTable>
+		</div>
 	</div>
+
+	<div></div>
+
 
 	<div id="footerWrap">
 
