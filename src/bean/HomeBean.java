@@ -2,7 +2,11 @@ package bean;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
+
 import mainClasses.InterfaceWebAdapter;
 import mainClasses.Som;
 
@@ -13,19 +17,20 @@ public class HomeBean {
 	private List<String> nomeUsuariosQueSegue;
 	private String fotoUser = "estilo/images/users/default.png";
 	private String mensagemDePostagem;
-
+	private Map<String,Object> mapaDaSessao; 
 	private List<Som> sonsPostados;
 	private Som selectedSom;
-	
+
 	
 	public HomeBean() {
 		this.interfaceWebAdapter = InterfaceWebAdapter.getInstance();
+		this.mapaDaSessao = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
 		setMensagemDePostagem("Postagem de Mensagem..");
+		System.out.println(this.mapaDaSessao.get("Sessao de: "+"idsessao"));
 	}
 
 	public List<String> getUsuariosQueSegue() {
 		try {
-			//tenho que descobrir o id da sessao, ou senao pega-la apos fazer login.
 			nomeUsuariosQueSegue = this.interfaceWebAdapter.getNomesFontesDeSons("");			
 		} catch (Exception e) {
 			System.out.println("erro ao pegar usuarios que segue (suas fontes de som)");

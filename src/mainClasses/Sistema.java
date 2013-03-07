@@ -297,7 +297,7 @@ public class Sistema implements Serializable {
 		return usuarios;
 	}
 	
-	private Usuario retornaUserPeloIdsessao(String idsessao) {
+	public Usuario retornaUserPeloIdsessao(String idsessao) {
 		String loginUser = this.gerenciaSessao.getLogin(idsessao);
 		return this.gerenciaUsuarios.getUser(loginUser, "login");
 	}

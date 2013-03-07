@@ -3,10 +3,13 @@ package bean;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import mainClasses.InterfaceWebAdapter;
 
 @ManagedBean
+@SessionScoped
 public class LoginBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -19,9 +22,8 @@ public class LoginBean implements Serializable{
 	
 	public String logar(){
 		try {
-			interfaceWebAdapter.abrirSessao(getLogin(),getPassword());
-			// falta colocar o idsessao no mapa de sessao do jsf.
-			//FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("yourKey", yourObject);
+			String idsessao = interfaceWebAdapter.abrirSessao(getLogin(),getPassword());
+			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("idsessao",idsessao);
 			return "homepage?faces-redirect=true";
 		} catch (Exception e) {
 			System.out.println("erro ao abrir sessao (logar)");

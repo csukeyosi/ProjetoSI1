@@ -23,8 +23,12 @@ public class InterfaceWebAdapter{
 		this.sistema.criarUsuario(login, senha, nome, email);
 	}
 
-	public void abrirSessao(String login, String password) throws Exception {
-		this.sistema.abrirSessao(login, password);
+	public String abrirSessao(String login, String password) throws Exception {
+		return this.sistema.abrirSessao(login, password);
+	}
+	
+	public Usuario getUsuario(String idsessao){
+		return this.sistema.retornaUserPeloIdsessao(idsessao);
 	}
 	
 	public List<String> getNomesFontesDeSons(String idsessao) throws Exception{
