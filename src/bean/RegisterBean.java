@@ -2,7 +2,8 @@ package bean;
 
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
-import mainClasses.InterfaceWebAdapter;
+
+import util.InterfaceWebAdapter;
 
 @ManagedBean
 public class RegisterBean implements Serializable {

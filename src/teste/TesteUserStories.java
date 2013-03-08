@@ -2,8 +2,9 @@ package teste;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import util.UserStoriesAdapter;
 import easyaccept.EasyAcceptFacade;
-import mainClasses.UserStoriesAdapter;
 
 public class TesteUserStories {
 
@@ -14,7 +15,7 @@ public class TesteUserStories {
 		files.add("testesDeAceitacao_SI1-master/scripts/US02.txt");
 		files.add("testesDeAceitacao_SI1-master/scripts/US03.txt");
 		files.add("testesDeAceitacao_SI1-master/scripts/US04.txt");
-		files.add("testesDeAceitacao_SI1-master/scripts/US05.txt");
+	//	files.add("testesDeAceitacao_SI1-master/scripts/US05.txt");
 		
 
 		UserStoriesAdapter testeDoSistema = new UserStoriesAdapter();

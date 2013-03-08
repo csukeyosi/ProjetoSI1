@@ -4,6 +4,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.AtributoInexistenteException;
+import exception.AtributoInvalidoException;
+import exception.DataInvalidaException;
+import exception.LoginInexistenteException;
+import exception.LoginInvalidoException;
+import exception.SessaoInexistenteException;
+import exception.SessaoInvalidaException;
+import exception.SomInvalidoException;
+import exception.UsuarioInexistenteException;
+
 import util.Utilitario;
 
 public class Sistema implements Serializable {
@@ -14,14 +24,11 @@ public class Sistema implements Serializable {
 	private GerenciaUsuarios gerenciaUsuarios;
 	private static Sistema sistema;
 
-	/**
-	 * Construtor.
-	 */
 	private Sistema() {
 		zerarSistema();
 	}
 
-	// Padrao Singleton.
+	/* Padrao Singleton. */
 	public static Sistema getInstance() {
 		if (sistema == null) {
 			sistema = new Sistema();
@@ -39,7 +46,7 @@ public class Sistema implements Serializable {
 	}
 
 	/**
-	 * Metodo que repassa a função de criar um novo usuario no sistema.
+	 * Cria um novo usuario no sistema.
 	 * 
 	 * @param login
 	 *            String login do novo usuario.
@@ -56,28 +63,35 @@ public class Sistema implements Serializable {
 		this.gerenciaUsuarios.criarUsuario(login, senha, nome, email);
 	}
 
+	/**
+	 * 
+	 * @param login
+	 * @param senha
+	 * @return
+	 * @throws Exception
+	 */
 	public String abrirSessao(String login, String senha) throws Exception {
 		if (!Utilitario.elementIsValid(login)) {
-			throw new Exception("Login inválido");
+			throw new LoginInvalidoException();
 		} else if (this.gerenciaUsuarios.VerificaAtributoExiste(login, "login")) {
 			if (!this.gerenciaUsuarios.verificaLoginESenha(login, senha)) {
-				throw new Exception("Login inválido");
+				throw new  LoginInvalidoException();
 			}
 			return this.gerenciaSessao.abrirSessao(login, senha);
 		} else {
-			throw new Exception("Usuário inexistente");
+			throw new UsuarioInexistenteException();
 		}
 	}
 
 	public String getAtributoUsuario(String login, String atributo)
 			throws Exception {
 		if (!Utilitario.elementIsValid(atributo)) {
-			throw new Exception("Atributo inválido");
+			throw new AtributoInvalidoException();
 		} else if (!Utilitario.elementIsValid(login)) {
-			throw new Exception("Login inválido");
+			throw new LoginInvalidoException();
 		} else if (!this.gerenciaUsuarios
 				.VerificaAtributoExiste(login, "login")) {
-			throw new Exception("Usuário inexistente");
+			throw new UsuarioInexistenteException();
 		} else {
 			String result = this.gerenciaUsuarios.getAtributoUsuario(login,
 					atributo);
@@ -85,7 +99,7 @@ public class Sistema implements Serializable {
 				return result;
 			}
 		}
-		throw new Exception("Atributo inexistente");
+		throw new AtributoInexistenteException();
 	}
 
 	public List<String> getPerfilMusical(String idsessao) {
@@ -96,9 +110,9 @@ public class Sistema implements Serializable {
 	public String postarSom(String sessao, String link, String dataCriacao)
 			throws Exception {
 		if (!Utilitario.elementIsValid(link)) {
-			throw new Exception("Som inválido");
+			throw new SomInvalidoException();
 		} else if (!dataIsValida(dataCriacao)) {
-			throw new Exception("Data de Criação inválida");
+			throw new DataInvalidaException();
 		}
 		String login = this.gerenciaSessao.getLogin(sessao);
 		Usuario user = this.gerenciaUsuarios.getUser(login, "login");
@@ -108,15 +122,15 @@ public class Sistema implements Serializable {
 	public String getAtributoSom(String idSom, String atributo)
 			throws Exception {
 		if (!Utilitario.elementIsValid(idSom)) {
-			throw new Exception("Som inválido");
+			throw new SomInvalidoException();
 		} else if (!Utilitario.elementIsValid(atributo)) {
-			throw new Exception("Atributo inválido");
+			throw new AtributoInvalidoException();
 		}
 		String result = this.gerenciaSons.getAtributoSom(idSom, atributo);
 		if (!result.isEmpty()) {
 			return result;
 		}
-		throw new Exception("Atributo inexistente");
+		throw new AtributoInexistenteException();
 	}
 
 	public boolean dataIsValida(String dataParam) {
@@ -161,9 +175,9 @@ public class Sistema implements Serializable {
 	public void seguirUsuario(String idsessao, String login) throws Exception {
 		verificaSessao(idsessao);
 		if (!Utilitario.elementIsValid(login)) {
-			throw new Exception("Login inválido");
+			throw new LoginInvalidoException();
 		} else if (this.gerenciaSessao.getLogin(idsessao).equals(login)) {
-			throw new Exception("Login inválido");
+			throw new LoginInvalidoException();
 		}
 
 		// Identificando Usuario que sera seguido:
@@ -177,7 +191,7 @@ public class Sistema implements Serializable {
 			// adcionar nas fontes de som, e na lista de seguidores.
 			this.gerenciaSons.seguirUsuario(userSeguidor, userSeguido);
 		} else {
-			throw new Exception("Login inexistente");
+			throw new LoginInexistenteException();
 		}
 	}
 
@@ -281,9 +295,9 @@ public class Sistema implements Serializable {
 
 	private void verificaSessao(String idsessao) throws Exception {
 		if (!Utilitario.elementIsValid(idsessao)) {
-			throw new Exception("Sessão inválida");
+			throw new SessaoInvalidaException();
 		} else if (!this.gerenciaSessao.existeSessao(idsessao)) {
-			throw new Exception("Sessão inexistente");
+			throw new SessaoInexistenteException();
 		}
 	}
 

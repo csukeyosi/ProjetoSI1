@@ -40,7 +40,7 @@ expect "PRIMEIRO OS SONS COM MAIS FAVORITOS" getSecondCompositionRule
 rule3=getThirdCompositionRule
 expect "PRIMEIRO SONS DE FONTES DAS QUAIS FAVORITEI SONS NO PASSADO" getThirdCompositionRule
 
-# entradas vÃ¡lidas
+# entradas válidas
 
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" email="mark@facebook.com"
 criarUsuario login="steve" senha="5t3v3" nome="Steven Paul Jobs" email="jobs@apple.com"
@@ -48,7 +48,7 @@ criarUsuario login="bill" senha="severino" nome="William Henry Gates III" email=
 criarUsuario login="larry" senha="p4G6" nome="Larry Page" email="larry@gmail.com"
 criarUsuario login="sergey" senha="3R1n" nome="Sergey Brin" email="brin@gmail.com"
 
-# o mÃ©todo 'abrirSessao' retorna o ID da sessÃ£o
+# o método 'abrirSessao' retorna o ID da sessão
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 sessaoSteve=abrirSessao login="steve" senha="5t3v3"
 sessaoBill=abrirSessao login="bill" senha="severino"
@@ -220,18 +220,18 @@ encerrarSessao login="sergey"
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------
 
-# entradas invÃ¡lidas
+# entradas inválidas
 
-expectError "SessÃ£o invÃ¡lida" getMainFeed idSessao=
-expectError "SessÃ£o invÃ¡lida" getMainFeed idSessao=""
-expectError "SessÃ£o inexistente" getMainFeed idSessao=${sessaoBill}
+expectError "Sessão inválida" getMainFeed idSessao=
+expectError "Sessão inválida" getMainFeed idSessao=""
+expectError "Sessão inexistente" getMainFeed idSessao=${sessaoBill}
 
-expectError "SessÃ£o invÃ¡lida" setMainFeedRule idSessao= rule=""
-expectError "SessÃ£o invÃ¡lida" setMainFeedRule idSessao="" rule=""
-expectError "SessÃ£o inexistente" setMainFeedRule idSessao=${sessaoSergey} rule=""
-expectError "Regra de composiÃ§Ã£o invÃ¡lida" setMainFeedRule idSessao=${sessaoMark} rule=
-expectError "Regra de composiÃ§Ã£o invÃ¡lida" setMainFeedRule idSessao=${sessaoMark} rule=""
-expectError "Regra de composiÃ§Ã£o inexistente" setMainFeedRule idSessao=${sessaoMark} rule="xpto"
+expectError "Sessão inválida" setMainFeedRule idSessao= rule=""
+expectError "Sessão inválida" setMainFeedRule idSessao="" rule=""
+expectError "Sessão inexistente" setMainFeedRule idSessao=${sessaoSergey} rule=""
+expectError "Regra de composição inválida" setMainFeedRule idSessao=${sessaoMark} rule=
+expectError "Regra de composição inválida" setMainFeedRule idSessao=${sessaoMark} rule=""
+expectError "Regra de composição inexistente" setMainFeedRule idSessao=${sessaoMark} rule="xpto"
 
 #Encerrar a sessao de Mark
 encerrarSessao login="mark"
@@ -244,4 +244,3 @@ encerrarSessao login="larry"
 
 encerrarSistema
 quit
-

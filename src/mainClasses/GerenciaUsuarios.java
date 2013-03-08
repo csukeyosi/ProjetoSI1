@@ -3,6 +3,12 @@ package mainClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.EmailDuplicadoException;
+import exception.EmailInvalidoException;
+import exception.LoginDuplicadoException;
+import exception.LoginInvalidoException;
+import exception.NomeInvalidoException;
+
 import util.Utilitario;
 
 public class GerenciaUsuarios {
@@ -30,17 +36,17 @@ public class GerenciaUsuarios {
 	public void criarUsuario(String login, String senha, String nome,
 			String email) throws Exception {
 		if (!Utilitario.elementIsValid(login)) {
-			throw new Exception("Login inválido");
+			throw new LoginInvalidoException();
 		} else if (!Utilitario.elementIsValid(nome)) {
-			throw new Exception("Nome inválido");
+			throw new NomeInvalidoException();
 		} else if (!Utilitario.elementIsValid(email)) {
-			throw new Exception("Email inválido");
+			throw new EmailInvalidoException();
 		} else {
 			if (VerificaAtributoExiste(login,"login")) {
-				throw new Exception("Já existe um usuário com este login");
+				throw new LoginDuplicadoException();
 			}
 			if (VerificaAtributoExiste(email,"email")) {
-				throw new Exception("Já existe um usuário com este email");
+				throw new EmailDuplicadoException();
 			}
 			Usuario user = new Usuario(login, senha, nome, email);
 			this.usuarios.add(user);

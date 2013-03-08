@@ -3,6 +3,9 @@ package mainClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.SomInexistenteException;
+import exception.SomInvalidoException;
+
 import util.Utilitario;
 
 public class GerenciaSons {
@@ -83,10 +86,10 @@ public class GerenciaSons {
 
 	public void verificaIdSom(String idsom) throws Exception{
 		 if(this.listaDeSons.contains(idsom)){
-				throw new Exception("Som inexistente");
+				throw new SomInexistenteException();
 			}
 		if(!Utilitario.elementIsValid(idsom)){
-			throw new Exception("Som inválido");
+			throw new SomInvalidoException();
 		}
 	}
 

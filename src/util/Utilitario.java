@@ -3,7 +3,7 @@ package util;
 public abstract class Utilitario {
 	
 	/**
-	 * Metodo que auxilia na verificaÃ§Ã£o de variaveis na forma de String.
+	 * Metodo que auxilia na verificação de variaveis na forma de String.
 	 * 
 	 * @param String
 	 *            element

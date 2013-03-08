@@ -7,7 +7,8 @@ import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
-import mainClasses.InterfaceWebAdapter;
+import util.InterfaceWebAdapter;
+
 import mainClasses.Som;
 
 @ManagedBean

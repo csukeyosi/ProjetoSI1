@@ -3,12 +3,14 @@ package mainClasses;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.SessaoInexistenteException;
+
 
 public class Usuario {
 
 	private String id, login, senha, nome, email;
 	private List<String> fontesDeSom, listaSeguidores, perfilMusical,
-			sonsFavoritos, feedExtra, visaoDosSons;
+	sonsFavoritos, feedExtra, visaoDosSons;
 
 	/**
 	 * Construtor da Classe Usuario.
@@ -36,108 +38,54 @@ public class Usuario {
 		this.feedExtra = new ArrayList<String>();
 	}
 
-	/**
-	 * Metodo que retorna o login do Usuario.
-	 * 
-	 * @return String login.
-	 */
+
 	public String getLogin() {
 		return login;
 	}
 
-	/**
-	 * Metodo que altera o login do Usuario.
-	 * 
-	 * @param login
-	 *            String login
-	 */
-	private void setLogin(String login) {
+	public void setLogin(String login) {
 		this.login = login;
 	}
 
-	/**
-	 * Metodo que retorna a senha do Usuario
-	 * 
-	 * @return String senha.
-	 */
 	public String getSenha() {
 		return senha;
 	}
 
-	/**
-	 * Metodo que altera a senha do Usuario.
-	 * 
-	 * @param senha
-	 *            String senha
-	 */
-	private void setSenha(String senha) {
+	public void setSenha(String senha) {
 		this.senha = senha;
 	}
 
-	/**
-	 * Metodo que retorna o nome do Usuario
-	 * 
-	 * @return String nome.
-	 */
 	public String getNome() {
 		return nome;
 	}
 
-	/**
-	 * Metodo que altera o nome do Usuario.
-	 * 
-	 * @param nome
-	 *            String nome.
-	 */
-	private void setNome(String nome) {
+	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-	/**
-	 * Metodo que retorna o email do Usuario
-	 * 
-	 * @return String email.
-	 */
 	public String getEmail() {
 		return email;
 	}
 
-	/**
-	 * Metodo que altera o email do Usuario.
-	 * 
-	 * @param email
-	 *            String e-mail.
-	 */
-	private void setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
-	/**
-	 * Metodo que retorna o identificador do Usuario
-	 * 
-	 * @return String ID.
-	 */
 	public String getId() {
 		return id;
 	}
 
 	/**
-	 * Metodo que altera o identificador de um usuario.
+	 * Metodo que altera o identificador de um usuario ("ID" + loguin).
 	 * 
 	 * @param login
 	 *            String login do Usuario.
 	 */
-	private void setId(String login) {
+	public void setId(String login) {
 		this.id = "ID" + login.substring(0, 1).toUpperCase()
 				+ login.substring(1);
 	}
 
-	/**
-	 * Metodo que retorna a lista de fontes de Som do Usuario que trata-se dos
-	 * id's do usuario que o usuario segue.
-	 * 
-	 * @return List<String> fontesDeSom.
-	 */
 	public List<String> getFontesDeSom() {
 		return this.fontesDeSom;
 	}
@@ -152,11 +100,6 @@ public class Usuario {
 		this.fontesDeSom.add(idFontesDeSom);
 	}
 
-	/**
-	 * Metodo que retorna a lista de visaoDeSons do Usuario
-	 * 
-	 * @return List<String> visaoDosSons.
-	 */
 	public List<String> getVisaoDosSons() {
 		return this.visaoDosSons;
 	}
@@ -178,11 +121,6 @@ public class Usuario {
 		return this.listaSeguidores.size();
 	}
 
-	/**
-	 * Metodo que retorna a lista de seguidores que o usuario possui.
-	 * 
-	 * @return List<String> lista dos seguidores.
-	 */
 	public List<String> getListaDeSeguidores() {
 		return this.listaSeguidores;
 	}
@@ -199,7 +137,7 @@ public class Usuario {
 			this.listaSeguidores.add(IdUser);
 			ordenaListaSeguidores();
 		} else {
-			throw new Exception("Sessão inexistente");
+			throw new SessaoInexistenteException();
 		}
 	}
 
@@ -207,7 +145,7 @@ public class Usuario {
 	 * Metodo que ordena a lista de seguidores em ordem alfabetica assim que um
 	 * seguidor é adcionado ou removido.
 	 */
-	public void ordenaListaSeguidores() {
+	private void ordenaListaSeguidores() {
 		boolean houveTroca = true;
 		List<String> list = this.listaSeguidores;
 		int sizeList = list.size();
@@ -225,7 +163,12 @@ public class Usuario {
 			}
 		}
 	}
-
+	
+	/**
+	 * Adiciona um son ao perfil musical do usuario.
+	 * @param idSom
+	 * 				Id do som a ser adicionado
+	 */
 	public void postarSom(String idSom) {
 		this.perfilMusical.add(idSom);
 	}
@@ -235,9 +178,14 @@ public class Usuario {
 	}
 
 	public List<String> getSonsFavoritos() {
-		return sonsFavoritos;
+		return this.sonsFavoritos;
 	}
-
+	
+	/**
+	 * Adiciona um som aos sons favoritos do usuario.
+	 * @param somFavorito
+	 * 					Id do som a ser adicionado
+	 */
 	public void addSonsFavoritos(String somFavorito) {
 		this.sonsFavoritos.add(somFavorito);
 	}
@@ -245,7 +193,12 @@ public class Usuario {
 	public List<String> getFeedExtra() {
 		return this.feedExtra;
 	}
-
+	
+	/**
+	 * Adiciona um som ao feed extra do usuario.
+	 * @param somID
+	 * 				Id do som a ser adicionado
+	 */
 	public void addFeedExtra(String somID) {
 		this.feedExtra.add(somID);
 	}
