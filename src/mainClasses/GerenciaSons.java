@@ -1,103 +1,79 @@
-package mainClasses;
+package mainclasses;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import util.Utilitario;
 import exception.SomInexistenteException;
 import exception.SomInvalidoException;
 
-import util.Utilitario;
-
 public class GerenciaSons {
 
-	private List<Som> listaDeSons;
-	
+	private HashMap sons;
+
 	/**
 	 * Construtor da classe.
 	 */
 	public GerenciaSons() {
-		this.listaDeSons = new ArrayList<Som>();
+		this.sons = new HashMap<String, Som>();
 	}
 
 
 	public String postarSom(Usuario user, String link, String dataCriacao) {
-		String id = "som" + (this.listaDeSons.size() + 1) + "ID";
+		String id = "som" + (this.sons.size() + 1) + "ID";
 		Som som = new Som(id, link, dataCriacao);
-		this.listaDeSons.add(som);
-		user.postarSom(id);
+		this.sons.put(id, som);
+		user.postarSom(som);
 		return id;
 	}
 
-	public List<String> getPerfilMusical(Usuario user) {
-		return user.getPerfilMusical();
-	}
-	
-	public List<String> getSonsFavoritos(Usuario user){
-		return user.getSonsFavoritos();
-	}
-
-	public List<String> getFeedExtra(Usuario user){
-		return user.getFeedExtra();
-	}
-	
 	public String getAtributoSom(String idSom, String atributo) {
-		int sizeList = this.listaDeSons.size();
-		for(int i=0;i<sizeList;i++){
-			if(this.listaDeSons.get(i).getId().equals(idSom)){
-				if(atributo.equals("dataCriacao")){
-					return listaDeSons.get(i).getData();
-				}
+		Som som;
+		if (sons.containsKey(idSom)){
+			som = (Som) sons.get(idSom);
+			if(atributo.equals("dataCriacao")){
+				return som.getData();
 			}
 		}
 		return "";
 	}
-	
-	public void seguirUsuario(Usuario userSeguidor, Usuario userSeguido) throws Exception{
-		userSeguidor.addFontesDeSom(userSeguido.getId());
-		userSeguido.addListaDeSeguidores(userSeguidor.getId());
-		addVisaoDosSons(userSeguidor, userSeguido);
+
+	public void seguirUsuario(Usuario seguidor, Usuario seguido) throws Exception{
+		seguidor.addFontesDeSom(seguido);
+		seguido.addListaDeSeguidores(seguidor);
+		addVisaoDosSons(seguidor, seguido);
 	}
 
 	private void addVisaoDosSons(Usuario seguidor, Usuario seguido){
-		List<String> perfilMusicalUserSeguido = getPerfilMusical(seguido);
-		//System.out.println(seguido.getPerfilMusical().size());
+		List<Som> perfilMusicalUserSeguido = seguido.getPerfilMusical();
 		if(perfilMusicalUserSeguido != null){
-			auxiliaAddSonsVisao(seguidor,perfilMusicalUserSeguido);
+			auxiliaAddSonsVisao(seguidor, perfilMusicalUserSeguido);
 		}
 
 	}
-	
-	public void auxiliaAddSonsVisao(Usuario user, List<String> perfilMusical){
+
+	public void auxiliaAddSonsVisao(Usuario user, List<Som> perfilMusical){
 		int sizeList = perfilMusical.size();
 		for(int i=0; i<sizeList; i++){
-			user.addEmVisaoDosSons(perfilMusical.get(i));
+			user.addVisaoDosSons(perfilMusical.get(i));
+		}
+	}
+
+
+	public void addInFeedExtra(List<Usuario> usuariosSeguidores, Som som) {
+		int sizeList = usuariosSeguidores.size();
+		for(int i=0; i<sizeList; i++){
+			usuariosSeguidores.get(i).addFeedExtra(som);
 		}
 	}
 	
-	/** Metodo que retorna a lista de visao de sons de um determinado Usuario.
-	 * 
-	 * @param user
-	 * @return List<String>
-	 */
-	public List<String> getVisaoDosSons(Usuario user) {
-		return user.getVisaoDosSons();
-	}
-
-
-	public void verificaIdSom(String idsom) throws Exception{
-		 if(this.listaDeSons.contains(idsom)){
-				throw new SomInexistenteException();
-			}
-		if(!Utilitario.elementIsValid(idsom)){
+	public Som getSom(String idSom) throws Exception{
+		if(!Utilitario.elementIsValid(idSom)){
 			throw new SomInvalidoException();
 		}
-	}
-
-	public void addInFeedExtra(List<Usuario> usuariosSeguidores, String idsom) {
-		int sizeList = usuariosSeguidores.size();
-		for(int i=0; i<sizeList; i++){
-			usuariosSeguidores.get(i).addFeedExtra(idsom);
+		if(!this.sons.containsKey(idSom)){
+			throw new SomInexistenteException();
 		}
-		
+		return (Som) sons.get(idSom);
 	}
 }

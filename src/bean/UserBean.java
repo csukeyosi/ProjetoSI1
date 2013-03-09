@@ -7,7 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.model.SelectItem;
 
-import mainClasses.Usuario;
+import mainclasses.Usuario;
 
 
 @ManagedBean(name = "user")

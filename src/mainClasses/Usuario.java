@@ -1,4 +1,4 @@
-package mainClasses;
+package mainclasses;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import exception.SessaoInexistenteException;
 public class Usuario {
 
 	private String id, login, senha, nome, email;
-	private List<String> fontesDeSom, listaSeguidores, perfilMusical,
-	sonsFavoritos, feedExtra, visaoDosSons;
+	private List<Usuario> listaSeguidores, fontesDeSom;
+	private List<Som> perfilMusical, sonsFavoritos, feedExtra, visaoDosSons;
 
 	/**
 	 * Construtor da Classe Usuario.
@@ -30,12 +30,12 @@ public class Usuario {
 		setNome(nome);
 		setEmail(email);
 		setId(login);
-		this.fontesDeSom = new ArrayList<String>();
-		this.listaSeguidores = new ArrayList<String>();
-		this.visaoDosSons = new ArrayList<String>();
-		this.perfilMusical = new ArrayList<String>();
-		this.sonsFavoritos = new ArrayList<String>();
-		this.feedExtra = new ArrayList<String>();
+		this.fontesDeSom = new ArrayList<Usuario>();
+		this.listaSeguidores = new ArrayList<Usuario>();
+		this.visaoDosSons = new ArrayList<Som>();
+		this.perfilMusical = new ArrayList<Som>();
+		this.sonsFavoritos = new ArrayList<Som>();
+		this.feedExtra = new ArrayList<Som>();
 	}
 
 
@@ -86,7 +86,7 @@ public class Usuario {
 				+ login.substring(1);
 	}
 
-	public List<String> getFontesDeSom() {
+	public List<Usuario> getFontesDeSom() {
 		return this.fontesDeSom;
 	}
 
@@ -96,11 +96,11 @@ public class Usuario {
 	 * @param String
 	 *            idFontesDeSom
 	 */
-	public void addFontesDeSom(String idFontesDeSom) {
-		this.fontesDeSom.add(idFontesDeSom);
+	public void addFontesDeSom(Usuario usuario) {
+		this.fontesDeSom.add(usuario);
 	}
 
-	public List<String> getVisaoDosSons() {
+	public List<Som> getVisaoDosSons() {
 		return this.visaoDosSons;
 	}
 
@@ -108,8 +108,8 @@ public class Usuario {
 	 * Metodo que adciona um som na visao de sons do Usuario
 	 * 
 	 */
-	public void addEmVisaoDosSons(String idSom) {
-		this.visaoDosSons.add(idSom);
+	public void addVisaoDosSons(Som som) {
+		this.visaoDosSons.add(som);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class Usuario {
 		return this.listaSeguidores.size();
 	}
 
-	public List<String> getListaDeSeguidores() {
+	public List<Usuario> getListaDeSeguidores() {
 		return this.listaSeguidores;
 	}
 
@@ -132,9 +132,9 @@ public class Usuario {
 	 * @param IdUser
 	 *            String Id do Usuario.
 	 */
-	public void addListaDeSeguidores(String IdUser) throws Exception {
-		if (!this.listaSeguidores.contains(IdUser)) {
-			this.listaSeguidores.add(IdUser);
+	public void addListaDeSeguidores(Usuario usuario) throws Exception {
+		if (!this.listaSeguidores.contains(usuario)) {
+			this.listaSeguidores.add(usuario);
 			ordenaListaSeguidores();
 		} else {
 			throw new SessaoInexistenteException();
@@ -142,64 +142,70 @@ public class Usuario {
 	}
 
 	/**
-	 * Metodo que ordena a lista de seguidores em ordem alfabetica assim que um
-	 * seguidor é adcionado ou removido.
+	 * Metodo que ordena a lista de seguidores em ordem alfabetica.
 	 */
 	private void ordenaListaSeguidores() {
+		List<String> idsSeguidores = new ArrayList<String>();
+		for (Usuario usuario : listaSeguidores){
+			idsSeguidores.add(usuario.getId());
+		}
+
 		boolean houveTroca = true;
-		List<String> list = this.listaSeguidores;
-		int sizeList = list.size();
 		while (houveTroca) {
 			houveTroca = false;
-			for (int i = 0; i < (sizeList - 1); i++) {
-				String nomeSemId1 = list.get(i).substring(2);
-				String nomeSemId2 = list.get(i + 1).substring(2);
+			for (int i = 0; i < (idsSeguidores.size() - 1); i++) {
+				String nomeSemId1 = idsSeguidores.get(i).substring(2);
+				String nomeSemId2 = idsSeguidores.get(i + 1).substring(2);
 				if (nomeSemId1.compareTo(nomeSemId2) > 0) {
-					String variavelAuxiliar = list.get(i + 1);
-					list.set(i + 1, list.get(i));
-					list.set(i, variavelAuxiliar);
+					String aux1 = idsSeguidores.get(i + 1);
+					idsSeguidores.set(i + 1, idsSeguidores.get(i));
+					idsSeguidores.set(i, aux1);
+
+					Usuario aux2 = listaSeguidores.get(i + 1);
+					listaSeguidores.set(i+1, listaSeguidores.get(i));
+					listaSeguidores.set(i, aux2);
 					houveTroca = true;
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * Adiciona um son ao perfil musical do usuario.
+	 * Adiciona um som ao perfil musical do usuario.
 	 * @param idSom
 	 * 				Id do som a ser adicionado
 	 */
-	public void postarSom(String idSom) {
-		this.perfilMusical.add(idSom);
+	public void postarSom(Som som) {
+		this.perfilMusical.add(som);
 	}
 
-	public List<String> getPerfilMusical() {
+	public List<Som> getPerfilMusical() {
 		return this.perfilMusical;
 	}
 
-	public List<String> getSonsFavoritos() {
+	public List<Som> getSonsFavoritos() {
 		return this.sonsFavoritos;
 	}
-	
+
 	/**
 	 * Adiciona um som aos sons favoritos do usuario.
 	 * @param somFavorito
 	 * 					Id do som a ser adicionado
 	 */
-	public void addSonsFavoritos(String somFavorito) {
+	public void addSonsFavoritos(Som somFavorito) {
 		this.sonsFavoritos.add(somFavorito);
 	}
 
-	public List<String> getFeedExtra() {
+	public List<Som> getFeedExtra() {
 		return this.feedExtra;
 	}
-	
+
 	/**
 	 * Adiciona um som ao feed extra do usuario.
 	 * @param somID
 	 * 				Id do som a ser adicionado
 	 */
-	public void addFeedExtra(String somID) {
-		this.feedExtra.add(somID);
+	public void addFeedExtra(Som som) {
+		this.feedExtra.add(som);
 	}
 }

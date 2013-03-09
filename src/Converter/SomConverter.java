@@ -4,7 +4,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.FacesConverter;
 
-import mainClasses.Som;
+import mainclasses.Som;
 
 @FacesConverter(forClass= Som.class)
 public class SomConverter implements javax.faces.convert.Converter{

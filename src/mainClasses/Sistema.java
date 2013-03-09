@@ -1,20 +1,24 @@
-package mainClasses;
+package mainclasses;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
+import ordenafeed.OrdenaFeedPrincipal;
+import ordenafeed.SonsMaisFavoritadosSistema;
+import ordenafeed.SonsMaisFavoritadosUsuario;
+import ordenafeed.SonsMaisRecentes;
+import ordenafeed.TipoFeedPrincipal;
+import util.Utilitario;
 import exception.AtributoInexistenteException;
 import exception.AtributoInvalidoException;
 import exception.DataInvalidaException;
 import exception.LoginInexistenteException;
 import exception.LoginInvalidoException;
+import exception.RegraInvalidaException;
 import exception.SessaoInexistenteException;
 import exception.SessaoInvalidaException;
 import exception.SomInvalidoException;
 import exception.UsuarioInexistenteException;
-
-import util.Utilitario;
 
 public class Sistema implements Serializable {
 
@@ -23,6 +27,7 @@ public class Sistema implements Serializable {
 	private GerenciaSessao gerenciaSessao;
 	private GerenciaUsuarios gerenciaUsuarios;
 	private static Sistema sistema;
+	private OrdenaFeedPrincipal feedPrincipal;
 
 	private Sistema() {
 		zerarSistema();
@@ -43,6 +48,7 @@ public class Sistema implements Serializable {
 		this.gerenciaSons = new GerenciaSons();
 		this.gerenciaSessao = new GerenciaSessao();
 		this.gerenciaUsuarios = new GerenciaUsuarios();
+		feedPrincipal = new SonsMaisRecentes();
 	}
 
 	/**
@@ -83,6 +89,13 @@ public class Sistema implements Serializable {
 		}
 	}
 
+	/**
+	 * 
+	 * @param login
+	 * @param atributo
+	 * @return
+	 * @throws Exception
+	 */
 	public String getAtributoUsuario(String login, String atributo)
 			throws Exception {
 		if (!Utilitario.elementIsValid(atributo)) {
@@ -102,16 +115,28 @@ public class Sistema implements Serializable {
 		throw new AtributoInexistenteException();
 	}
 
-	public List<String> getPerfilMusical(String idsessao) {
-		Usuario user = retornaUserPeloIdsessao(idsessao);
-		return this.gerenciaSons.getPerfilMusical(user);
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 */
+	public List<Som> getPerfilMusical(String idsessao) {
+		return getUsuario(idsessao).getPerfilMusical();
 	}
 
+	/**
+	 * 
+	 * @param sessao
+	 * @param link
+	 * @param dataCriacao
+	 * @return
+	 * @throws Exception
+	 */
 	public String postarSom(String sessao, String link, String dataCriacao)
 			throws Exception {
 		if (!Utilitario.elementIsValid(link)) {
 			throw new SomInvalidoException();
-		} else if (!dataIsValida(dataCriacao)) {
+		} else if (!Utilitario.dataIsValida(dataCriacao)) {
 			throw new DataInvalidaException();
 		}
 		String login = this.gerenciaSessao.getLogin(sessao);
@@ -119,6 +144,13 @@ public class Sistema implements Serializable {
 		return this.gerenciaSons.postarSom(user, link, dataCriacao);
 	}
 
+	/**
+	 * 
+	 * @param idSom
+	 * @param atributo
+	 * @return
+	 * @throws Exception
+	 */
 	public String getAtributoSom(String idSom, String atributo)
 			throws Exception {
 		if (!Utilitario.elementIsValid(idSom)) {
@@ -133,83 +165,65 @@ public class Sistema implements Serializable {
 		throw new AtributoInexistenteException();
 	}
 
-	public boolean dataIsValida(String dataParam) {
-		try {
-			String[] datas = dataParam.split("/");
-			Integer dia = Integer.parseInt(datas[0]);
-			Integer mes = Integer.parseInt(datas[1]);
-			Integer ano = Integer.parseInt(datas[2]);
-			if (dia < 1 || dia > 31) {
-				return false;
-			} else if (ano < 2013) {
-				return false;
-			} else if (mes < 1 || mes > 12) {
-				return false;
-			} else {
-				if (mes == 2) {
-					if (dia > 29) {
-						return false;
-					}
-					// se o ano for bisexto e dia for igual a 29, entao false.
-					else if (!((ano % 4 == 0) && ((ano % 100 != 0) || (ano % 400 == 0)))
-							&& dia == 29) {
-						return false;
-					}
-				} else {
-					List<Integer> meses30dias = new ArrayList<Integer>();
-					meses30dias.add(4);
-					meses30dias.add(6);
-					meses30dias.add(9);
-					meses30dias.add(11);
-					if (meses30dias.contains(mes) && dia >= 31) {
-						return false;
-					}
-				}
-			}
-		} catch (Exception e) {
-			return false;
-		}
-		return true;
-	}
+	/**
+	 * 
+	 * @param idSessaoSeguidor
+	 * @param loginSeguido
+	 * @throws Exception
+	 */
+	public void seguirUsuario(String idSessaoSeguidor, String loginSeguido) throws Exception {
+		verificaSessao(idSessaoSeguidor);
 
-	public void seguirUsuario(String idsessao, String login) throws Exception {
-		verificaSessao(idsessao);
-		if (!Utilitario.elementIsValid(login)) {
+		if (!Utilitario.elementIsValid(loginSeguido)) {
 			throw new LoginInvalidoException();
-		} else if (this.gerenciaSessao.getLogin(idsessao).equals(login)) {
+		} else if (this.gerenciaSessao.getLogin(idSessaoSeguidor).equals(loginSeguido)) {
 			throw new LoginInvalidoException();
 		}
 
-		// Identificando Usuario que sera seguido:
-		if (this.gerenciaUsuarios.VerificaAtributoExiste(login, "login")) {
-			Usuario userSeguido = this.gerenciaUsuarios.getUser(login, "login");
-			// Identificando Usuario que decidiu ser seguidor:
-			String loginSeguidor = this.gerenciaSessao.getLogin(idsessao);
-			Usuario userSeguidor = this.gerenciaUsuarios.getUser(loginSeguidor,
-					"login");
-			// Passando para a classe que gerencia o sons a responsabilidade de
-			// adcionar nas fontes de som, e na lista de seguidores.
+		if (this.gerenciaUsuarios.VerificaAtributoExiste(loginSeguido, "login")) {
+			Usuario userSeguido = this.gerenciaUsuarios.getUser(loginSeguido, "login");
+			String loginSeguidor = this.gerenciaSessao.getLogin(idSessaoSeguidor);
+			Usuario userSeguidor = this.gerenciaUsuarios.getUser(loginSeguidor, "login");
+
 			this.gerenciaSons.seguirUsuario(userSeguidor, userSeguido);
+
 		} else {
 			throw new LoginInexistenteException();
 		}
 	}
 
-	public List<String> getListaDeSeguidores(String idsessao) throws Exception {
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Usuario> getListaDeSeguidores(String idsessao) throws Exception {
 		verificaSessao(idsessao);
-		Usuario user = retornaUserPeloIdsessao(idsessao);
-		return user.getListaDeSeguidores();
+		return getUsuario(idsessao).getListaDeSeguidores();
 	}
 
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
 	public int getNumeroDeSeguidores(String idsessao) throws Exception {
 		verificaSessao(idsessao);
-		Usuario user = retornaUserPeloIdsessao(idsessao);
+		Usuario user = getUsuario(idsessao);
 		return user.getNumeroDeSeguidores();
 	}
 
-	public List<String> getFontesDeSons(String idsessao) throws Exception {
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Usuario> getFontesDeSons(String idsessao) throws Exception {
 		verificaSessao(idsessao);
-		Usuario user = retornaUserPeloIdsessao(idsessao);
+		Usuario user = getUsuario(idsessao);
 		return user.getFontesDeSom();
 	}
 
@@ -225,63 +239,100 @@ public class Sistema implements Serializable {
 		return this.gerenciaUsuarios.getAtributoUsuario(login, "id");
 	}
 
-	public List<String> getVisaoDosSons(String idsessao) throws Exception {
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Som> getVisaoDosSons(String idsessao) throws Exception {
 		verificaSessao(idsessao);
-		Usuario user = retornaUserPeloIdsessao(idsessao);
-		return this.gerenciaSons.getVisaoDosSons(user);
+		return getUsuario(idsessao).getVisaoDosSons();
 	}
 
-	public List<String> getSonsFavoritos(String idsessao) throws Exception {
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Som> getSonsFavoritos(String idsessao) throws Exception {
 		verificaSessao(idsessao);
-		Usuario user = retornaUserPeloIdsessao(idsessao);
-		return this.gerenciaSons.getSonsFavoritos(user);
+		return getUsuario(idsessao).getSonsFavoritos();
 	}
 
-	public List<String> getFeedExtra(String idsessao) throws Exception {
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Som> getFeedExtra(String idsessao) throws Exception {
 		verificaSessao(idsessao);
-		Usuario user = retornaUserPeloIdsessao(idsessao);
-		return this.gerenciaSons.getFeedExtra(user);
+		return getUsuario(idsessao).getFeedExtra();
 	}
 
+	/**
+	 * 
+	 * @param idsessao
+	 * @param idsom
+	 * @throws Exception
+	 */
 	public void favoritarSom(String idsessao, String idsom) throws Exception {
 		verificaSessao(idsessao);
-		this.gerenciaSons.verificaIdSom(idsom);
-		Usuario user = retornaUserPeloIdsessao(idsessao);
-		user.addSonsFavoritos(idsom);
+		Usuario user = getUsuario(idsessao);
+		user.addSonsFavoritos(gerenciaSons.getSom(idsom));
 		addInFeedExtra(user, idsom);
 	}
 
-	private void addInFeedExtra(Usuario user, String idsom) {
-		List<String> listIdSeguidores = user.getListaDeSeguidores();
-		List<Usuario> usuariosSeguidores = retornaUsersPelosIDs(listIdSeguidores);
-		this.gerenciaSons.addInFeedExtra(usuariosSeguidores, idsom);
+	/**
+	 * 
+	 * @param usuario
+	 * @param idsom
+	 * @throws Exception
+	 */
+	private void addInFeedExtra(Usuario usuario, String idsom) throws Exception {
+		this.gerenciaSons.addInFeedExtra( usuario.getListaDeSeguidores(), gerenciaSons.getSom(idsom));
 	}
 
-	// Metodos da implementação da US05
-	public List<String> getMainFeed(String idsessao) throws Exception {
-		verificaSessao(idsessao);
-		Usuario user = retornaUserPeloIdsessao(idsessao);
-		List<String> fontesDeSom = user.getFontesDeSom();
-		List<Usuario> usuarios = retornaUsersPelosIDs(fontesDeSom);
-		
-		List<String> feedPrincipal = new ArrayList<String>();
-		for (int i = 0; i < usuarios.size(); i++) {
-			List<String> perfilMusical = usuarios.get(i).getPerfilMusical();
-			for (int j = 0; j < perfilMusical.size(); j++) {
-				feedPrincipal.add(perfilMusical.get(j));
-			}
-		}
 
-		return feedPrincipal;
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Som> getMainFeed(String idsessao) throws Exception {
+		return feedPrincipal.ordena(getUsuario(idsessao).getFontesDeSom());
 	}
 
+	/**
+	 * 
+	 * @param idsessao
+	 * @param rule
+	 * @throws Exception
+	 */
 	public void setMainFeedRule(String idsessao, String rule) throws Exception {
 		verificaSessao(idsessao);
 		if (!Utilitario.elementIsValid(rule)) {
-			throw new Exception("Regra de composição inválida");
+			throw new RegraInvalidaException();
+		}
+
+		if (rule.equals(TipoFeedPrincipal.SONS_RECENTES)){
+			feedPrincipal = new SonsMaisRecentes();
+		} 
+		else if (rule.equals(TipoFeedPrincipal.SONS_FAVORITADOS_SISTEMA)){
+			feedPrincipal = new SonsMaisFavoritadosSistema();
+		}
+		else if (rule.equals(TipoFeedPrincipal.SONS_FAVORITADOS_USUARIO)){
+			feedPrincipal = new SonsMaisFavoritadosUsuario();
 		}
 	}
 
+	/**
+	 * 
+	 * @param login
+	 */
 	public void encerrarSessao(String login) {
 		this.gerenciaSessao.encerrarSessao("sessao" + login);
 	}
@@ -293,6 +344,11 @@ public class Sistema implements Serializable {
 
 	}
 
+	/**
+	 * 
+	 * @param idsessao
+	 * @throws Exception
+	 */
 	private void verificaSessao(String idsessao) throws Exception {
 		if (!Utilitario.elementIsValid(idsessao)) {
 			throw new SessaoInvalidaException();
@@ -301,17 +357,12 @@ public class Sistema implements Serializable {
 		}
 	}
 
-	public List<Usuario> retornaUsersPelosIDs(List<String> idUsuarios) {
-		List<Usuario> usuarios = new ArrayList<Usuario>();
-		int sizeList = idUsuarios.size();
-		for(int i=0;i<sizeList;i++){
-			Usuario userAuxiliar = this.gerenciaUsuarios.getUser(idUsuarios.get(i), "id");
-			usuarios.add(userAuxiliar);
-		}
-		return usuarios;
-	}
-	
-	public Usuario retornaUserPeloIdsessao(String idsessao) {
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 */
+	public Usuario getUsuario(String idsessao) {
 		String loginUser = this.gerenciaSessao.getLogin(idsessao);
 		return this.gerenciaUsuarios.getUser(loginUser, "login");
 	}

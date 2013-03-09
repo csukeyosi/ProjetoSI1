@@ -1,9 +1,10 @@
-package mainClasses;
+package mainclasses;
 
 public class Som {
-
+	
 	private String id, link, data;
-
+	private int numeroDeFavotiros = 0;
+	
 	public Som(String id, String link, String data) {
 		setLink(link);
 		setData(data);

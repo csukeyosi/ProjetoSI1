@@ -3,8 +3,8 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
-import mainClasses.Sistema;
-import mainClasses.Usuario;
+import mainclasses.Sistema;
+import mainclasses.Usuario;
 
 public class InterfaceWebAdapter{
 	
@@ -31,12 +31,11 @@ public class InterfaceWebAdapter{
 	}
 	
 	public Usuario getUsuario(String idsessao){
-		return this.sistema.retornaUserPeloIdsessao(idsessao);
+		return this.sistema.getUsuario(idsessao);
 	}
 	
 	public List<String> getNomesFontesDeSons(String idsessao) throws Exception{
-		List<String> idUsuarios = this.sistema.getFontesDeSons(idsessao);
-		List<Usuario> usuariosQueSegue = this.sistema.retornaUsersPelosIDs(idUsuarios);
+		List<Usuario> usuariosQueSegue = this.sistema.getFontesDeSons(idsessao);
 		List<String> nomeUsuarios = new ArrayList<String>();
 		for(int i=0;i<usuariosQueSegue.size();i++){
 			nomeUsuarios.add(usuariosQueSegue.get(i).getNome());

@@ -9,7 +9,7 @@ import javax.faces.context.FacesContext;
 
 import util.InterfaceWebAdapter;
 
-import mainClasses.Som;
+import mainclasses.Som;
 
 @ManagedBean
 public class HomeBean {
