@@ -359,7 +359,7 @@ public class Sistema implements Serializable {
 	 * @param rule	
 	 * 				A regra de ordenacao.
 	 * @throws Exception
-	 * 				{@link RegraInvalidaException, SessaoInvalidaException, SessaoInexistenteException}
+	 * 				{@link RegraInvalidaException, RegraInexistenteException, SessaoInvalidaException, SessaoInexistenteException}
 	 */
 	public void setMainFeedRule(String idsessao, String rule) throws Exception {
 		verificaSessao(idsessao);
