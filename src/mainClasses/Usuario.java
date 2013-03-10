@@ -3,14 +3,25 @@ package mainclasses;
 import java.util.ArrayList;
 import java.util.List;
 
-import exception.SessaoInexistenteException;
-
-
+/**
+ * Classe responsavel pela representacao do usuario no sistema. 
+ *
+ */
 public class Usuario {
-
+	/* Informacoes da conta do usuario */
 	private String id, login, senha, nome, email;
-	private List<Usuario> listaSeguidores, fontesDeSom;
-	private List<Som> perfilMusical, sonsFavoritos, feedExtra, visaoDosSons;
+	/* Usuarios que seguem este usuario */
+	private List<Usuario> listaSeguidores, 
+	/* Usuarios seguidos */
+	fontesDeSom;
+	/* sons postados*/
+	private List<Som> perfilMusical, 
+	/* sons favoritados */
+	sonsFavoritos, 
+	/* sons favoritados pelos usuarios seguidos */
+	feedExtra, 
+	/* sons de dos usuarios seguidos */
+	visaoDosSons;
 
 	/**
 	 * Construtor da Classe Usuario.
@@ -91,10 +102,10 @@ public class Usuario {
 	}
 
 	/**
-	 * Metodo que adciona um id de usuario que é fonte de sons.
+	 * Adicionado uma nova fonte de som.
 	 * 
-	 * @param String
-	 *            idFontesDeSom
+	 * @param usuario
+	 * 				O usuario que sera a nova fonte de som.
 	 */
 	public void addFontesDeSom(Usuario usuario) {
 		this.fontesDeSom.add(usuario);
@@ -105,7 +116,7 @@ public class Usuario {
 	}
 
 	/**
-	 * Metodo que adciona um som na visao de sons do Usuario
+	 * Metodo que adciona um som na visao de sons do Usuario.
 	 * 
 	 */
 	public void addVisaoDosSons(Som som) {
@@ -115,7 +126,7 @@ public class Usuario {
 	/**
 	 * Metodo que retorna o numero de seguidores que o usuario possui.
 	 * 
-	 * @return int tamanho da lista de seguidores.
+	 * @return Tamanho da lista de seguidores.
 	 */
 	public int getNumeroDeSeguidores() {
 		return this.listaSeguidores.size();
@@ -126,18 +137,15 @@ public class Usuario {
 	}
 
 	/**
-	 * Metodo que adciona um id de um Usuario seguidor na lista de seguidores do
-	 * Usuario
+	 * Adiciona um novo usuario a lista de seguidores.
 	 * 
-	 * @param IdUser
-	 *            String Id do Usuario.
+	 * @param usuario
+	 * 			Usuario a ser adicionado.
 	 */
-	public void addListaDeSeguidores(Usuario usuario) throws Exception {
+	public void addListaDeSeguidores(Usuario usuario){
 		if (!this.listaSeguidores.contains(usuario)) {
 			this.listaSeguidores.add(usuario);
 			ordenaListaSeguidores();
-		} else {
-			throw new SessaoInexistenteException();
 		}
 	}
 
@@ -172,8 +180,9 @@ public class Usuario {
 
 	/**
 	 * Adiciona um som ao perfil musical do usuario.
-	 * @param idSom
-	 * 				Id do som a ser adicionado
+	 * 
+	 * @param som
+	 * 			Som a ser adicinado.
 	 */
 	public void postarSom(Som som) {
 		this.perfilMusical.add(som);
@@ -190,7 +199,7 @@ public class Usuario {
 	/**
 	 * Adiciona um som aos sons favoritos do usuario.
 	 * @param somFavorito
-	 * 					Id do som a ser adicionado
+	 * 			O novo som favoritado.
 	 */
 	public void addSonsFavoritos(Som somFavorito) {
 		this.sonsFavoritos.add(somFavorito);
@@ -202,8 +211,8 @@ public class Usuario {
 
 	/**
 	 * Adiciona um som ao feed extra do usuario.
-	 * @param somID
-	 * 				Id do som a ser adicionado
+	 * @param som
+	 * 			Som a ser adicionado.
 	 */
 	public void addFeedExtra(Som som) {
 		this.feedExtra.add(som);

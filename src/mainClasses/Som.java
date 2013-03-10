@@ -1,20 +1,28 @@
 package mainclasses;
 
+/**
+ * Classe responsavel pela representacao dos sons(musicas postadas pelos usuarios) no sistema. 
+ *
+ */
 public class Som {
-	
+
 	private String id, link, data;
+	/* Numero de usuarios que favoritaram este som */
 	private int numeroDeFavotiros = 0;
-	
+
 	public Som(String id, String link, String data) {
 		setLink(link);
 		setData(data);
 		setId(id);
 	}
-	
+
 	public int getNumeroDeFavoritos(){
 		return this.numeroDeFavotiros;
 	}
-	
+
+	/**
+	 * Incrementa em 1 o numero de usuarios que favoritaram o som.
+	 */
 	public void incrementaFavoritos(){
 		this.numeroDeFavotiros++;
 	}
@@ -23,7 +31,7 @@ public class Som {
 		return id;
 	}
 
-	private void setId(String id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -31,7 +39,7 @@ public class Som {
 		return link;
 	}
 
-	private void setLink(String link) {
+	public void setLink(String link) {
 		this.link = link;
 	}
 
@@ -39,13 +47,15 @@ public class Som {
 		return data;
 	}
 
-	private void setData(String data) {
+	public void setData(String data) {
 		this.data = data;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
-		
 		return this.getLink();
 	}
 }

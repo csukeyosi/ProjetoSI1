@@ -3,35 +3,38 @@ package mainclasses;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Classe responsavel pelo gerenciamento das sessoes do Sistema.
+ *
+ */
 public class GerenciaSessao {
-	private Map<String, String> sessoes; // Mapa com sessaoID e login.
+	/* Mapa com sessaoID e login */
+	private Map<String, String> sessoes; 
 
-	/**
-	 * Construtor da classe GerenciaSessao.
-	 */
 	public GerenciaSessao() {
 		this.sessoes = new HashMap<String, String>();
 	}
 
 	/**
-	 * Metodo que exclui uma sessao do conjunto de sessoes presentes no sistema
+	 * Exclui uma sessao do conjunto de sessoes presentes no sistema.
 	 * 
-	 * @param login
+	 * @param login 
+	 * 			Login correspondente a sessao a ser excluida.
 	 */
 	public void encerrarSessao(String login) {
 		this.sessoes.remove(login);
 	}
 
 	/**
-	 * Metodo que da inicio a uma sessao.
+	 * Da inicio a uma sessao.
 	 * 
 	 * @param login
-	 *            login do usuario
+	 *            Login do usuario.
 	 * @param senha
-	 *            senha do usuario
-	 * @return String com id da sessao.
+	 *            Senha do usuario.
+	 * @return Id da sessao.
 	 */
-	public String abrirSessao(String login, String senha) {  // falta conferir se login e senha batem.
+	public String abrirSessao(String login, String senha) {  //TODO falta conferir se login e senha batem.
 		String id = "sessao" + login;
 		if(!existeSessao(id)){
 			this.sessoes.put(id, login);
@@ -40,20 +43,21 @@ public class GerenciaSessao {
 	}
 
 	/**
-	 * Metodo que retorno o login do usuario de uma determinada sessao a partir
-	 * do id da sessao.
+	 * Retorna o login do usuario de uma determinada sessao a partir do id da sessao.
 	 * 
 	 * @param idsessao
-	 * @return String String com o login do usuario.
+	 * 				Id da sessao correspondente.
+	 * @return Login do usuario.
 	 */
 	public String getLogin(String idsessao) {
 		return this.sessoes.get(idsessao);
 	}
 
-	/** Metodo que verifica se uma sessao existe no sistema a partir de um id de sessao.
+	/** Verifica se uma sessao existe no sistema a partir de um id de sessao.
 	 * 
 	 * @param idsessao
-	 * @return
+	 * 				Id da sessao.
+	 * @return true caso a sessao exista, false caso contrario.
 	 */
 	public boolean existeSessao(String idsessao) {
 		return this.sessoes.containsKey(idsessao);

@@ -3,13 +3,17 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Classe contendo ferramentes uteis a todas as classes.
+ *
+ */
 public abstract class Utilitario {
 
 	/**
-	 * Metodo que auxilia na verificação de variaveis na forma de String.
+	 * Verifica se element e null ou "".
 	 * 
 	 * @param String
-	 *            element
+	 *            String a ser testada.
 	 * @return true se elemento nao for null ou vazio, false caso contrario.
 	 */
 	public static boolean elementIsValid(String element) {
@@ -20,9 +24,10 @@ public abstract class Utilitario {
 	}
 
 	/**
-	 * 
+	 * Verifica se a data e valida.
 	 * @param dataParam
-	 * @return
+	 * 				Data na forma de String (dd/mm/aaaa).
+	 * @return true caso a data seja valida, false caso contrario.
 	 */
 	public static boolean dataIsValida(String dataParam) {
 		try {

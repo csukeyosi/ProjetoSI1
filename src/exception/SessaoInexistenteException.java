@@ -1,5 +1,9 @@
 package exception;
 
+/**
+ * Chamada quando a sessao pesquisada nao existe no sistema. 
+ *
+ */
 public class SessaoInexistenteException extends Exception{
 
 
