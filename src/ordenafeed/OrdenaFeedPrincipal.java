@@ -8,5 +8,5 @@ import mainclasses.Usuario;
 public interface OrdenaFeedPrincipal {
 
 
-	public List<Som> ordena(List<Usuario> fontesDeSom);
+	public List<Som> ordena(Usuario usuario);
 }

@@ -8,7 +8,8 @@ import mainclasses.Usuario;
 
 public class SonsMaisRecentes implements OrdenaFeedPrincipal{
 
-	public List<Som> ordena(List<Usuario> fontesDeSom) {
+	public List<Som> ordena(Usuario usuario) {
+		List<Usuario> fontesDeSom = usuario.getFontesDeSom();
 		List<Som> feedPrincipal = new ArrayList<Som>();
 		
 		for(int fonte = fontesDeSom.size() - 1; fonte >= 0; fonte--){

@@ -14,6 +14,7 @@ import exception.AtributoInvalidoException;
 import exception.DataInvalidaException;
 import exception.LoginInexistenteException;
 import exception.LoginInvalidoException;
+import exception.RegraInexistenteException;
 import exception.RegraInvalidaException;
 import exception.SessaoInexistenteException;
 import exception.SessaoInvalidaException;
@@ -280,21 +281,12 @@ public class Sistema implements Serializable {
 	 */
 	public void favoritarSom(String idsessao, String idsom) throws Exception {
 		verificaSessao(idsessao);
-		Usuario user = getUsuario(idsessao);
-		user.addSonsFavoritos(gerenciaSons.getSom(idsom));
-		addInFeedExtra(user, idsom);
+		Usuario usuario = getUsuario(idsessao);
+		Som som = gerenciaSons.getSom(idsom);
+		som.incrementaFavoritos();
+		usuario.addSonsFavoritos(som);
+		gerenciaSons.addInFeedExtra(usuario.getListaDeSeguidores(), som);
 	}
-
-	/**
-	 * 
-	 * @param usuario
-	 * @param idsom
-	 * @throws Exception
-	 */
-	private void addInFeedExtra(Usuario usuario, String idsom) throws Exception {
-		this.gerenciaSons.addInFeedExtra( usuario.getListaDeSeguidores(), gerenciaSons.getSom(idsom));
-	}
-
 
 	/**
 	 * 
@@ -303,7 +295,8 @@ public class Sistema implements Serializable {
 	 * @throws Exception
 	 */
 	public List<Som> getMainFeed(String idsessao) throws Exception {
-		return feedPrincipal.ordena(getUsuario(idsessao).getFontesDeSom());
+		verificaSessao(idsessao);
+		return feedPrincipal.ordena(getUsuario(idsessao));
 	}
 
 	/**
@@ -318,14 +311,16 @@ public class Sistema implements Serializable {
 			throw new RegraInvalidaException();
 		}
 
-		if (rule.equals(TipoFeedPrincipal.SONS_RECENTES)){
+		if (rule.equals(TipoFeedPrincipal.SONS_RECENTES.toString())){
 			feedPrincipal = new SonsMaisRecentes();
 		} 
-		else if (rule.equals(TipoFeedPrincipal.SONS_FAVORITADOS_SISTEMA)){
+		else if (rule.equals(TipoFeedPrincipal.SONS_FAVORITADOS_SISTEMA.toString())){
 			feedPrincipal = new SonsMaisFavoritadosSistema();
 		}
-		else if (rule.equals(TipoFeedPrincipal.SONS_FAVORITADOS_USUARIO)){
+		else if (rule.equals(TipoFeedPrincipal.SONS_FAVORITADOS_USUARIO.toString())){
 			feedPrincipal = new SonsMaisFavoritadosUsuario();
+		}else{
+			throw new RegraInexistenteException();
 		}
 	}
 

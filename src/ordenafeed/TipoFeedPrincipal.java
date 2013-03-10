@@ -18,7 +18,7 @@ public enum TipoFeedPrincipal {
 		this.valor = valor;
 	}
 	
-	public String getRegra(){
+	public String toString(){
 		return valor;
 		
 	}

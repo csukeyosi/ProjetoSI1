@@ -10,6 +10,14 @@ public class Som {
 		setData(data);
 		setId(id);
 	}
+	
+	public int getNumeroDeFavoritos(){
+		return this.numeroDeFavotiros;
+	}
+	
+	public void incrementaFavoritos(){
+		this.numeroDeFavotiros++;
+	}
 
 	public String getId() {
 		return id;
