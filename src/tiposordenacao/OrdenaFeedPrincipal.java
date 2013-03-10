@@ -1,4 +1,4 @@
-package ordenafeed;
+package tiposordenacao;
 
 import java.util.List;
 

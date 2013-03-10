@@ -1,4 +1,4 @@
-package ordenafeed;
+package tiposordenacao;
 
 /**
  * Regras de ordenação do feed principal do usuário.

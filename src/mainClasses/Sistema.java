@@ -3,11 +3,11 @@ package mainclasses;
 import java.io.Serializable;
 import java.util.List;
 
-import ordenafeed.OrdenaFeedPrincipal;
-import ordenafeed.SonsMaisFavoritadosSistema;
-import ordenafeed.SonsMaisFavoritadosUsuario;
-import ordenafeed.SonsMaisRecentes;
-import ordenafeed.TipoFeedPrincipal;
+import tiposordenacao.OrdenaFeedPrincipal;
+import tiposordenacao.SonsMaisFavoritadosSistema;
+import tiposordenacao.SonsMaisFavoritadosUsuario;
+import tiposordenacao.SonsMaisRecentes;
+import tiposordenacao.TipoFeedPrincipal;
 import util.Utilitario;
 import exception.AtributoInexistenteException;
 import exception.AtributoInvalidoException;
