@@ -1,7 +1,7 @@
 package tiposordenacao;
 
 /**
- * Regras de ordenação do feed principal do usuário.
+ * Regras de ordenação do feed principal do usuario.
  *
  */
 public enum TipoFeedPrincipal {

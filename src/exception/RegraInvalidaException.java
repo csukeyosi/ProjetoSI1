@@ -8,7 +8,7 @@ public class RegraInvalidaException extends Exception{
 	private static final long serialVersionUID = 1L;
 
 	public RegraInvalidaException(){
-		super("Regra de composi√ß√£o inv√°lida");
+		super("Regra de composiÁ„o inv·lida");
 	}
 
 }

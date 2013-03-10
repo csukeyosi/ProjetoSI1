@@ -7,6 +7,16 @@ import java.util.List;
 import mainClasses.Som;
 import mainClasses.Usuario;
 
+/**
+ * Representa um tipo de ordenacao.
+ * Deverao aparecer primeiro os sons postados pelas suas fontes, os quais
+ * estarao ordenados segundo o numero de sons favoritados pelo proprio usuario de cada
+ * fonte de sons isoladamente. Quando duas fontes tem o mesmo numero de favoritos,
+ * a ordem de entrada da lista de quem o usuario estah seguindo eh levada em consideracao
+ * aqui para reordenar o feed principal, de maneira que os sons do usuario que o proprio usuario
+ * comecou a seguir antes de seguir outro, aparecerao primeiro que os de
+ *
+ */
 public class SonsMaisFavoritadosUsuario implements OrdenaFeedPrincipal{
 
 	@Override

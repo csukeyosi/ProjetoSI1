@@ -1,6 +1,6 @@
 # User Story 02 - Seguindo alguem, visualizando fonte de sons e lista de seguidores
 
-#    Usuario pode seguir outro usuÃ¡rio cadastrado, 
+#    Usuario pode seguir outro usuário cadastrado, 
 # e este ultimo entra na fonte de sons do primeiro. 
 #    A ordem em que os usuarios aparecem na fonte de sons deve obedecer a
 # ordem de chegada como em uma fila comum.
@@ -9,13 +9,13 @@
 # limpar os dados do sistema
 zerarSistema
 
-# entradas vÃ¡lidas
+# entradas válidas
 
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" email="mark@facebook.com"
 criarUsuario login="steve" senha="5t3v3" nome="Steven Paul Jobs" email="jobs@apple.com"
 criarUsuario login="bill" senha="severino" nome="William Henry Gates III" email="billzin@msn.com"
 
-# o mÃ©todo 'abrirSessao' retorna o ID da sessÃ£o
+# o método 'abrirSessao' retorna o ID da sessão
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 sessaoSteve=abrirSessao login="steve" senha="5t3v3"
 sessaoBill=abrirSessao login="bill" senha="severino"
@@ -123,32 +123,32 @@ encerrarSessao login="bill"
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------
 
-# entradas invÃ¡lidas
+# entradas inválidas
 
-expectError "SessÃ£o invÃ¡lida" seguirUsuario idSessao= login="steve"
-expectError "SessÃ£o invÃ¡lida" seguirUsuario idSessao="" login="steve"
-expectError "SessÃ£o inexistente" seguirUsuario idSessao=${sessaoBill} login="steve"
-expectError "Login invÃ¡lido" seguirUsuario idSessao=${sessaoSteve} login=
-expectError "Login invÃ¡lido" seguirUsuario idSessao=${sessaoSteve} login=""
-expectError "Login invÃ¡lido" seguirUsuario idSessao=${sessaoSteve} login="steve"
+expectError "Sessão inválida" seguirUsuario idSessao= login="steve"
+expectError "Sessão inválida" seguirUsuario idSessao="" login="steve"
+expectError "Sessão inexistente" seguirUsuario idSessao=${sessaoBill} login="steve"
+expectError "Login inválido" seguirUsuario idSessao=${sessaoSteve} login=
+expectError "Login inválido" seguirUsuario idSessao=${sessaoSteve} login=""
+expectError "Login inválido" seguirUsuario idSessao=${sessaoSteve} login="steve"
 expectError "Login inexistente" seguirUsuario idSessao=${sessaoSteve} login="xpto"
 
-expectError "Som invÃ¡lido" postarSom idSessao=${sessaoSteve} link= dataCriacao="99/99/9999"
-expectError "Som invÃ¡lido" postarSom idSessao=${sessaoSteve} link="" dataCriacao="00/00/0000"
-expectError "Data de CriaÃ§Ã£o invÃ¡lida" postarSom idSessao=${sessaoSteve} link="www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
-expectError "Data de CriaÃ§Ã£o invÃ¡lida" postarSom idSessao=${sessaoSteve} link="ftp://www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
+expectError "Som inválido" postarSom idSessao=${sessaoSteve} link= dataCriacao="99/99/9999"
+expectError "Som inválido" postarSom idSessao=${sessaoSteve} link="" dataCriacao="00/00/0000"
+expectError "Data de Criação inválida" postarSom idSessao=${sessaoSteve} link="www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
+expectError "Data de Criação inválida" postarSom idSessao=${sessaoSteve} link="ftp://www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
 
-expectError "SessÃ£o invÃ¡lida" getListaDeSeguidores idSessao=
-expectError "SessÃ£o invÃ¡lida" getListaDeSeguidores idSessao=""
-expectError "SessÃ£o inexistente" getListaDeSeguidores idSessao="xpto"
+expectError "Sessão inválida" getListaDeSeguidores idSessao=
+expectError "Sessão inválida" getListaDeSeguidores idSessao=""
+expectError "Sessão inexistente" getListaDeSeguidores idSessao="xpto"
 
-expectError "SessÃ£o invÃ¡lida" getNumeroDeSeguidores idSessao=
-expectError "SessÃ£o invÃ¡lida" getNumeroDeSeguidores idSessao=""
-expectError "SessÃ£o inexistente" getNumeroDeSeguidores idSessao="xpto"
+expectError "Sessão inválida" getNumeroDeSeguidores idSessao=
+expectError "Sessão inválida" getNumeroDeSeguidores idSessao=""
+expectError "Sessão inexistente" getNumeroDeSeguidores idSessao="xpto"
 
-expectError "SessÃ£o invÃ¡lida" getFontesDeSons idSessao=
-expectError "SessÃ£o invÃ¡lida" getFontesDeSons idSessao=""
-expectError "SessÃ£o inexistente" getFontesDeSons idSessao=${sessaoBill}
+expectError "Sessão inválida" getFontesDeSons idSessao=
+expectError "Sessão inválida" getFontesDeSons idSessao=""
+expectError "Sessão inexistente" getFontesDeSons idSessao=${sessaoBill}
 
 #Encerrar a sessao de Mark
 encerrarSessao login="mark"
@@ -158,4 +158,3 @@ encerrarSessao login="steve"
 
 encerrarSistema
 quit
-

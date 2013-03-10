@@ -1,19 +1,19 @@
 # User Story 03 - Seguindo alguem e visualizando os sons
 
 #    Usuario pode visualizar o conjunto dos sons postados 
-# pelos usuÃ¡rios que ele segue no sistema.
+# pelos usuários que ele segue no sistema.
 #    A ordem da visao dos sons deve obedecer a estrutura de uma pilha comum.
 
 # limpar os dados do sistema
 zerarSistema
 
-# entradas vÃ¡lidas
+# entradas válidas
 
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" email="mark@facebook.com"
 criarUsuario login="steve" senha="5t3v3" nome="Steven Paul Jobs" email="jobs@apple.com"
 criarUsuario login="bill" senha="severino" nome="William Henry Gates III" email="billzin@msn.com"
 
-# o mÃ©todo 'abrirSessao' retorna o ID da sessÃ£o
+# o método 'abrirSessao' retorna o ID da sessão
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 sessaoSteve=abrirSessao login="steve" senha="5t3v3"
 sessaoBill=abrirSessao login="bill" senha="severino"
@@ -103,29 +103,29 @@ expect {} getVisaoDosSons idSessao=${sessaoMark}
 encerrarSessao login="bill"
 
 # -------------------------------------------------------------------------------------------------------------------------------------------
-# entradas invÃ¡lidas
+# entradas inválidas
 
-expectError "SessÃ£o invÃ¡lida" seguirUsuario idSessao= login="steve"
-expectError "SessÃ£o invÃ¡lida" seguirUsuario idSessao="" login="steve"
-expectError "SessÃ£o inexistente" seguirUsuario idSessao=${sessaoBill} login="steve"
-expectError "Login invÃ¡lido" seguirUsuario idSessao=${sessaoSteve} login=
-expectError "Login invÃ¡lido" seguirUsuario idSessao=${sessaoSteve} login=""
-expectError "Login invÃ¡lido" seguirUsuario idSessao=${sessaoSteve} login="steve"
+expectError "Sessão inválida" seguirUsuario idSessao= login="steve"
+expectError "Sessão inválida" seguirUsuario idSessao="" login="steve"
+expectError "Sessão inexistente" seguirUsuario idSessao=${sessaoBill} login="steve"
+expectError "Login inválido" seguirUsuario idSessao=${sessaoSteve} login=
+expectError "Login inválido" seguirUsuario idSessao=${sessaoSteve} login=""
+expectError "Login inválido" seguirUsuario idSessao=${sessaoSteve} login="steve"
 expectError "Login inexistente" seguirUsuario idSessao=${sessaoSteve} login="xpto"
 
-expectError "Som invÃ¡lido" postarSom idSessao=${sessaoSteve} link= dataCriacao="99/99/9999"
-expectError "Som invÃ¡lido" postarSom idSessao=${sessaoSteve} link="" dataCriacao="00/00/0000"
-expectError "Data de CriaÃ§Ã£o invÃ¡lida" postarSom idSessao=${sessaoSteve} link="www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
-expectError "Data de CriaÃ§Ã£o invÃ¡lida" postarSom idSessao=${sessaoSteve} link="ftp://www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
+expectError "Som inválido" postarSom idSessao=${sessaoSteve} link= dataCriacao="99/99/9999"
+expectError "Som inválido" postarSom idSessao=${sessaoSteve} link="" dataCriacao="00/00/0000"
+expectError "Data de Criação inválida" postarSom idSessao=${sessaoSteve} link="www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
+expectError "Data de Criação inválida" postarSom idSessao=${sessaoSteve} link="ftp://www.youtube.com/watch?v=3KsPIJK17uk" dataCriacao="31/02/2014"
 
-expectError "SessÃ£o invÃ¡lida" getFontesDeSons idSessao=
-expectError "SessÃ£o invÃ¡lida" getFontesDeSons idSessao=""
-expectError "SessÃ£o inexistente" getFontesDeSons idSessao=${sessaoBill}
+expectError "Sessão inválida" getFontesDeSons idSessao=
+expectError "Sessão inválida" getFontesDeSons idSessao=""
+expectError "Sessão inexistente" getFontesDeSons idSessao=${sessaoBill}
 
-expectError "SessÃ£o invÃ¡lida" getVisaoDosSons idSessao=
-expectError "SessÃ£o invÃ¡lida" getVisaoDosSons idSessao=""
-expectError "SessÃ£o inexistente" getVisaoDosSons idSessao="xpto"
-expectError "SessÃ£o inexistente" getVisaoDosSons idSessao=${sessaoBill}
+expectError "Sessão inválida" getVisaoDosSons idSessao=
+expectError "Sessão inválida" getVisaoDosSons idSessao=""
+expectError "Sessão inexistente" getVisaoDosSons idSessao="xpto"
+expectError "Sessão inexistente" getVisaoDosSons idSessao=${sessaoBill}
 
 #Encerrar a sessao de Mark
 encerrarSessao login="mark"
@@ -135,4 +135,3 @@ encerrarSessao login="steve"
 
 encerrarSistema
 quit
-

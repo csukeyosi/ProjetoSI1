@@ -1,7 +1,7 @@
 package exception;
 
 /**
- * Chamada quando o login ï¿½ igual a "" ou null.
+ * Chamada quando o login e igual a "" ou null.
  *
  */
 public class LoginInvalidoException extends Exception{
@@ -10,7 +10,7 @@ public class LoginInvalidoException extends Exception{
 	private static final long serialVersionUID = 1L;
 
 	public LoginInvalidoException(){
-		super ("Login invÃ¡lido");
+		super ("Login inválido");
 	}
 
 }

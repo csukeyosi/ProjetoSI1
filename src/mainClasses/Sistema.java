@@ -22,7 +22,7 @@ import exception.SomInvalidoException;
 import exception.UsuarioInexistenteException;
 
 /**
- * Classe responsavel pela representacao do sistema e suas principais acoes.
+ * Executa as acoes solicitadas pela {@link NetMusicLive}, gerencia as instrucoes.
  */
 public class Sistema implements Serializable {
 
@@ -30,28 +30,12 @@ public class Sistema implements Serializable {
 	private GerenciaSons gerenciaSons;
 	private GerenciaSessao gerenciaSessao;
 	private GerenciaUsuarios gerenciaUsuarios;
-	private static Sistema sistema;
 	private OrdenaFeedPrincipal feedPrincipal;
 
-	private Sistema() {
+	public Sistema() {
 		zerarSistema();
 	}
 
-	/**
-	 * Recupera a instancia de Sistema. Caso seja null, uma intancia � criada.
-
-	 * @return Instancia de Sistema.
-	 */
-	public static Sistema getInstance() {
-		if (sistema == null) {
-			sistema = new Sistema();
-		}
-		return sistema;
-	}
-
-	/**
-	 * Metodo que inicializa e limpa o sistema.
-	 */
 	public void zerarSistema() {
 		this.gerenciaSons = new GerenciaSons();
 		this.gerenciaSessao = new GerenciaSessao();
@@ -59,54 +43,16 @@ public class Sistema implements Serializable {
 		feedPrincipal = new SonsMaisRecentes();
 	}
 
-	/**
-<<<<<<< HEAD
-	 * Cria um novo usuario no sistema.
-	 * 
-=======
-	 * Metodo que executa a criacao de um novo usuario no sistema. 
-	 *  
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 * @param login
-	 * 			Login do usuario a ser adicionado.
-	 * @param senha
-	 * 			Senha do usuario a ser adicinado.
-	 * @param nome
-	 * 			Nome do usuario a ser adicionado.
-	 * @param email
-	 * 			Email do usuario a ser adicionado.
-	 * @throws Exception
-	 * 			{@link LoginInvalidoException, NomeInvalidoException, EmailInvalidoException, 
-	 * 			LoginDuplicadoException, EmailDuplicadoException}
-	 */
+
 	public void criarUsuario(String login, String senha, String nome,
 			String email) throws Exception {
 		this.gerenciaUsuarios.criarUsuario(login, senha, nome, email);
 	}
-	
+
 	public boolean verificaLoginESenha(String login,String senha){
 		return this.gerenciaUsuarios.verificaLoginESenha(login, senha);
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param login
-	 * @param senha
-	 * @return
-	 * @throws Exception
-=======
-	 * Da inicio a uma sessao.
-	 * 
-	 * @param login
-	 *            Login do usuario.
-	 * @param senha
-	 *            Senha do usuario.
-	 * @return Id da sessao.
-	 * @throws Exception
-	 * 			  {@link LoginInvalidoException, UsuarioInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public String abrirSessao(String login, String senha) throws Exception {
 		if (!Utilitario.elementIsValid(login)) {
 			throw new LoginInvalidoException();
@@ -125,19 +71,7 @@ public class Sistema implements Serializable {
 		String idsessao = "sessao"+login;
 		return this.gerenciaSessao.existeSessao(idsessao);
 	}
-	
-	/** Metodo que recebe o login de um determinado Usuario e retorna o valor do atributo especificado
-	 * no segundo parametro.
-	 * 
-	 * @param login
-	 * 			Login do usuario a ser pesquisado.
-	 * @param atributo
-	 * 			Atributo a ser pesquisado (nome, email ou id).
-	 * @return O valor do atributo.
-	 * @throws Exception
-	 * 			{@link AtributoInvalidoException, LoginInvalidoException, UsuarioInexistenteException, 
-	 * 			AtributoInexistenteException}
-	 */
+
 	public String getAtributoUsuario(String login, String atributo) throws Exception {
 		if (!Utilitario.elementIsValid(atributo)) {
 			throw new AtributoInvalidoException();
@@ -156,44 +90,10 @@ public class Sistema implements Serializable {
 		throw new AtributoInexistenteException();
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @return
-=======
-	 * Retorna o perfil musical.
-	 * @param idsessao
-	 * 				Id da sessao.
-	 * @return	Lista de som correspondente ao perfil musical.
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public List<Som> getPerfilMusical(String idsessao) {
 		return getUsuario(idsessao).getPerfilMusical();
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param sessao
-	 * @param link
-	 * @param dataCriacao
-	 * @return
-	 * @throws Exception
-=======
-	 * Simula a acao do usuario postar um novo som. 
-	 * 
-	 * @param user
-	 * 			Usuario que esta postando o som.
-	 * @param link
-	 * 			Link do som que esta sendo postado.
-	 * @param dataCriacao
-	 * 			Data da postagem.
-	 * @return O id do som adicionado.
-	 * @throws Exception
-	 * 			{@link SomInvalidoException, DataInvalidaException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public String postarSom(String sessao, String link, String dataCriacao)
 			throws Exception {
 		if (!Utilitario.elementIsValid(link)) {
@@ -206,24 +106,6 @@ public class Sistema implements Serializable {
 		return this.gerenciaSons.postarSom(user, link, dataCriacao);
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idSom
-	 * @param atributo
-	 * @return
-	 * @throws Exception
-=======
-	 * Retorna o valor do atributo do idsom passado como parametro.
-	 * 
-	 * @param idSom
-	 * 			Id do som que deseja-se saber o valor do atributo.
-	 * @param atributo
-	 * 			Atributo que deseja-se saber o valor.
-	 * @return Valor correspondente ao atributo.
-	 * @throws Exception {@link SomInvalidoException, AtributoInvalidoException, AtributoInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public String getAtributoSom(String idSom, String atributo)
 			throws Exception {
 		if (!Utilitario.elementIsValid(idSom)) {
@@ -238,22 +120,6 @@ public class Sistema implements Serializable {
 		throw new AtributoInexistenteException();
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idSessaoSeguidor
-	 * @param loginSeguido
-	 * @throws Exception
-=======
-	 * Simula a acao de um usuario seguir outro usuario.
-	 * 
-	 * @param seguidor
-	 * 				Usuario ativo da acao.
-	 * @param seguido
-	 * 				Usuario passivo da acao.
-	 * @throws Exception {@link LoginInvalidoException, LoginInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public void seguirUsuario(String idSessaoSeguidor, String loginSeguido) throws Exception {
 		verificaSessao(idSessaoSeguidor);
 
@@ -275,163 +141,44 @@ public class Sistema implements Serializable {
 		}
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @return
-	 * @throws Exception
-=======
-	 * Retorna a lista de seguidores.
-	 * 
-	 * @param idsessao
-	 * 				Id da sessao.
-	 * @return Lista de Usuarios correspondente a lista de seguidores.
-	 * @throws Exception 
-	 * 				{@link SessaoInvalidaException, SessaoInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public List<Usuario> getListaDeSeguidores(String idsessao) throws Exception {
 		verificaSessao(idsessao);
 		return getUsuario(idsessao).getListaDeSeguidores();
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @return
-	 * @throws Exception
-=======
-	 * Metodo que retorna o numero de seguidores.
-	 * 
-	 * @param idsessao
-	 * 				Id da sessao.
-	 * @return Tamanho da lista de seguidores.
-     * @throws Exception 
-	 *				{@link SessaoInvalidaException, SessaoInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public int getNumeroDeSeguidores(String idsessao) throws Exception {
 		verificaSessao(idsessao);
 		Usuario user = getUsuario(idsessao);
 		return user.getNumeroDeSeguidores();
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @return
-	 * @throws Exception
-=======
-	 * Retorna as fontes de som.
-	 * @param idsessao
-	 * 			Id da sessao.
-	 * @return Lista de Usuarios correspondente as fontes de som.
-	 * @throws Exception
-	 * 			{@link SessaoInvalidaException, SessaoInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public List<Usuario> getFontesDeSons(String idsessao) throws Exception {
 		verificaSessao(idsessao);
 		Usuario user = getUsuario(idsessao);
 		return user.getFontesDeSom();
 	}
 
-	/**
-	 * Metodo que retorna o id de uma determinado usuario a partir do
-	 * identificador de uma sessao.
-	 * 
-	 * @param idsessao
-	 * 				Id da sessao.
-	 * @return O Id do usuario correspondete.
-	 * @throws Exception
-	 * 			{@link SessaoInvalidaException, SessaoInexistenteException}
-	 */
 	public String getIDUsuario(String idsessao) throws Exception {
 		verificaSessao(idsessao);
 		String login = this.gerenciaSessao.getLogin(idsessao);
 		return this.gerenciaUsuarios.getAtributoUsuario(login, "id");
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @return
-	 * @throws Exception
-=======
-	 * Recupera a visao de sons.
-	 * @param idsessao
-	 * 				Id da sessao.
-	 * @return Lista de Sons da visao de sons da sessao correspondente.
-	 * @throws Exception
-	 * 				{@link SessaoInvalidaException, SessaoInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public List<Som> getVisaoDosSons(String idsessao) throws Exception {
 		verificaSessao(idsessao);
 		return getUsuario(idsessao).getVisaoDosSons();
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @return
-	 * @throws Exception
-=======
-	 * Retorna os sons favoritos da sessao correspondente.
-	 * 
-	 * @param idsessao
-	 * 				Id da sessao.
-	 * @return Lista de Sons correspondente aos sons favoritos.
-	 * @throws Exception
-	 * 			    {@link SessaoInvalidaException, SessaoInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public List<Som> getSonsFavoritos(String idsessao) throws Exception {
 		verificaSessao(idsessao);
 		return getUsuario(idsessao).getSonsFavoritos();
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @return
-	 * @throws Exception
-=======
-	 * Retorna o feed extra da sessao correspondente.
-	 * @param idsessao
-	 * 				Id da sessao.
-	 * @return Lista de Sons correspondente ao feed extra.
-	 * @throws Exception
-	 * 				   {@link SessaoInvalidaException, SessaoInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public List<Som> getFeedExtra(String idsessao) throws Exception {
 		verificaSessao(idsessao);
 		return getUsuario(idsessao).getFeedExtra();
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @param idsom
-	 * @throws Exception
-=======
-	 * Simula a acao de um usuario favoritar um som.
-	 * @param idsessao
-	 * 				Id sessao do usuario autor da acao.
-	 * @param idsom
-	 * 				Id do som a ser favoritado.
-	 * @throws Exception
-	 * 				{@link SessaoInvalidaException, SessaoInexistenteException, SomInvalidoException,  SomInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public void favoritarSom(String idsessao, String idsom) throws Exception {
 		verificaSessao(idsessao);
 		Usuario usuario = getUsuario(idsessao);
@@ -441,42 +188,11 @@ public class Sistema implements Serializable {
 		gerenciaSons.addInFeedExtra(usuario.getListaDeSeguidores(), som);
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @return
-	 * @throws Exception
-=======
-	 * Retorna o feed principal da sessao correspondente.
-	 * @param idsessao
-	 * 				Id da sessao.
-	 * @return Lista de som do feed principal.
-	 * @throws Exception
-	 * 				{@link SessaoInvalidaException, SessaoInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public List<Som> getMainFeed(String idsessao) throws Exception {
 		verificaSessao(idsessao);
 		return feedPrincipal.ordena(getUsuario(idsessao));
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @param rule
-	 * @throws Exception
-=======
-	 * Altera o tipo de ordenacao {@link TipoFeedPrincipal} do feed principal.
-	 * @param idsessao
-	 * 				Id da sessao.
-	 * @param rule	
-	 * 				A regra de ordenacao.
-	 * @throws Exception
-	 * 				{@link RegraInvalidaException, RegraInexistenteException, SessaoInvalidaException, SessaoInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public void setMainFeedRule(String idsessao, String rule) throws Exception {
 		verificaSessao(idsessao);
 		if (!Utilitario.elementIsValid(rule)) {
@@ -496,39 +212,20 @@ public class Sistema implements Serializable {
 		}
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param login
-=======
-	 * Encerra a sessao do login correspondente.
-	 * @param login
-	 * 			Login do usuario cuja sessao sera encerrada.
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public void encerrarSessao(String login) {
 		this.gerenciaSessao.encerrarSessao("sessao" + login);
 	}
 
-	/**
-	 * Metodo que ao ser chamado finaliza o sistema.
-	 */
 	public void encerrarSistema() {
 
 	}
 
 	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @throws Exception
-=======
 	 * Verifica se a sessao e valida/existe.
 	 * @param idsessao
 	 * 				Id da sessao a ser verificada.
 	 * @throws Exception
 	 * 				{@link SessaoInvalidaException, SessaoInexistenteException}
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
 	 */
 	private void verificaSessao(String idsessao) throws Exception {
 		if (!Utilitario.elementIsValid(idsessao)) {
@@ -538,18 +235,6 @@ public class Sistema implements Serializable {
 		}
 	}
 
-	/**
-<<<<<<< HEAD
-	 * 
-	 * @param idsessao
-	 * @return
-=======
-	 * Retorna o {@link Usuario} correspondente a sessao especificada.
-	 * @param idsessao
-	 * 				Id da sessao.
-	 * @return O Usuario.
->>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
-	 */
 	public Usuario getUsuario(String idsessao) {
 		String loginUser = this.gerenciaSessao.getLogin(idsessao);
 		return this.gerenciaUsuarios.getUser(loginUser, "login");

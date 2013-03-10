@@ -3,17 +3,18 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
+import mainClasses.NetMusicLive;
 import mainClasses.Sistema;
 import mainClasses.Som;
 import mainClasses.Usuario;
 
 public class InterfaceWebAdapter{
 	
-	private Sistema sistema;
+	private NetMusicLive netMusicLive;
 	public static InterfaceWebAdapter interfaceWebAdapter;
 	
 	private InterfaceWebAdapter(){
-		sistema = Sistema.getInstance();
+		netMusicLive = NetMusicLive.getInstance();
 	}
 
 	public static InterfaceWebAdapter getInstance(){
@@ -24,20 +25,20 @@ public class InterfaceWebAdapter{
 	}
 	
 	public void criaUsuario(String login,String senha,String nome,String email) throws Exception{
-		this.sistema.criarUsuario(login, senha, nome, email);
+		this.netMusicLive.criarUsuario(login, senha, nome, email);
 	}
 
 	public boolean existeSessao(String login){
-		return this.sistema.existeSessao(login);
+		return this.netMusicLive.existeSessao(login);
 	}
 	
 	public String abrirSessao(String login, String password) throws Exception {
-		return this.sistema.abrirSessao(login, password);
+		return this.netMusicLive.abrirSessao(login, password);
 	}
 
 	public List<Som> getMainFeed(String idsessao) {
 		try {
-			return this.sistema.getMainFeed(idsessao);			
+			return this.netMusicLive.getMainFeed(idsessao);			
 		} catch (Exception e) {
 			List<Som> mainFeed = new ArrayList<Som>();
 			mainFeed.add(new Som("", "", ""));
@@ -46,13 +47,13 @@ public class InterfaceWebAdapter{
 	}
 	
 	public boolean verificaLoginESenha(String login,String senha){
-		return this.sistema.verificaLoginESenha(login, senha);
+		return this.netMusicLive.verificaLoginESenha(login, senha);
 	}
 
 	public List<String> getNomesFontesDeSons(String idsessao){
 		List<String> nomeUsuarios = new ArrayList<String>();
 		try{
-			List<Usuario> usuariosQueSegue = this.sistema.getFontesDeSons(idsessao);
+			List<Usuario> usuariosQueSegue = this.netMusicLive.getFontesDeSons(idsessao);
 			for(int i=0;i<usuariosQueSegue.size();i++){
 				nomeUsuarios.add(usuariosQueSegue.get(i).getNome());
 			}		

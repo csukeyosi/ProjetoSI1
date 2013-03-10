@@ -6,6 +6,12 @@ import java.util.List;
 import mainClasses.Som;
 import mainClasses.Usuario;
 
+/** 
+ * Representa um tipo de ordenacao.
+ * Deverao aparecer primeiro no feed principal do usuario apenas os sons    
+ * postados pelas suas fontes de sons mais recentemente.
+ * 
+ */
 public class SonsMaisRecentes implements OrdenaFeedPrincipal{
 
 	public List<Som> ordena(Usuario usuario) {

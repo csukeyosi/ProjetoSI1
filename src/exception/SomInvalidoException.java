@@ -1,6 +1,6 @@
 package exception;
 /**
- * Chamada quando o Id do som ï¿½ igual a "" ou null.
+ * Chamada quando o Id do som e igual a "" ou null.
  *
  */
 public class SomInvalidoException extends Exception{
@@ -8,7 +8,7 @@ public class SomInvalidoException extends Exception{
 	private static final long serialVersionUID = 1L;
 
 	public SomInvalidoException(){
-		super("Som invÃ¡lido");
+		super("Som inválido");
 	}
 
 }

@@ -1,6 +1,6 @@
 package exception;
 /**
- * Chamada quando o ID do som n�o existe no sistema.
+ * Chamada quando o ID do som nao existe no sistema.
  *
  */
 public class SomInexistenteException extends Exception{
