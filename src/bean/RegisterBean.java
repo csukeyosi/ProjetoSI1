@@ -1,43 +1,37 @@
 package bean;
 
 import java.io.Serializable;
+
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 
-import util.InterfaceWebAdapter;
-
 @ManagedBean
-public class RegisterBean implements Serializable {
+@SessionScoped
+public class RegisterBean extends DefaultBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private String login, nome, email, senha;
-	private InterfaceWebAdapter interfaceWebAdapter;
+	private String nome, email;
 	
 	public RegisterBean(){
-		interfaceWebAdapter = InterfaceWebAdapter.getInstance();
+		super();
 	}
 
 	public String criaUsuario(){
 		try {
 			interfaceWebAdapter.criaUsuario(getLogin(), getSenha(), getNome(), getEmail());
-			// falta colocar o idsessao no mapa de sessao do jsf.
-			//FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("yourKey", yourObject);
+			if(!interfaceWebAdapter.existeSessao(getLogin())){
+				String idsessao = interfaceWebAdapter.abrirSessao(getLogin(),getSenha());
+				putInSession("idsessao", idsessao);
+			}
 			return "homepage?faces-redirect=true";
 		} catch (Exception e) {
-			System.out.println("erro ao criar usuario");
-			// gera um erro na interface.
+			System.out.println("erro ao criar usuario.");
 		}
 		return "register?faces-redirect=true";
 	}
 	
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
+	
 	public String getNome() {
 		return nome;
 	}
@@ -54,11 +48,4 @@ public class RegisterBean implements Serializable {
 		this.email = email;
 	}
 
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
 }

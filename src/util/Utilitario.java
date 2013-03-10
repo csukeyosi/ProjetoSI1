@@ -3,14 +3,11 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Classe contendo ferramentes uteis a todas as classes.
- *
- */
 public abstract class Utilitario {
 
 	/**
 	 * Verifica se element e null ou "".
+>>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
 	 * 
 	 * @param String
 	 *            String a ser testada.
@@ -24,10 +21,16 @@ public abstract class Utilitario {
 	}
 
 	/**
+<<<<<<< HEAD
+	 * 
+	 * @param dataParam
+	 * @return
+=======
 	 * Verifica se a data e valida.
 	 * @param dataParam
 	 * 				Data na forma de String (dd/mm/aaaa).
 	 * @return true caso a data seja valida, false caso contrario.
+>>>>>>> 1adf4227d54a7e14405aae516fdc02f521aecc42
 	 */
 	public static boolean dataIsValida(String dataParam) {
 		try {

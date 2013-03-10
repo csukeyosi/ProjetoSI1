@@ -47,17 +47,20 @@
 				rows="2" style="margin-top: 20px;margin-left:20px;" />
 
 			<div id="main">
-				<p:commandButton value="Enviar" ajax="false" />
+				<p:commandButton value="Enviar" ajax="false"
+					action="#{homeBean.postarSom}" />
+
 				<p:commandButton value="Apagar" ajax="false"
 					action="#{homeBean.apagarMensagemDePostagem}"
 					style="margin-left:20px;" />
 			</div>
 		</h:form>
-		
-		
+
+
 		<div>
-			<h2>Main Feed</h2>
-			<p:dataTable id="MainFeed" var="som" value="#{homeBean.sonsPostados}">
+			<h2>Feed Usuario</h2>
+			<p:dataTable id="MainFeed" var="som" value="#{homeBean.mainFeed}"
+				emptyMessage="Nenhum som">
 				<p:column>
 			#{som.link}
 			</p:column>
@@ -67,9 +70,19 @@
 
 			</p:dataTable>
 		</div>
+		
+		<div>
+			<h2>Friend List</h2>
+			<p:dataTable id="FriendList" var="friend"
+				value="#{homeBean.fontesDeSom}"
+				emptyMessage="Nenhum Usuario Seguido.">
+				<p:column>
+			#{friend}
+			</p:column>
+			</p:dataTable>
+		</div>
+		
 	</div>
-
-	<div></div>
 
 
 	<div id="footerWrap">

@@ -1,4 +1,4 @@
-package mainclasses;
+package mainClasses;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class GerenciaSessao {
 	 *            Senha do usuario.
 	 * @return Id da sessao.
 	 */
-	public String abrirSessao(String login, String senha) {  //TODO falta conferir se login e senha batem.
+	public String abrirSessao(String login, String senha) { 
 		String id = "sessao" + login;
 		if(!existeSessao(id)){
 			this.sessoes.put(id, login);

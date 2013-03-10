@@ -3,16 +3,10 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
-import teste.TesteUserStories;
+import mainClasses.Sistema;
+import mainClasses.Som;
+import mainClasses.Usuario;
 
-import mainclasses.Sistema;
-import mainclasses.Som;
-import mainclasses.Usuario;
-
-/**
- * Classe reponsavel pela conexao da classe {@link Sistema} e os testes easyaccept. {@link TesteUserStories}
- *
- */
 public class UserStoriesAdapter {
 
 	private Sistema sistema;
@@ -39,6 +33,11 @@ public class UserStoriesAdapter {
 		return this.sistema.getAtributoUsuario(login, atributo);
 	}
 
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 */
 	public String getPerfilMusical(String idsessao) {
 		List<String> perfilMusical = new ArrayList<String>();
 		for (Som som : this.sistema.getPerfilMusical(idsessao)){
@@ -72,7 +71,13 @@ public class UserStoriesAdapter {
 			throws Exception {
 		return this.sistema.getAtributoSom(idSom, atributo);
 	}
-
+	
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
 	public String getListaDeSeguidores(String idsessao) throws Exception {
 		List<String> seguidores = new ArrayList<String>();
 		for (Usuario usuario : this.sistema.getListaDeSeguidores(idsessao)){
@@ -81,6 +86,12 @@ public class UserStoriesAdapter {
 		return retornaComChaves(seguidores,	"list");
 	}
 
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
 	public String getFontesDeSons(String idsessao) throws Exception {
 		List<String> fontesSom = new ArrayList<String>();
 		for (Usuario fonte : this.sistema.getFontesDeSons(idsessao)){
@@ -88,7 +99,13 @@ public class UserStoriesAdapter {
 		}
 		return retornaComChaves(fontesSom,"list");
 	}
-
+	
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
 	public String getVisaoDosSons(String idsessao) throws Exception {
 		List<String> visaoSons = new ArrayList<String>();
 		for (Som som : this.sistema.getVisaoDosSons(idsessao)){
@@ -96,7 +113,13 @@ public class UserStoriesAdapter {
 		}
 		return retornaComChaves(visaoSons, "stack");
 	}
-
+	
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
 	public String getSonsFavoritos(String idsessao) throws Exception {
 		List<String> sonsFavoritos = new ArrayList<String>();
 		for (Som som : this.sistema.getSonsFavoritos(idsessao)){
@@ -104,7 +127,13 @@ public class UserStoriesAdapter {
 		}
 		return retornaComChaves(sonsFavoritos, "stack");
 	}
-
+	
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
 	public String getFeedExtra(String idsessao) throws Exception {
 		List<String> feedExtra = new ArrayList<String>();
 		for (Som som : this.sistema.getFeedExtra(idsessao)){
@@ -127,7 +156,13 @@ public class UserStoriesAdapter {
 	public void setMainFeedRule(String idsessao,String rule) throws Exception{
 		this.sistema.setMainFeedRule(idsessao, rule);
 	}
-
+	
+	/**
+	 * 
+	 * @param idsessao
+	 * @return
+	 * @throws Exception
+	 */
 	public String getMainFeed(String idsessao) throws Exception {
 		List<String> feedPrincipal = new ArrayList<String>();
 		for (Som som : this.sistema.getMainFeed(idsessao)){
@@ -143,6 +178,7 @@ public class UserStoriesAdapter {
 	public void encerrarSistema() {
 		this.sistema.encerrarSistema();
 	}
+	
 
 	private String retornaComChaves(List<String> list, String formato) {
 		String retorno = "{";

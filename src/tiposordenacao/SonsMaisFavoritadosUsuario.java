@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import mainclasses.Som;
-import mainclasses.Usuario;
+import mainClasses.Som;
+import mainClasses.Usuario;
 
 public class SonsMaisFavoritadosUsuario implements OrdenaFeedPrincipal{
 

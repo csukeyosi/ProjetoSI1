@@ -12,7 +12,7 @@
 # limpar os dados do sistema
 zerarSistema
 
-# entradas válidas
+# entradas vÃ¡lidas
 
 criarUsuario login="mark" senha="m@rk" nome="Mark Zuckerberg" email="mark@facebook.com"
 criarUsuario login="steve" senha="5t3v3" nome="Steven Paul Jobs" email="jobs@apple.com"
@@ -20,7 +20,7 @@ criarUsuario login="bill" senha="severino" nome="William Henry Gates III" email=
 criarUsuario login="larry" senha="p4G6" nome="Larry Page" email="larry@gmail.com"
 criarUsuario login="sergey" senha="3R1n" nome="Sergey Brin" email="brin@gmail.com"
 
-# o método 'abrirSessao' retorna o ID da sessão
+# o mÃ©todo 'abrirSessao' retorna o ID da sessÃ£o
 sessaoMark=abrirSessao login="mark" senha="m@rk"
 sessaoSteve=abrirSessao login="steve" senha="5t3v3"
 sessaoBill=abrirSessao login="bill" senha="severino"
@@ -152,22 +152,22 @@ encerrarSessao login="sergey"
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------
 
-# entradas inválidas
+# entradas invÃ¡lidas
 
-expectError "Sessão inválida" favoritarSom idSessao= idSom=${som1ID}
-expectError "Sessão inválida" favoritarSom idSessao="" idSom=${som2ID}
-expectError "Sessão inexistente" favoritarSom idSessao=${sessaoBill} idSom=${som2ID}
-expectError "Som inválido" favoritarSom idSessao=${sessaoSteve} idSom=
-expectError "Som inválido" favoritarSom idSessao=${sessaoSteve} idSom=""
-expectError "Som inválido" favoritarSom idSessao=${sessaoSteve} idSom=${som8ID}
+expectError "SessÃ£o invÃ¡lida" favoritarSom idSessao= idSom=${som1ID}
+expectError "SessÃ£o invÃ¡lida" favoritarSom idSessao="" idSom=${som2ID}
+expectError "SessÃ£o inexistente" favoritarSom idSessao=${sessaoBill} idSom=${som2ID}
+expectError "Som invÃ¡lido" favoritarSom idSessao=${sessaoSteve} idSom=
+expectError "Som invÃ¡lido" favoritarSom idSessao=${sessaoSteve} idSom=""
+expectError "Som inexistente" favoritarSom idSessao=${sessaoSteve} idSom=${som8ID}
 
-expectError "Sessão inválida" getSonsFavoritos idSessao=
-expectError "Sessão inválida" getSonsFavoritos idSessao=""
-expectError "Sessão inexistente" getSonsFavoritos idSessao=${sessaoSergey} 
+expectError "SessÃ£o invÃ¡lida" getSonsFavoritos idSessao=
+expectError "SessÃ£o invÃ¡lida" getSonsFavoritos idSessao=""
+expectError "SessÃ£o inexistente" getSonsFavoritos idSessao=${sessaoSergey} 
 
-expectError "Sessão inválida" getFeedExtra idSessao=
-expectError "Sessão inválida" getFeedExtra idSessao=""
-expectError "Sessão inexistente" getFeedExtra idSessao=${sessaoBill}
+expectError "SessÃ£o invÃ¡lida" getFeedExtra idSessao=
+expectError "SessÃ£o invÃ¡lida" getFeedExtra idSessao=""
+expectError "SessÃ£o inexistente" getFeedExtra idSessao=${sessaoBill}
 
 #Encerrar a sessao de Mark
 encerrarSessao login="mark"
@@ -180,3 +180,4 @@ encerrarSessao login="larry"
 
 encerrarSistema
 quit
+

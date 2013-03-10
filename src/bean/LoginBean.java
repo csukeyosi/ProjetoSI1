@@ -3,49 +3,34 @@ package bean;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-
-import util.InterfaceWebAdapter;
-
+import javax.enterprise.context.SessionScoped;
 
 @ManagedBean
 @SessionScoped
-public class LoginBean implements Serializable{
+public class LoginBean extends DefaultBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private String login,password;
-	private InterfaceWebAdapter interfaceWebAdapter;
 
 	public LoginBean(){
-		this.interfaceWebAdapter = InterfaceWebAdapter.getInstance();
+		super();
 	}
 	
 	public String logar(){
 		try {
-			String idsessao = interfaceWebAdapter.abrirSessao(getLogin(),getPassword());
-			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("idsessao",idsessao);
-			return "homepage?faces-redirect=true";
+			if(interfaceWebAdapter.verificaLoginESenha(getLogin(),getSenha())){
+				String idsessao;
+				if(interfaceWebAdapter.existeSessao(getLogin())){
+					idsessao = "sessao"+getLogin();
+				}else{
+					idsessao = interfaceWebAdapter.abrirSessao(getLogin(),getSenha());
+				}
+				putInSession("idsessao", idsessao);
+				return "homepage?faces-redirect=true";
+			}				
 		} catch (Exception e) {
 			System.out.println("erro ao abrir sessao (logar)");
 			// gera erro na tela;
 		}
 		return "index?faces-redirect=true";
-	}
-
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getLogin() {
-		return login;
-	}
-
-	public void setLogin(String login) {
-		this.login = login;
 	}
 }

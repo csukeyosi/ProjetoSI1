@@ -3,8 +3,8 @@ package tiposordenacao;
 import java.util.ArrayList;
 import java.util.List;
 
-import mainclasses.Som;
-import mainclasses.Usuario;
+import mainClasses.Som;
+import mainClasses.Usuario;
 
 public class SonsMaisRecentes implements OrdenaFeedPrincipal{
 

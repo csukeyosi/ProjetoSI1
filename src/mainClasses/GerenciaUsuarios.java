@@ -1,4 +1,4 @@
-package mainclasses;
+package mainClasses;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +133,7 @@ public class GerenciaUsuarios {
 	 * @param valor
 	 * 				Valor do atributo.
 	 * @param atributo 
-	 * 				Define se a busca é pelo login ou id.
+	 * 				Define se a busca ï¿½ pelo login ou id.
 	 * @return O {@link Usuario} correspondente.
 	 */
 	public Usuario getUser(String valor, String atributo) {

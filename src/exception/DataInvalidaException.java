@@ -6,8 +6,10 @@ package exception;
  */
 public class DataInvalidaException extends Exception{
 	
+	private static final long serialVersionUID = 1L;
+
 	public DataInvalidaException(){
-		super("Data de CriaÁ„o inv·lida");
+		super("Data de Cria√ß√£o inv√°lida");
 	}
 
 }

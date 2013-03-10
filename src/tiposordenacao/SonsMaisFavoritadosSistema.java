@@ -1,14 +1,11 @@
 package tiposordenacao;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import com.sun.xml.internal.fastinfoset.algorithm.IntEncodingAlgorithm;
-
-import mainclasses.Som;
-import mainclasses.Usuario;
+import mainClasses.Som;
+import mainClasses.Usuario;
 
 public class SonsMaisFavoritadosSistema implements OrdenaFeedPrincipal{
 	

@@ -1,4 +1,4 @@
-package mainclasses;
+package mainClasses;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +13,7 @@ import exception.SomInvalidoException;
  */
 public class GerenciaSons {
 	/*Colecao dos sons do sistema */
-	private HashMap sons;
+	private HashMap<String,Som> sons;
 
 	public GerenciaSons() {
 		this.sons = new HashMap<String, Som>();

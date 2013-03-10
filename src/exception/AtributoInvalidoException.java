@@ -1,13 +1,15 @@
 package exception;
 
 /**
- * Chamada quando atributo é igual a "" ou null. 
+ * Chamada quando atributo ï¿½ igual a "" ou null. 
  *
  */
 public class AtributoInvalidoException extends Exception{
 	
+	private static final long serialVersionUID = 1L;
+
 	public AtributoInvalidoException(){
-		super("Atributo inválido");
+		super("Atributo invÃ¡lido");
 	}
 
 }

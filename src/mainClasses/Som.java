@@ -1,4 +1,4 @@
-package mainclasses;
+package mainClasses;
 
 /**
  * Classe responsavel pela representacao dos sons(musicas postadas pelos usuarios) no sistema. 

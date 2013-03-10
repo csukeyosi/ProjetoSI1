@@ -1,7 +1,7 @@
 package teste;
 
-import mainclasses.Som;
-import mainclasses.Usuario;
+import mainClasses.Som;
+import mainClasses.Usuario;
 
 import org.junit.Assert;
 import org.junit.Before;
