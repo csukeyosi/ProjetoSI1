@@ -1,0 +1,130 @@
+<project name="NetMusicLiveANT" default="" basedir=".">
+	<description>
+            Projeto de SI1 2012.2
+    </description>
+
+	<property name="sysName" value="NetMusicLive"/>
+	<property name="catalina.home"
+		value= "C:\Users\Felipe\Desktop\Felipe\apache-tomcat-7.0.37"/> <!-- UPDATE THIS! -->
+	<property name="warFile" value="dist/${sysName}.war"/>
+	<property name="source.dir" value="${basedir}/src"/>
+	<property name="build.dir" value="build"/>
+	<property name="dist.dir" value="dist"/>
+	<property name="doc.dir" value="doc"/>
+	<property name="webLibs" value="WebContent/WEB-INF/lib"/>
+	<property name="webXML" value="WebContent/WEB-INF/web.xml"/>
+	<property name="sysLibs" value="lib"/>
+	<property name="webContent" value="WebContent"/>
+	<property name="tomcat.bin.dir" value="${catalina.home}/bin"/>
+	<property name="tomcat.deploy" value="${catalina.home}/webapps"/>
+	<property name="appserver.lib" value="${catalina.home}/lib"/>
+	
+	<!-- paths -->
+	 <path id="compile.classpath">
+	 	<fileset dir="${webLibs}">
+	 		<include name="*.jar"/>
+	 	</fileset>
+	 	<fileset dir="${sysLibs}">
+	 		<include name="*.jar"/>
+	 	</fileset>
+	 </path>
+	<!-- pacotes para testes -->
+	 <path id="test.classpath">
+	       <pathelement location="/lib/junit.jar" />
+	       <pathelement location="${source.dir}" />
+	 </path>
+	<!-- pacotes para o tomcat -->
+    <path id="catalina-ant-classpath">
+        <fileset dir="${app}">
+            <include name="catalina-ant.jar"/>
+        </fileset>
+    </path>
+	
+	<!-- Testa SO em uso -->
+	<condition property="isUnix">
+		<os family="unix"/>
+	</condition>
+	<condition property="isWindows">
+		<os family="windows"/>
+	</condition>
+	
+	<!-- INIT - inicia os diretorios a serem ultilizados-->
+	 <target name="init">
+	 	<echo>Criando diretório de build e dist.</echo>
+	 	<mkdir dir="${build.dir}"/>
+	 	<mkdir dir="${build.dir}/classes"/>
+	 	<mkdir dir="${dist.dir}"/>
+	 	<mkdir dir="${doc.dir}" />
+	 </target>
+	
+	 <!-- compila  - compila o projeto -->	
+	 <target name="compila" depends="init" description="Compila o projeto.">
+	 	<echo>Compilando o projeto.</echo>
+	 	<javac includeantruntime="false" srcdir="${source.dir}" destdir="${build.dir}/classes" debug="true">
+	 		<classpath refid="compile.classpath"/>
+	 		<classpath refid="test.classpath"/>
+	 	</javac>
+	 	<echo>Processo de compile concluido com sucesso.</echo>
+	 </target>
+	
+	 <!-- war - gera o arquivo .war -->
+	 <target name="war" depends="compila" description="Criar war do projeto.">
+	 	<echo>Criando War do projeto.</echo>
+	  	<war destfile="${warFile}" webxml="${webXML}">
+	  		<classes dir="${build.dir}"/>
+	  		<fileset dir="${webContent}"/>
+	  		<lib dir="${webLibs}"/>
+	  	</war>
+	 </target>
+	
+	
+	 <!-- doc - gera a documentação -->
+	<target name="doc" depends="compila" description="generate documentation">
+	<echo> Gerando o javadoc </echo>
+	<javadoc sourcepath="${source.dir}" destdir="${doc.dir}">
+ 		<classpath refid="compile.classpath"/>
+	</javadoc>
+	<echo> Javadoc gerado. </echo> 
+	</target>
+	
+	 <!-- limpa - limpa as pastas do sistema -->
+	 <target name="limpa">
+	 	<echo>Limpando........</echo>
+	 	<delete dir="${dist.dir}"/>
+	 	<delete dir="${build.dir}"/>
+	 	<delete dir="${doc.dir}"/>
+	 	<echo>Processo de Limpeza concluido com sucesso.</echo>
+	 </target>
+	
+	
+
+    <target name="testa" depends="compila" description="Testes de aceitacao usando EasyAccept">
+            <echo>Iniciando testes de aceitacao...</echo>
+            <!--<java classpathref="compile.classpath" classname="easyaccept.EasyAccept" failonerror="true" fork="true">
+                    <arg value="${sysLibs}" />
+                    <arg value="testesDeAceitacao_SI1-master/scripts/US01.txt" />
+                    <arg value="testesDeAceitacao_SI1-master/scripts/US02.txt" />
+                    <arg value="testesDeAceitacao_SI1-master/scripts/US03.txt" />
+                    <arg value="testesDeAceitacao_SI1-master/scripts/US04.txt" />
+                    <arg value="testesDeAceitacao_SI1-master/scripts/US05.txt" />
+            </java> -->
+    </target>
+	
+	 <!-- roda - roda o TomCat no Linux ou Windows -->
+     <target name="roda" depends="rodaUnix, rodaWindows">
+		<echo>  Iniciando o TomCat  </echo>
+	</target>
+     <target name="rodaUnix" depends="war" description="inicia projeto no linuxr" if="isUnix">
+     	<copy todir="${tomcat.deploy}" overwrite="true">
+         	<fileset file="${warFile}"/>
+        </copy>
+        <exec executable="${tomcat.bin.dir}/startup.sh" spawn="false"/>
+     </target>
+     <target name="rodaWindows" depends="war" description="inicia projeto no windows" if="isWindows">
+     	<copy todir="${tomcat.deploy}" overwrite="true">
+        	<fileset file="${warFile}"/>
+        </copy>
+        <exec executable="${tomcat.bin.dir}/startup.bat" spawn="true"/>
+    </target>
+
+</project>
