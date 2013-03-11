@@ -1,11 +1,11 @@
-package mainClasses;
+package mainclasses;
 
 import java.io.Serializable;
 import java.util.List;
 
-import mainClasses.Sistema;
-import mainClasses.Som;
-import mainClasses.Usuario;
+import mainclasses.Sistema;
+import mainclasses.Som;
+import mainclasses.Usuario;
 
 import tiposordenacao.TipoFeedPrincipal;
 

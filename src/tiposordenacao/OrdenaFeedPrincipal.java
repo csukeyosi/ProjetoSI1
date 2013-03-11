@@ -2,8 +2,8 @@ package tiposordenacao;
 
 import java.util.List;
 
-import mainClasses.Som;
-import mainClasses.Usuario;
+import mainclasses.Som;
+import mainclasses.Usuario;
 
 /**
  * Interface dos tipos de ordenacao do feed principal do {@link Usuario}.

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import mainClasses.Som;
-import mainClasses.Usuario;
+import mainclasses.Som;
+import mainclasses.Usuario;
 
 /**
  * Representa um tipo de ordenacao.

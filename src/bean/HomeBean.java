@@ -5,7 +5,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
-import mainClasses.Som;
+import mainclasses.Som;
 
 @ManagedBean
 public class HomeBean extends DefaultBean{

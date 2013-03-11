@@ -1,4 +1,4 @@
-package mainClasses;
+package mainclasses;
 
 import java.io.Serializable;
 import java.util.List;

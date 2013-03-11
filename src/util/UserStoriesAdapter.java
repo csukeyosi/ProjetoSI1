@@ -3,9 +3,9 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
-import mainClasses.NetMusicLive;
-import mainClasses.Som;
-import mainClasses.Usuario;
+import mainclasses.NetMusicLive;
+import mainclasses.Som;
+import mainclasses.Usuario;
 
 /**
  * Classe responsavel pela conexao entre {@link NetMusicLive} e os testes easyaccept. 

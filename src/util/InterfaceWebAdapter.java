@@ -3,10 +3,10 @@ package util;
 import java.util.ArrayList;
 import java.util.List;
 
-import mainClasses.NetMusicLive;
-import mainClasses.Sistema;
-import mainClasses.Som;
-import mainClasses.Usuario;
+import mainclasses.NetMusicLive;
+import mainclasses.Sistema;
+import mainclasses.Som;
+import mainclasses.Usuario;
 
 public class InterfaceWebAdapter{
 	
