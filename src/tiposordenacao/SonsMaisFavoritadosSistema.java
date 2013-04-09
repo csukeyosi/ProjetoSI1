@@ -18,9 +18,9 @@ import mainclasses.Usuario;
 public class SonsMaisFavoritadosSistema implements OrdenaFeedPrincipal{
 
 	@Override
-	public List<Som> ordena(Usuario usuario){
+	public List<Som> ordena(List<Usuario> fontesDeSom, List<Som> sonsFavoritos) {
 		OrdenaFeedPrincipal ordenacaoAux = new SonsMaisRecentes();
-		List<Som> listaAux = ordenacaoAux.ordena(usuario);
+		List<Som> listaAux = ordenacaoAux.ordena(fontesDeSom, sonsFavoritos); 
 		Collections.reverse(listaAux);
 
 		List<Som> favoritosDecres = new ArrayList<Som>();
@@ -38,7 +38,6 @@ public class SonsMaisFavoritadosSistema implements OrdenaFeedPrincipal{
 		}
 		Collections.reverse(favoritosDecres);
 		return favoritosDecres;
-
 	}
 
 }

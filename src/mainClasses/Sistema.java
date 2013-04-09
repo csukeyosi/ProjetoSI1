@@ -1,7 +1,11 @@
 package mainclasses;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import tiposordenacao.OrdenaFeedPrincipal;
 import tiposordenacao.SonsMaisFavoritadosSistema;
@@ -12,24 +16,29 @@ import util.Utilitario;
 import exception.AtributoInexistenteException;
 import exception.AtributoInvalidoException;
 import exception.DataInvalidaException;
+import exception.EmailDuplicadoException;
+import exception.EmailInvalidoException;
+import exception.LoginDuplicadoException;
 import exception.LoginInexistenteException;
 import exception.LoginInvalidoException;
+import exception.NomeInvalidoException;
 import exception.RegraInexistenteException;
 import exception.RegraInvalidaException;
 import exception.SessaoInexistenteException;
 import exception.SessaoInvalidaException;
+import exception.SomInexistenteException;
 import exception.SomInvalidoException;
 import exception.UsuarioInexistenteException;
 
 /**
- * Executa as acoes solicitadas pela {@link NetMusicLive}, gerencia as instrucoes.
+ * Executa as acoes solicitadas pela {@link NetMusicLive}, gerencia as
+ * instrucoes.
  */
 public class Sistema implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private GerenciaSons gerenciaSons;
 	private GerenciaSessao gerenciaSessao;
-	private GerenciaUsuarios gerenciaUsuarios;
+	private GerenciaUsuarioSom gerenciador;
 	private OrdenaFeedPrincipal feedPrincipal;
 
 	public Sistema() {
@@ -37,51 +46,70 @@ public class Sistema implements Serializable {
 	}
 
 	public void zerarSistema() {
-		this.gerenciaSons = new GerenciaSons();
-		this.gerenciaSessao = new GerenciaSessao();
-		this.gerenciaUsuarios = new GerenciaUsuarios();
+		gerenciaSessao = new GerenciaSessao();
+		gerenciador = new GerenciaUsuarioSom();
 		feedPrincipal = new SonsMaisRecentes();
 	}
 
-
 	public void criarUsuario(String login, String senha, String nome,
 			String email) throws Exception {
-		this.gerenciaUsuarios.criarUsuario(login, senha, nome, email);
+		if (!Utilitario.elementIsValid(login)) {
+			throw new LoginInvalidoException();
+
+		} else if (!Utilitario.elementIsValid(nome)) {
+			throw new NomeInvalidoException();
+
+		} else if (!Utilitario.elementIsValid(email)) {
+			throw new EmailInvalidoException();
+
+		} else {
+			if (gerenciador.existeLoginUsuario(login)) {
+				throw new LoginDuplicadoException();
+			}
+			if (gerenciador.existeEmailUsuario(email)) {
+				throw new EmailDuplicadoException();
+			}
+			gerenciador.criarUsuario(login, senha, nome, email);
+		}
 	}
 
-	public boolean verificaLoginESenha(String login,String senha){
-		return this.gerenciaUsuarios.verificaLoginESenha(login, senha);
+	public boolean verificaLoginESenha(String login, String senha) {
+		return gerenciador.verificaLoginESenha(login, senha);
 	}
 
 	public String abrirSessao(String login, String senha) throws Exception {
 		if (!Utilitario.elementIsValid(login)) {
 			throw new LoginInvalidoException();
-		} else if (this.gerenciaUsuarios.VerificaAtributoExiste(login, "login")) {
-			if (!verificaLoginESenha(login, senha)) {
 
-				throw new  LoginInvalidoException();
+		} else if (gerenciador.existeLoginUsuario(login)) {
+			if (!verificaLoginESenha(login, senha)) {
+				throw new LoginInvalidoException();
 			}
-			return this.gerenciaSessao.abrirSessao(login, senha);
+			return gerenciaSessao.abrirSessao(login, senha);
+			
 		} else {
 			throw new UsuarioInexistenteException();
 		}
 	}
 
-	public boolean existeSessao(String login){
-		String idsessao = "sessao"+login;
-		return this.gerenciaSessao.existeSessao(idsessao);
+	public boolean existeSessao(String login) {
+		String idsessao = "sessao" + login;
+		return gerenciaSessao.existeSessao(idsessao);
 	}
 
-	public String getAtributoUsuario(String login, String atributo) throws Exception {
+	public String getAtributoUsuario(String login, String atributo)
+			throws Exception {
 		if (!Utilitario.elementIsValid(atributo)) {
 			throw new AtributoInvalidoException();
+			
 		} else if (!Utilitario.elementIsValid(login)) {
 			throw new LoginInvalidoException();
-		} else if (!this.gerenciaUsuarios
-				.VerificaAtributoExiste(login, "login")) {
+			
+		} else if (!this.gerenciador.existeLoginUsuario(login)) {
 			throw new UsuarioInexistenteException();
+			
 		} else {
-			String result = this.gerenciaUsuarios.getAtributoUsuario(login,
+			String result = this.gerenciador.getAtributoUsuario(login,
 					atributo);
 			if (!result.isEmpty()) {
 				return result;
@@ -90,20 +118,20 @@ public class Sistema implements Serializable {
 		throw new AtributoInexistenteException();
 	}
 
-	public List<Som> getPerfilMusical(String idsessao) {
-		return getUsuario(idsessao).getPerfilMusical();
+	public List<Som> getPerfilMusical(String idsessao) throws Exception {
+		return gerenciador.getPerfilMusical(gerenciaSessao.getLogin(idsessao));
 	}
 
-	public String postarSom(String sessao, String link, String dataCriacao)
+	public String postarSom(String idSessao, String link, String dataCriacao)
 			throws Exception {
 		if (!Utilitario.elementIsValid(link)) {
 			throw new SomInvalidoException();
+
 		} else if (!Utilitario.dataIsValida(dataCriacao)) {
 			throw new DataInvalidaException();
 		}
-		String login = this.gerenciaSessao.getLogin(sessao);
-		Usuario user = this.gerenciaUsuarios.getUser(login, "login");
-		return this.gerenciaSons.postarSom(user, link, dataCriacao);
+
+		return gerenciador.postarSom(gerenciaSessao.getLogin(idSessao), link, dataCriacao);
 	}
 
 	public String getAtributoSom(String idSom, String atributo)
@@ -113,130 +141,102 @@ public class Sistema implements Serializable {
 		} else if (!Utilitario.elementIsValid(atributo)) {
 			throw new AtributoInvalidoException();
 		}
-		String result = this.gerenciaSons.getAtributoSom(idSom, atributo);
-		if (!result.isEmpty()) {
-			return result;
+
+		String valorAtributo = gerenciador.getAtributoSom(idSom, atributo);
+		if (!valorAtributo.isEmpty()) {
+			return valorAtributo;
 		}
 		throw new AtributoInexistenteException();
 	}
 
-	public void seguirUsuario(String idSessaoSeguidor, String loginSeguido) throws Exception {
-		verificaSessao(idSessaoSeguidor);
-
+	public void seguirUsuario(String idSessaoSeguidor, String loginSeguido)
+			throws Exception {
+		String loginSeguidor = gerenciaSessao.getLogin(idSessaoSeguidor);
+		
 		if (!Utilitario.elementIsValid(loginSeguido)) {
 			throw new LoginInvalidoException();
-		} else if (this.gerenciaSessao.getLogin(idSessaoSeguidor).equals(loginSeguido)) {
+			
+		} else if (loginSeguidor.equals(loginSeguido)) {
 			throw new LoginInvalidoException();
 		}
 
-		if (this.gerenciaUsuarios.VerificaAtributoExiste(loginSeguido, "login")) {
-			Usuario userSeguido = this.gerenciaUsuarios.getUser(loginSeguido, "login");
-			String loginSeguidor = this.gerenciaSessao.getLogin(idSessaoSeguidor);
-			Usuario userSeguidor = this.gerenciaUsuarios.getUser(loginSeguidor, "login");
-
-			this.gerenciaSons.seguirUsuario(userSeguidor, userSeguido);
-
+		if (gerenciador.existeLoginUsuario(loginSeguido)) { 
+			gerenciador.seguirUsuario(loginSeguidor, loginSeguido);
+			
 		} else {
 			throw new LoginInexistenteException();
 		}
 	}
 
-	public List<Usuario> getListaDeSeguidores(String idsessao) throws Exception {
-		verificaSessao(idsessao);
-		return getUsuario(idsessao).getListaDeSeguidores();
+	public List<Usuario> getListaDeSeguidores(String idSessao) throws Exception {
+		return gerenciador.getListaSeguidoresUsuario(gerenciaSessao.getLogin(idSessao));
 	}
 
-	public int getNumeroDeSeguidores(String idsessao) throws Exception {
-		verificaSessao(idsessao);
-		Usuario user = getUsuario(idsessao);
-		return user.getNumeroDeSeguidores();
+	public int getNumeroDeSeguidores(String idSessao) throws Exception {
+		return getListaDeSeguidores(idSessao).size();
 	}
 
-	public List<Usuario> getFontesDeSons(String idsessao) throws Exception {
-		verificaSessao(idsessao);
-		Usuario user = getUsuario(idsessao);
-		return user.getFontesDeSom();
+	public List<Usuario> getFontesDeSons(String idSessao) throws Exception {
+		return gerenciador.getFontesSomUsuario(gerenciaSessao.getLogin(idSessao));
 	}
 
 	public String getIDUsuario(String idsessao) throws Exception {
-		verificaSessao(idsessao);
-		String login = this.gerenciaSessao.getLogin(idsessao);
-		return this.gerenciaUsuarios.getAtributoUsuario(login, "id");
+		return gerenciador.getAtributoUsuario(gerenciaSessao.getLogin(idsessao), "id");
 	}
 
-	public List<Som> getVisaoDosSons(String idsessao) throws Exception {
-		verificaSessao(idsessao);
-		return getUsuario(idsessao).getVisaoDosSons();
+	public List<Som> getVisaoDosSons(String idSessao) throws Exception {
+		return gerenciador.getVisaoSonsUsuario(gerenciaSessao.getLogin(idSessao));
 	}
 
-	public List<Som> getSonsFavoritos(String idsessao) throws Exception {
-		verificaSessao(idsessao);
-		return getUsuario(idsessao).getSonsFavoritos();
+	public List<Som> getSonsFavoritos(String idSessao) throws Exception {
+		return gerenciador.getSonsFavoritosUsuario(gerenciaSessao.getLogin(idSessao));
 	}
 
-	public List<Som> getFeedExtra(String idsessao) throws Exception {
-		verificaSessao(idsessao);
-		return getUsuario(idsessao).getFeedExtra();
+	public List<Som> getFeedExtra(String idSessao) throws Exception {
+		return gerenciador.getFeedExtraUsuario(gerenciaSessao.getLogin(idSessao));
+	}
+	
+	public List<Som> getMainFeed(String idSessao) throws Exception {
+		return feedPrincipal.ordena(getFontesDeSons(idSessao), getSonsFavoritos(idSessao));
 	}
 
-	public void favoritarSom(String idsessao, String idsom) throws Exception {
-		verificaSessao(idsessao);
-		Usuario usuario = getUsuario(idsessao);
-		Som som = gerenciaSons.getSom(idsom);
-		som.incrementaFavoritos();
-		usuario.addSonsFavoritos(som);
-		gerenciaSons.addInFeedExtra(usuario.getListaDeSeguidores(), som);
-	}
-
-	public List<Som> getMainFeed(String idsessao) throws Exception {
-		verificaSessao(idsessao);
-		return feedPrincipal.ordena(getUsuario(idsessao));
+	public void favoritarSom(String idSessao, String idSom) throws Exception {
+		if(!Utilitario.elementIsValid(idSom)){
+			throw new SomInvalidoException();
+		}
+		
+		if(!gerenciador.favoritarSom(gerenciaSessao.getLogin(idSessao), idSom)){
+			throw new SomInexistenteException();
+		}
 	}
 
 	public void setMainFeedRule(String idsessao, String rule) throws Exception {
-		verificaSessao(idsessao);
+		gerenciaSessao.verificaSessao(idsessao);
 		if (!Utilitario.elementIsValid(rule)) {
 			throw new RegraInvalidaException();
 		}
 
-		if (rule.equals(TipoFeedPrincipal.SONS_RECENTES.toString())){
+		if (rule.equals(TipoFeedPrincipal.SONS_RECENTES.toString())) {
 			feedPrincipal = new SonsMaisRecentes();
-		} 
-		else if (rule.equals(TipoFeedPrincipal.SONS_FAVORITADOS_SISTEMA.toString())){
+			
+		} else if (rule.equals(TipoFeedPrincipal.SONS_FAVORITADOS_SISTEMA
+				.toString())) {
 			feedPrincipal = new SonsMaisFavoritadosSistema();
-		}
-		else if (rule.equals(TipoFeedPrincipal.SONS_FAVORITADOS_USUARIO.toString())){
+			
+		} else if (rule.equals(TipoFeedPrincipal.SONS_FAVORITADOS_USUARIO
+				.toString())) {
 			feedPrincipal = new SonsMaisFavoritadosUsuario();
-		}else{
+			
+		} else {
 			throw new RegraInexistenteException();
 		}
 	}
 
 	public void encerrarSessao(String login) {
-		this.gerenciaSessao.encerrarSessao("sessao" + login);
+		gerenciaSessao.encerrarSessao("sessao" + login);
 	}
 
 	public void encerrarSistema() {
 
-	}
-
-	/**
-	 * Verifica se a sessao e valida/existe.
-	 * @param idsessao
-	 * 				Id da sessao a ser verificada.
-	 * @throws Exception
-	 * 				{@link SessaoInvalidaException, SessaoInexistenteException}
-	 */
-	private void verificaSessao(String idsessao) throws Exception {
-		if (!Utilitario.elementIsValid(idsessao)) {
-			throw new SessaoInvalidaException();
-		} else if (!this.gerenciaSessao.existeSessao(idsessao)) {
-			throw new SessaoInexistenteException();
-		}
-	}
-
-	public Usuario getUsuario(String idsessao) {
-		String loginUser = this.gerenciaSessao.getLogin(idsessao);
-		return this.gerenciaUsuarios.getUser(loginUser, "login");
 	}
 }

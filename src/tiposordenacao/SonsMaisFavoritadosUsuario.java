@@ -19,31 +19,32 @@ import mainclasses.Usuario;
  */
 public class SonsMaisFavoritadosUsuario implements OrdenaFeedPrincipal{
 
+
 	@Override
-	public List<Som> ordena(Usuario usuario) {
-		List<Usuario> fontesDeSom = usuario.getFontesDeSom();
-		List<Som> sonsFavoritos = usuario.getSonsFavoritos();
+	public List<Som> ordena(List<Usuario> fontesDeSom, List<Som> sonsFavoritos) {
+		List<Usuario> fontes = fontesDeSom;
+		List<Som> favoritos = sonsFavoritos;
 		List<Som> sonsOrdenados = new ArrayList<Som>();
 		
 		List<Integer> numeroFavoritos = new ArrayList<Integer>();
 		
 		int numFavorito;
-		for(Usuario fonte : fontesDeSom){
+		for(Usuario fonte : fontes){
 			 numFavorito= 0;
 			for(Som somDaFonte : fonte.getPerfilMusical()){
-				if (sonsFavoritos.contains(somDaFonte)){
+				if (favoritos.contains(somDaFonte)){
 					numFavorito++;
 				}
 			}
-			numeroFavoritos.add(fontesDeSom.indexOf(fonte), numFavorito);
+			numeroFavoritos.add(fontes.indexOf(fonte), numFavorito);
 		}
 		
 		int indexMaisFav = 0;
-		for (int i = 0;  i < fontesDeSom.size(); i++ ){
+		for (int i = 0;  i < fontes.size(); i++ ){
 			indexMaisFav = numeroFavoritos.indexOf(Collections.max(numeroFavoritos));
 			numeroFavoritos.set(indexMaisFav, -1);
 			
-			for(Som som : fontesDeSom.get(indexMaisFav).getPerfilMusical()){
+			for(Som som : fontes.get(indexMaisFav).getPerfilMusical()){
 				sonsOrdenados.add(som);
 			}
 			

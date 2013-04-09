@@ -100,9 +100,10 @@ public class NetMusicLive implements Serializable {
 	 * @param idsessao
 	 * 				Id da sessao.
 	 * @return	Lista de som correspondente ao perfil musical.
+	 * @throws Exception 
 	 */
-	public List<Som> getPerfilMusical(String idsessao) {
-		return getUsuario(idsessao).getPerfilMusical();
+	public List<Som> getPerfilMusical(String idsessao) throws Exception {
+		return sistema.getPerfilMusical(idsessao);
 	}
 
 	/**
@@ -290,17 +291,6 @@ public class NetMusicLive implements Serializable {
 	 */
 	public void encerrarSistema() {
 
-	}
-
-
-	/**
-	 * Retorna o {@link Usuario} correspondente a sessao especificada.
-	 * @param idsessao
-	 * 				Id da sessao.
-	 * @return O Usuario.
-	 */
-	public Usuario getUsuario(String idsessao) {
-		return sistema.getUsuario(idsessao);
 	}
 	
 	/**

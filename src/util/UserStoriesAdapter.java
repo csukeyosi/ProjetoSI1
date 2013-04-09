@@ -37,7 +37,7 @@ public class UserStoriesAdapter {
 		return this.netMusicLive.getAtributoUsuario(login, atributo);
 	}
 
-	public String getPerfilMusical(String idsessao) {
+	public String getPerfilMusical(String idsessao) throws Exception {
 		List<String> perfilMusical = new ArrayList<String>();
 		for (Som som : this.netMusicLive.getPerfilMusical(idsessao)){
 			perfilMusical.add(som.getId());
@@ -76,7 +76,7 @@ public class UserStoriesAdapter {
 		for (Usuario usuario : this.netMusicLive.getListaDeSeguidores(idsessao)){
 			seguidores.add(usuario.getId());
 		}
-		return retornaComChaves(seguidores,	"list");
+		return retornaComChaves(seguidores,	"stack");
 	}
 
 	public String getFontesDeSons(String idsessao) throws Exception {
@@ -147,7 +147,6 @@ public class UserStoriesAdapter {
 	public void encerrarSistema() {
 		this.netMusicLive.encerrarSistema();
 	}
-
 
 	private String retornaComChaves(List<String> list, String formato) {
 		String retorno = "{";

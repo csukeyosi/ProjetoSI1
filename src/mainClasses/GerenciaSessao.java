@@ -3,6 +3,10 @@ package mainclasses;
 import java.util.HashMap;
 import java.util.Map;
 
+import util.Utilitario;
+import exception.SessaoInexistenteException;
+import exception.SessaoInvalidaException;
+
 /**
  * Classe responsavel pelo gerenciamento das sessoes do Sistema.
  *
@@ -39,7 +43,8 @@ public class GerenciaSessao {
 		if(!existeSessao(id)){
 			this.sessoes.put(id, login);
 			return id;
-		}return null;
+		}
+		return null;
 	}
 
 	/**
@@ -48,9 +53,11 @@ public class GerenciaSessao {
 	 * @param idsessao
 	 * 				Id da sessao correspondente.
 	 * @return Login do usuario.
+	 * @throws Exception 
 	 */
-	public String getLogin(String idsessao) {
-		return this.sessoes.get(idsessao);
+	public String getLogin(String idSessao) throws Exception {
+		verificaSessao(idSessao);
+		return this.sessoes.get(idSessao);
 	}
 
 	/** Verifica se uma sessao existe no sistema a partir de um id de sessao.
@@ -61,5 +68,22 @@ public class GerenciaSessao {
 	 */
 	public boolean existeSessao(String idsessao) {
 		return this.sessoes.containsKey(idsessao);
+	}
+	
+	/**
+	 * Verifica se a sessao e valida/existe.
+	 * 
+	 * @param idsessao
+	 *            Id da sessao a ser verificada.
+	 * @throws Exception
+	 *             {@link SessaoInvalidaException, SessaoInexistenteException}
+	 */
+	public void verificaSessao(String idSessao) throws Exception {
+		if (!Utilitario.elementIsValid(idSessao)) {
+			throw new SessaoInvalidaException();
+			
+		} else if (!existeSessao(idSessao)) {
+			throw new SessaoInexistenteException();
+		}
 	}
 }
