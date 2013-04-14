@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.google.common.base.Objects;
 
 /**
  * Classe responsavel pela representacao do usuario no sistema.
@@ -218,6 +219,27 @@ public class Usuario {
 			return lista.getSons();
 		}
 		return null;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+
+		if ((obj == null) || !(obj instanceof Usuario)) {
+			return false;
+		}
+
+		Usuario other = (Usuario) obj;
+		return Objects.equal(this.login, other.login)
+				&& Objects.equal(this.senha, other.senha)
+				&& Objects.equal(this.email, other.email);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hashCode(this.login, this.senha, this.email);
 	}
 
 	/**

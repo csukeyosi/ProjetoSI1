@@ -53,29 +53,28 @@ public class ListaCustomizada {
 	public boolean addUsuario(Usuario usuario) {
 		if (!usuarios.contains(usuario)) {
 			usuarios.add(usuario);
-			addSons(usuario);
+			addSons(usuario.getPerfilMusical());
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Adiciona os sons do novo usuario nos sons da lista, organizada em ordem
-	 * cronologica.
+	 * Adiciona os sons aos sons da lista, organizada em ordem cronologica.
 	 * 
 	 * @param usuario
 	 *            Usuario cujos sons serao adicinados.
 	 */
-	private void addSons(Usuario usuario) {
+	public void addSons(List<Som> novosSons) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		if (sons.isEmpty()) {
-			sons.addAll(usuario.getPerfilMusical());
+			sons.addAll(novosSons);
 
 		} else {
 
 			int indiceInicial = 0;
 
-			for (Som som : usuario.getPerfilMusical()) {
+			for (Som som : novosSons) {
 				int qtdeSons = sons.size();
 
 				for (int i = indiceInicial; i < qtdeSons; i++) {

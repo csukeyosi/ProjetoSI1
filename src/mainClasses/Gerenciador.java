@@ -77,7 +77,10 @@ public class Gerenciador {
 
 	public String postarSom(String login, String link, String dataCriacao) {
 		Som som = criarSom(link, dataCriacao);
-		getUsuario(login, "login").postarSom(som);
+		Usuario usuario = getUsuario(login, "login");
+		usuario.postarSom(som);
+		addEmVisaoDosSons(usuario, som);
+		addEmListaCustomizada(usuario, som);
 		return som.getId();
 	}
 
@@ -89,7 +92,7 @@ public class Gerenciador {
 		}
 		usuario.addSonsFavoritos(som);
 		som.incrementaFavoritos();
-		addInFeedExtra(usuario, som);
+		addEmFeedExtra(usuario, som);
 		return true;
 	}
 
@@ -163,6 +166,21 @@ public class Gerenciador {
 	}
 
 	/**
+	 * Adiciona o som favoritado pelo usuario seguido ao feed extra do usuarios
+	 * seguidores.
+	 * 
+	 * @param usuario
+	 *            Usuario seguido que esta postando um som.
+	 * @param som
+	 *            Som postado.
+	 */
+	private void addEmFeedExtra(Usuario usuario, Som som) {
+		for (Usuario seguidor : usuario.getListaDeSeguidores()) {
+			seguidor.addFeedExtra(som);
+		}
+	}
+
+	/**
 	 * Adiciona o som postado pelo usuario seguido ao feed extra do usuarios
 	 * seguidores.
 	 * 
@@ -171,9 +189,32 @@ public class Gerenciador {
 	 * @param som
 	 *            Som postado.
 	 */
-	private void addInFeedExtra(Usuario usuario, Som som) {
+	private void addEmVisaoDosSons(Usuario usuario, Som som) {
 		for (Usuario seguidor : usuario.getListaDeSeguidores()) {
-			seguidor.addFeedExtra(som);
+			seguidor.addVisaoDosSons(som);
+		}
+	}
+
+	/**
+	 * Adiciona o som postado pelo usuario seguido ao sons das listas
+	 * customizadas.
+	 * 
+	 * @param usuario
+	 *            Usuario que esta na lista customizada.
+	 * @param som
+	 *            Som postado pelo usuario.
+	 */
+	private void addEmListaCustomizada(Usuario usuario, Som som) {
+		for (Usuario seguidor : usuario.getListaDeSeguidores()) {
+			for (ListaCustomizada lista : seguidor.getListasCustomizadas()
+					.values()) {
+				if (lista.getUsuarios().contains(usuario)) {
+					List<Som> auxLista = new ArrayList<Som>();
+					auxLista.add(som);
+					lista.addSons(auxLista);
+				}
+
+			}
 		}
 	}
 
