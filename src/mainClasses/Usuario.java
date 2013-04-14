@@ -1,27 +1,31 @@
 package mainclasses;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Classe responsavel pela representacao do usuario no sistema. 
- *
+ * Classe responsavel pela representacao do usuario no sistema.
+ * 
  */
 public class Usuario {
 	/* Informacoes da conta do usuario */
 	private String id, login, senha, nome, email;
 	/* Usuarios que seguem este usuario */
-	private List<Usuario> listaSeguidores, 
+	private List<Usuario> listaSeguidores,
 	/* Usuarios seguidos */
 	fontesDeSom;
-	/* sons postados*/
-	private List<Som> perfilMusical, 
+	/* sons postados */
+	private List<Som> perfilMusical,
 	/* sons favoritados */
-	sonsFavoritos, 
+	sonsFavoritos,
 	/* sons favoritados pelos usuarios seguidos */
-	feedExtra, 
+	feedExtra,
 	/* sons de dos usuarios seguidos */
 	visaoDosSons;
+
+	private Map<String, ListaCustomizada> listasCustomizadas;
 
 	/**
 	 * Construtor da Classe Usuario.
@@ -36,10 +40,10 @@ public class Usuario {
 	 *            String email do Usuario
 	 */
 	public Usuario(String login, String senha, String nome, String email) {
-		setLogin(login);
-		setSenha(senha);
-		setNome(nome);
-		setEmail(email);
+		this.login = login;
+		this.senha = senha;
+		this.nome = nome;
+		this.email = email;
 		setId(login);
 		this.fontesDeSom = new ArrayList<Usuario>();
 		this.listaSeguidores = new ArrayList<Usuario>();
@@ -47,8 +51,8 @@ public class Usuario {
 		this.perfilMusical = new ArrayList<Som>();
 		this.sonsFavoritos = new ArrayList<Som>();
 		this.feedExtra = new ArrayList<Som>();
+		this.listasCustomizadas = new HashMap<String, ListaCustomizada>();
 	}
-
 
 	public String getLogin() {
 		return login;
@@ -105,7 +109,7 @@ public class Usuario {
 	 * Adicionado uma nova fonte de som.
 	 * 
 	 * @param usuario
-	 * 				O usuario que sera a nova fonte de som.
+	 *            O usuario que sera a nova fonte de som.
 	 */
 	public void addFontesDeSom(Usuario usuario) {
 		this.fontesDeSom.add(usuario);
@@ -140,9 +144,9 @@ public class Usuario {
 	 * Adiciona um novo usuario a lista de seguidores.
 	 * 
 	 * @param usuario
-	 * 			Usuario a ser adicionado.
+	 *            Usuario a ser adicionado.
 	 */
-	public void addListaDeSeguidores(Usuario usuario){
+	public void addListaDeSeguidores(Usuario usuario) {
 		if (!this.listaSeguidores.contains(usuario)) {
 			this.listaSeguidores.add(usuario);
 			ordenaListaSeguidores();
@@ -150,39 +154,10 @@ public class Usuario {
 	}
 
 	/**
-	 * Metodo que ordena a lista de seguidores em ordem alfabetica.
-	 */
-	private void ordenaListaSeguidores() {
-		List<String> idsSeguidores = new ArrayList<String>();
-		for (Usuario usuario : listaSeguidores){
-			idsSeguidores.add(usuario.getId());
-		}
-
-		boolean houveTroca = true;
-		while (houveTroca) {
-			houveTroca = false;
-			for (int i = 0; i < (idsSeguidores.size() - 1); i++) {
-				String nomeSemId1 = idsSeguidores.get(i).substring(2);
-				String nomeSemId2 = idsSeguidores.get(i + 1).substring(2);
-				if (nomeSemId1.compareTo(nomeSemId2) > 0) {
-					String aux1 = idsSeguidores.get(i + 1);
-					idsSeguidores.set(i + 1, idsSeguidores.get(i));
-					idsSeguidores.set(i, aux1);
-
-					Usuario aux2 = listaSeguidores.get(i + 1);
-					listaSeguidores.set(i+1, listaSeguidores.get(i));
-					listaSeguidores.set(i, aux2);
-					houveTroca = true;
-				}
-			}
-		}
-	}
-
-	/**
 	 * Adiciona um som ao perfil musical do usuario.
 	 * 
 	 * @param som
-	 * 			Som a ser adicinado.
+	 *            Som a ser adicinado.
 	 */
 	public void postarSom(Som som) {
 		this.perfilMusical.add(som);
@@ -198,8 +173,9 @@ public class Usuario {
 
 	/**
 	 * Adiciona um som aos sons favoritos do usuario.
+	 * 
 	 * @param somFavorito
-	 * 			O novo som favoritado.
+	 *            O novo som favoritado.
 	 */
 	public void addSonsFavoritos(Som somFavorito) {
 		this.sonsFavoritos.add(somFavorito);
@@ -211,10 +187,65 @@ public class Usuario {
 
 	/**
 	 * Adiciona um som ao feed extra do usuario.
+	 * 
 	 * @param som
-	 * 			Som a ser adicionado.
+	 *            Som a ser adicionado.
 	 */
 	public void addFeedExtra(Som som) {
 		this.feedExtra.add(som);
+	}
+
+	public Map<String, ListaCustomizada> getListasCustomizadas() {
+		return this.listasCustomizadas;
+	}
+
+	public String addListaCustomizada(String nomeLista) {
+		ListaCustomizada novaLista = new ListaCustomizada(nomeLista);
+		if (listasCustomizadas.containsKey(novaLista.getId())) {
+			return null;
+		}
+		listasCustomizadas.put(novaLista.getId(), novaLista);
+		return novaLista.getId();
+	}
+
+	public boolean addUsuarioListaCustomizada(String idLista, Usuario usuario) {
+		return listasCustomizadas.get(idLista).addUsuario(usuario);
+	}
+
+	public List<Som> getSonsEmLista(String idLista) {
+		ListaCustomizada lista = listasCustomizadas.get(idLista);
+		if (lista != null) {
+			return lista.getSons();
+		}
+		return null;
+	}
+
+	/**
+	 * Metodo que ordena a lista de seguidores em ordem alfabetica.
+	 */
+	private void ordenaListaSeguidores() {
+		List<String> idsSeguidores = new ArrayList<String>();
+		for (Usuario usuario : listaSeguidores) {
+			idsSeguidores.add(usuario.getId());
+		}
+
+		boolean houveTroca = true;
+		while (houveTroca) {
+			houveTroca = false;
+			for (int i = 0; i < (idsSeguidores.size() - 1); i++) {
+				String nomeSemId1 = idsSeguidores.get(i).substring(2);
+				String nomeSemId2 = idsSeguidores.get(i + 1).substring(2);
+				if (nomeSemId1.compareTo(nomeSemId2) > 0) {
+					String aux1 = idsSeguidores.get(i + 1);
+					idsSeguidores.set(i + 1, idsSeguidores.get(i));
+					idsSeguidores.set(i, aux1);
+
+					Usuario aux2 = listaSeguidores.get(i + 1);
+					listaSeguidores.set(i + 1, listaSeguidores.get(i));
+					listaSeguidores.set(i, aux2);
+					houveTroca = true;
+				}
+			}
+		}
 	}
 }

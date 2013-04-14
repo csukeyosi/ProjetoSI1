@@ -147,7 +147,23 @@ public class UserStoriesAdapter {
 	public void encerrarSistema() {
 		this.netMusicLive.encerrarSistema();
 	}
-
+	
+	public String criarLista(String idSessao, String nomeLista) throws Exception {
+		return netMusicLive.criarLista(idSessao, nomeLista);
+	}
+	
+	public void adicionarUsuario(String idSessao, String idLista, String idUsuario) throws Exception{
+		netMusicLive.adicionarUsuario(idSessao, idLista, idUsuario);
+	}
+	
+	public String getSonsEmLista(String idSessao,String idLista) throws Exception{
+		List<String> sonsEmLista = new ArrayList<String>();
+		for (Som som : this.netMusicLive.getSonsEmLista(idSessao, idLista)){
+			sonsEmLista.add(som.getId());
+		}
+		return retornaComChaves(sonsEmLista, "stack");
+	}
+	
 	private String retornaComChaves(List<String> list, String formato) {
 		String retorno = "{";
 		int sizeList = list.size();

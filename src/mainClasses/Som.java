@@ -1,5 +1,9 @@
 package mainclasses;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Classe responsavel pela representacao dos sons(musicas postadas pelos usuarios) no sistema. 
  *
@@ -46,11 +50,11 @@ public class Som {
 	public String getData() {
 		return data;
 	}
-
+	
 	public void setData(String data) {
 		this.data = data;
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
