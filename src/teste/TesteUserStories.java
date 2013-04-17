@@ -17,7 +17,7 @@ public class TesteUserStories {
 		files.add("testesDeAceitacao_SI1-master/scripts/US04.txt");
 		files.add("testesDeAceitacao_SI1-master/scripts/US05.txt");
 		files.add("testesDeAceitacao_SI1-master/scripts/US06.txt");
-//		files.add("testesDeAceitacao_SI1-master/scripts/US07.txt");
+		files.add("testesDeAceitacao_SI1-master/scripts/US07.txt");
 		
 
 		UserStoriesAdapter testeDoSistema = new UserStoriesAdapter();

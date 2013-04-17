@@ -23,7 +23,7 @@ public class InterfaceWebAdapter{
 		return interfaceWebAdapter;
 	}
 	
-	public void criaUsuario(String login,String senha,String nome,String email) throws Exception{
+	public void criaUsuario(String login,String senha,String nome,String email) {
 		this.netMusicLive.criarUsuario(login, senha, nome, email);
 	}
 
@@ -31,7 +31,11 @@ public class InterfaceWebAdapter{
 		return this.netMusicLive.existeSessao(login);
 	}
 	
-	public String abrirSessao(String login, String password) throws Exception {
+	public void encerrarSessao(String login) {
+		this.netMusicLive.encerrarSessao(login);
+	}
+	
+	public String abrirSessao(String login, String password) {
 		return this.netMusicLive.abrirSessao(login, password);
 	}
 

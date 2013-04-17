@@ -32,5 +32,4 @@ public class DefaultBean {
 	public void setLogin(String login) {
 		this.login = login;
 	}
-	
 }

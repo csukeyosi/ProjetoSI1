@@ -164,6 +164,23 @@ public class UserStoriesAdapter {
 		return retornaComChaves(sonsEmLista, "stack");
 	}
 	
+	public int getNumFontesEmComum(String idSessao, String idUsuario) throws Exception {
+		return netMusicLive.getNumFontesEmComum(idSessao, idUsuario);
+		
+	}
+	
+	public int getNumFavoritosEmComum(String idSessao, String idUsuario) throws Exception {
+		return netMusicLive.getNumFavoritosEmComum(idSessao, idUsuario);
+	}
+	
+	public String getFontesDeSonsRecomendadas(String idSessao) throws Exception {
+		List<String> fontesRecomendadas = new ArrayList<String>();
+		for (Usuario usuario : this.netMusicLive.getFontesDeSonsRecomendadas(idSessao)){
+			fontesRecomendadas.add(usuario.getId());
+		}
+		return retornaComChaves(fontesRecomendadas, "list");
+	}
+	
 	private String retornaComChaves(List<String> list, String formato) {
 		String retorno = "{";
 		int sizeList = list.size();

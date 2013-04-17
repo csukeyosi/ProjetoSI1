@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import util.Utilitario;
-import exception.SessaoInexistenteException;
-import exception.SessaoInvalidaException;
 
 /**
  * Classe responsavel pelo gerenciamento das sessoes do Sistema.
@@ -82,10 +80,10 @@ public class GerenciaSessao {
 	 */
 	public void verificaSessao(String idSessao) throws Exception {
 		if (!Utilitario.elementIsValid(idSessao)) {
-			throw new SessaoInvalidaException();
+			throw new IllegalArgumentException("Sessão inválida");
 
 		} else if (!existeSessao(idSessao)) {
-			throw new SessaoInexistenteException();
+			throw new RuntimeException("Sessão inexistente");
 		}
 	}
 }

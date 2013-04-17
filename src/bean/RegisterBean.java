@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 
+import util.Menssagens;
+
 @ManagedBean
 @SessionScoped
 public class RegisterBean extends DefaultBean implements Serializable{
@@ -25,10 +27,10 @@ public class RegisterBean extends DefaultBean implements Serializable{
 				putInSession("idsessao", idsessao);
 			}
 			return "homepage?faces-redirect=true";
-		} catch (Exception e) {
-			System.out.println("erro ao criar usuario.");
+		} catch (RuntimeException e) {
+			Menssagens.addMsgErro(e.getMessage());
 		}
-		return "register?faces-redirect=true";
+		return "";
 	}
 	
 	

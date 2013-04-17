@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
 import javax.enterprise.context.SessionScoped;
 
+import util.Menssagens;
+
 @ManagedBean
 @SessionScoped
 public class LoginBean extends DefaultBean implements Serializable{
@@ -17,7 +19,7 @@ public class LoginBean extends DefaultBean implements Serializable{
 	
 	public String logar(){
 		try {
-			if(interfaceWebAdapter.verificaLoginESenha(getLogin(),getSenha())){
+//			if(interfaceWebAdapter.verificaLoginESenha(getLogin(),getSenha())){
 				String idsessao;
 				if(interfaceWebAdapter.existeSessao(getLogin())){
 					idsessao = "sessao"+getLogin();
@@ -26,11 +28,15 @@ public class LoginBean extends DefaultBean implements Serializable{
 				}
 				putInSession("idsessao", idsessao);
 				return "homepage?faces-redirect=true";
-			}				
-		} catch (Exception e) {
-			System.out.println("erro ao abrir sessao (logar)");
-			// gera erro na tela;
+//			}				
+		} catch (RuntimeException e) {
+			Menssagens.addMsgErro(e.getMessage());
 		}
+		return "";
+	}
+	
+	public String logout() {
+		interfaceWebAdapter.encerrarSessao(login);
 		return "index?faces-redirect=true";
 	}
 }

@@ -27,6 +27,7 @@ public class Usuario {
 	visaoDosSons;
 
 	private Map<String, ListaCustomizada> listasCustomizadas;
+	private int numSonsFavoritados;
 
 	/**
 	 * Construtor da Classe Usuario.
@@ -195,11 +196,18 @@ public class Usuario {
 	public void addFeedExtra(Som som) {
 		this.feedExtra.add(som);
 	}
-
+	
 	public Map<String, ListaCustomizada> getListasCustomizadas() {
 		return this.listasCustomizadas;
 	}
 
+	/**
+	 * Adiciona uma nova lista customizada, caso ela nao exista.
+	 * 
+	 * @param nomeLista
+	 *            Nome da nova lista.
+	 * @return O ID da nova lista ou null, caso a lista ja exista.
+	 */
 	public String addListaCustomizada(String nomeLista) {
 		ListaCustomizada novaLista = new ListaCustomizada(nomeLista);
 		if (listasCustomizadas.containsKey(novaLista.getId())) {
@@ -213,12 +221,32 @@ public class Usuario {
 		return listasCustomizadas.get(idLista).addUsuario(usuario);
 	}
 
+	/**
+	 * Retorna a lista personalizada de sons de ID correspondente.
+	 * 
+	 * @param idLista
+	 *            ID da lista.
+	 * @return Lista de sons.
+	 */
 	public List<Som> getSonsEmLista(String idLista) {
 		ListaCustomizada lista = listasCustomizadas.get(idLista);
 		if (lista != null) {
 			return lista.getSons();
 		}
 		return null;
+	}
+
+	/**
+	 * Retorna a soma do numero de favoritos dos sons postados.
+	 * 
+	 * @return Numero total de favoritos.
+	 */
+	public int getNumSonsFavoritados() {
+		for (Som som : perfilMusical) {
+			numSonsFavoritados = numSonsFavoritados
+					+ som.getNumeroDeFavoritos();
+		}
+		return numSonsFavoritados;
 	}
 
 	@Override

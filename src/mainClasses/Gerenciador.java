@@ -286,4 +286,28 @@ public class Gerenciador {
 		sons.put(id, som);
 		return som;
 	}
+
+	public int getNumFontesEmComum(String login, String idUsuario) throws Exception {
+		if (!Utilitario.elementIsValid(idUsuario)) {
+			throw new Exception("Usuário inválido");
+		}
+		return new SistemaRecomendacao(this.usuarios,
+				getUsuario(login, "login")).getNumFontesEmComum(getUsuario(
+				idUsuario, "id"));
+	}
+
+	public int getNumFavoritosEmComum(String login, String idUsuario) throws Exception {
+		if (!Utilitario.elementIsValid(idUsuario)) {
+			throw new Exception("Usuário inválido");
+		}
+		return new SistemaRecomendacao(this.usuarios,
+				getUsuario(login, "login")).getNumFavoritosEmComum(getUsuario(
+				idUsuario, "id"));
+	}
+
+	public List<Usuario> getFontesDeSonsRecomendadas(String login) {
+		Usuario u = getUsuario(login, "login");
+		return new SistemaRecomendacao(this.usuarios, u)
+				.getUsuariosRecomendados();
+	}
 }

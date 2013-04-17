@@ -11,5 +11,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="C:/Users/Carla/Downloads/guava-14.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Carla/Downloads/bibliotecas/jsf2.0/jsf-api.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Carla/Downloads/bibliotecas/jsf2.0/jsf-impl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Carla/Downloads/bibliotecas/jstl/jstl.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Carla/Downloads/bibliotecas/jstl/standard.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
