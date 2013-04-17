@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC
+	 "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	 "http://www.w3.org/TR/xhtml1/DTD/
+	 xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="template.xhtml">
+	<ui:define name="conteudoCentral">
+		<div id="formResgister">
+			<h:form id="regForm">
+				<p:growl id="growl" showDetail="true" sticky="true" />
+				<h2 class="textForm">Crie uma nova conta.</h2>
+				<h4>Informe os seguintes dados:</h4>
+				<h:panelGrid columns="2">
+
+					<h6 id="textRegisterLogin">Login:</h6>
+					<p:inputText value="#{registerBean.login}" />
+
+					<h6 id="textRegisterNome">Nome:</h6>
+					<p:inputText value="#{registerBean.nome}" />
+
+					<h6 id="textRegisterEmail">E-mail:</h6>
+					<p:inputText value="#{registerBean.email}" />
+
+					<h6 id="textRegisterSenha">Senha:</h6>
+					<p:password value="#{registerBean.senha}"></p:password>
+
+					<br></br>
+					<p:commandButton value="Cadastre-se" ajax="false"
+						action="#{registerBean.criaUsuario}" update="regForm" />
+				</h:panelGrid>
+			</h:form>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>
