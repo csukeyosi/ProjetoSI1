@@ -3,19 +3,15 @@ package bean;
 import java.net.URLEncoder;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import mainclasses.FacebookClient;
 import mainclasses.UsuarioFB;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class LoginController {
 
-//	@ManagedProperty(value="#{param.code}")
-	//private String acessToken;
-	
     private String login;
     private String senha;
     private boolean facebook;
@@ -23,7 +19,8 @@ public class LoginController {
     private String conexaoFB;
     private UsuarioFB usuario;
 
-    @PostConstruct
+    @SuppressWarnings("deprecation")
+	@PostConstruct
     public void conectarComFB() {
         conexaoFB = "http://www.facebook.com/dialog/oauth?"
                 + "client_id=352872411480339&";

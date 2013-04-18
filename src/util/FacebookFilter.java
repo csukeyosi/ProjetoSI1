@@ -1,4 +1,4 @@
-package mainclasses;
+package util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -6,8 +6,10 @@ import java.io.InputStream;
 
 import java.net.URL;
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import mainclasses.FacebookClient;
+import mainclasses.UsuarioService;
 
 public class FacebookFilter implements Filter {
 
@@ -17,7 +19,6 @@ public class FacebookFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest sr, ServletResponse sr1, FilterChain fc) throws IOException, ServletException {
-        HttpServletRequest req = (HttpServletRequest) sr;
         HttpServletResponse res = (HttpServletResponse) sr1;
         String code = sr.getParameter("code");
 
@@ -44,7 +45,6 @@ public class FacebookFilter implements Filter {
                 }
                 if (accessToken != null && expires != null) {
 
-                    UsuarioFB u = new UsuarioFB();
                     UsuarioService us =  new UsuarioService();
                     us.authFacebookLogin(accessToken, expires);
                     res.sendRedirect("http://localhost:8080/ProjetoSI1/homepage.jsf");

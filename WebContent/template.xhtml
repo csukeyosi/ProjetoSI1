@@ -32,11 +32,12 @@
 							<p:commandButton id="botaoLogin" action="#{loginBean.logar}"
 								ajax="false" style="margin-left: 20px" value="Login" />
 							<h5 id="textSenha">Senha:</h5>
-							<p:password value="#{loginBean.senha}" rendered="true" update="formLogin"/>
+							<p:password value="#{loginBean.senha}" rendered="true"
+								update="formLogin" />
 						</h:panelGrid>
 						<h:outputLink value="#{loginController.conectarComFace()}"
 							style="margin-left: 50px">
-							<p:graphicImage url="images/facebook.png" width="160px" />
+							<p:graphicImage url="estilo/images/facebook.png" width="160px" />
 						</h:outputLink>
 						<p:growl id="growl" showDetail="true" sticky="true" />
 					</h:panelGrid>

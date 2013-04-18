@@ -10,10 +10,12 @@ public class UsuarioFB {
     private String name;
     @Facebook
     private String email;
+    @Facebook
+    private String username;
 
     @Override
     public String toString() {
-        return "Usuario{" + "id=" + id + ", name=" + name + ", email=" + email + '}';
+        return "Usuario{" + "id=" + id + ", name=" + name + ", email=" + email + "username="+username+'}';
     }
 
     public String getEmail() {
@@ -39,4 +41,12 @@ public class UsuarioFB {
     public void setName(String name) {
         this.name = name;
     }
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
 }

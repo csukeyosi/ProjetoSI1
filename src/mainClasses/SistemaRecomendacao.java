@@ -195,7 +195,6 @@ public class SistemaRecomendacao {
 			houveTroca = false;
 
 			for (int i = 0; i < (auxLista.size() - 1); i++) {
-
 				Usuario usuarioAtual = this.usuariosRecomendados.get(i);
 				Usuario usuarioSeguinte = this.usuariosRecomendados.get(i + 1);
 				// Afinidades iguais

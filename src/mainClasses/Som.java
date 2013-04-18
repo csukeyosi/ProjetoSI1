@@ -4,7 +4,6 @@ import com.google.common.base.Objects;
 
 /**
  * Classe responsavel pela representacao dos sons(musicas postadas pelos usuarios) no sistema. 
- *
  */
 public class Som {
 

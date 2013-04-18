@@ -1,6 +1,7 @@
 package mainclasses;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import tiposordenacao.OrdenaFeedPrincipal;
@@ -97,6 +98,10 @@ public class NetMusicLive implements Serializable {
 	 */
 	public boolean verificaLoginESenha(String login, String senha) {
 		return gerenciador.verificaLoginESenha(login, senha);
+	}
+	
+	public List<Usuario> search(String textSearch) {
+		return this.gerenciador.search(textSearch);		
 	}
 
 	/**
@@ -379,6 +384,15 @@ public class NetMusicLive implements Serializable {
 	public List<Som> getMainFeed(String idSessao) throws Exception {
 		return feedPrincipal.ordena(getFontesDeSons(idSessao),
 				getSonsFavoritos(idSessao));
+	}
+	
+	public List<Som> getMainFeedComSonsDoUser(String idSessao) throws Exception { 
+		List<Usuario> listAuxiliar = new ArrayList<Usuario>();
+		Usuario user = gerenciador.getUsuario(gerenciaSessao.getLogin(idSessao), "login");
+		listAuxiliar.add(user);
+		
+		List<Som> sons = feedPrincipal.ordena(listAuxiliar,getMainFeed(idSessao));
+		return sons;
 	}
 
 	/**

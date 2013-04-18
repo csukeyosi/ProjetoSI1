@@ -16,10 +16,21 @@
 	<title>NetMusicLive</title>
 	<link rel="stylesheet" href="estilo/reset.css" type="text/css" />
 	<link rel="stylesheet" href="estilo/default.css" type="text/css" />
+
 </h:head>
 
 <h:body>
-
+	<div>
+		<h:form>
+			<p:menubar style="width:100%;background:#2f231e">
+				<p:menuitem value="Home"
+					url="http://localhost:8080/ProjetoSI1/homepage.jsf"
+					icon="ui-icon-home" style="font-size:16px" />
+				<p:menuitem value="Logout" action="#{loginBean.logout}"
+					icon="ui-icon-close" style="font-size:16px" />
+			</p:menubar>
+		</h:form>
+	</div>
 	<div id="subHeader">
 		<p:graphicImage url="estilo/images/smallLogo.png"></p:graphicImage>
 	</div>
@@ -29,53 +40,57 @@
 
 		<div id="formSearch">
 			<h:form>
+
 				<h:panelGrid columns="3">
-					<p:inputText id="searchText" />
-					<p:commandButton value="Search" ajax="false"
-						style="margin-left:10px;font-size:14px" />
-					<p:commandButton value="Logout" ajax="false" action="#{loginBean.logout}"
+					<p:inputText id="searchText" value="#{homeBean.textSearch}" />
+					<p:commandButton value="Pesquisar" action="#{homeBean.search}"
+						ajax="false" style="margin-left:10px;font-size:13px" />
+					<p:commandButton value="Logout" ajax="false"
+						action="#{loginBean.logout}"
 						style="margin-left:10px;font-size:14px" />
 				</h:panelGrid>
 			</h:form>
 		</div>
 
 		<div id="userPhoto">
-			<p:graphicImage url="#{homeBean.fotoUser}" />
+			<h:panelGrid columns="2" cellspacing="10">
+				<p:graphicImage url="#{homeBean.fotoUser}" />
+				<p>UserName</p>
+			</h:panelGrid>
 		</div>
 
 		<h:form>
 			<p:inputTextarea value="#{homeBean.mensagemDePostagem}" cols="50"
-				rows="2" style="margin-top: 20px;margin-left:20px;" />
+				rows="2" style="margin-top: 30px;margin-left:150px;" />
 
-			<div id="main">
+			<div id="formPostagemMusica" style="margin-top: 5px;">
 				<p:commandButton value="Enviar" ajax="false"
-					action="#{homeBean.postarSom}" />
+					action="#{homeBean.postarSom}"
+					style="margin-left:500px;font-size:14px" />
 
 				<p:commandButton value="Apagar" ajax="false"
 					action="#{homeBean.apagarMensagemDePostagem}"
-					style="margin-left:20px;" />
+					style="margin-left:10px;font-size:14px" />
 			</div>
 		</h:form>
 
 
-		<div>
+		<div id="feeds">
 			<h2>Feed Usuario</h2>
 			<p:dataTable id="MainFeed" var="som" value="#{homeBean.mainFeed}"
 				emptyMessage="Nenhum som">
 				<p:column>
-			#{som.link}
-			</p:column>
-				<p:column width="100">
-			#{som.data}
-			</p:column>
+					<p:commandLink value="#{som.link}" />
+				</p:column>
+				<p:column>
+					#{som.data}
+				</p:column>
 
 			</p:dataTable>
-		</div>
 
-		<div>
 			<h2>Friend List</h2>
 			<p:dataTable id="FriendList" var="friend"
-				value="#{homeBean.fontesDeSom}"
+				value="#{homeBean.fontesDeSom}" style="padding-bottom:50px;"
 				emptyMessage="Nenhum Usuario Seguido.">
 				<p:column>
 			#{friend}

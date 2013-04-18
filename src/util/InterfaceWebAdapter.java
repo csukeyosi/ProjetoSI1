@@ -1,6 +1,8 @@
 package util;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import mainclasses.NetMusicLive;
@@ -41,12 +43,28 @@ public class InterfaceWebAdapter{
 
 	public List<Som> getMainFeed(String idsessao) {
 		try {
-			return this.netMusicLive.getMainFeed(idsessao);			
+			return this.netMusicLive.getMainFeedComSonsDoUser(idsessao);			
 		} catch (Exception e) {
-			List<Som> mainFeed = new ArrayList<Som>();
-			mainFeed.add(new Som("", "", ""));
-			return mainFeed;
+			Menssagens.addMsgErro("erro InterfaceWebAdapter");
+			return null;
 		}
+	}
+	
+	public boolean postarSom(String idsessao,String link){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		String dataCriacao = dateFormat.format(date);
+		
+		try {
+			this.netMusicLive.postarSom(idsessao, link, dataCriacao);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
+	public List<Usuario> search(String textSearch) {
+		return this.netMusicLive.search(textSearch);
 	}
 	
 	public boolean verificaLoginESenha(String login,String senha){

@@ -1,7 +1,5 @@
 package mainclasses;
 
-import javax.servlet.http.HttpServletRequest;
-
 public class FacebookClient {
 
     public static String API_KEY = "352872411480339";

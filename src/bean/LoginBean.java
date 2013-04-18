@@ -3,12 +3,12 @@ package bean;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
-import javax.enterprise.context.SessionScoped;
+import javax.faces.bean.ViewScoped;
 
 import util.Menssagens;
 
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class LoginBean extends DefaultBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -19,7 +19,6 @@ public class LoginBean extends DefaultBean implements Serializable{
 	
 	public String logar(){
 		try {
-//			if(interfaceWebAdapter.verificaLoginESenha(getLogin(),getSenha())){
 				String idsessao;
 				if(interfaceWebAdapter.existeSessao(getLogin())){
 					idsessao = "sessao"+getLogin();
@@ -28,7 +27,6 @@ public class LoginBean extends DefaultBean implements Serializable{
 				}
 				putInSession("idsessao", idsessao);
 				return "homepage?faces-redirect=true";
-//			}				
 		} catch (RuntimeException e) {
 			Menssagens.addMsgErro(e.getMessage());
 		}

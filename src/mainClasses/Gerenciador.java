@@ -227,7 +227,7 @@ public class Gerenciador {
 	 *            Tipo "login" ou "id".
 	 * @return Usuario correspondete. null caso não haja.
 	 */
-	private Usuario getUsuario(String valorLoginOuId, String loginOuId) {
+	public Usuario getUsuario(String valorLoginOuId, String loginOuId) {
 		for (int i = 0; i < usuarios.size(); i++) {
 			if ("login".equals(loginOuId)) {
 				if (usuarios.get(i).getLogin().equals(valorLoginOuId)) {
@@ -293,7 +293,7 @@ public class Gerenciador {
 		}
 		return new SistemaRecomendacao(this.usuarios,
 				getUsuario(login, "login")).getNumFontesEmComum(getUsuario(
-				idUsuario, "id"));
+						idUsuario, "id"));
 	}
 
 	public int getNumFavoritosEmComum(String login, String idUsuario) throws Exception {
@@ -302,12 +302,24 @@ public class Gerenciador {
 		}
 		return new SistemaRecomendacao(this.usuarios,
 				getUsuario(login, "login")).getNumFavoritosEmComum(getUsuario(
-				idUsuario, "id"));
+						idUsuario, "id"));
 	}
 
 	public List<Usuario> getFontesDeSonsRecomendadas(String login) {
 		Usuario u = getUsuario(login, "login");
 		return new SistemaRecomendacao(this.usuarios, u)
-				.getUsuariosRecomendados();
+		.getUsuariosRecomendados();
+	}
+
+	public List<Usuario> search(String textSearch) {
+		List<Usuario> result = new ArrayList<Usuario>();
+		int sizeList = usuarios.size();
+		for (int i = 0; i < sizeList; i++) {
+			String nomeUsuario = usuarios.get(i).getNome();
+			if (nomeUsuario.contains(textSearch)) {
+				result.add(usuarios.get(i));
+			}
+		}
+		return result;
 	}
 }
