@@ -8,3 +8,6 @@ Servidor ultilizado: apache-tomcat-7.0.37
 
 + Build.xml Precisa de alterações para especificar o diretorio onde se encontra o TomCat
 	- Target: roda executa o .war no servidor, mas não abre a pagina, é preciso abrir o browser e digitar http://localhost:8080/ProjetoSI1/
+
+
+Para postar um Som, é necessário postar o link com http://

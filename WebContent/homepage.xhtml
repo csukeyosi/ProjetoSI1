@@ -80,7 +80,7 @@
 			<p:dataTable id="MainFeed" var="som" value="#{homeBean.mainFeed}"
 				emptyMessage="Nenhum som">
 				<p:column>
-					<p:commandLink value="#{som.link}" />
+					<a href="#{som.link}">#{som.link}</a>
 				</p:column>
 				<p:column>
 					#{som.data}
